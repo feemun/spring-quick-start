@@ -81,9 +81,12 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<CommonResult> handleAuthenticationException(Exception e) {
-        e.printStackTrace();
-        return null;
+    public ResponseEntity<CommonResult> handleException(Exception e) {
+        String message = e.getMessage();
+        if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
+            message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
+        }
+        return new ResponseEntity<>(CommonResult.failed("5/0"), HttpStatusCode.valueOf(500));
     }
 
     @MessageExceptionHandler
