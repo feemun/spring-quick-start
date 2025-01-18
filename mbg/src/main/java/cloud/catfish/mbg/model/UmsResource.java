@@ -2,13 +2,13 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsResource implements Serializable {
     private Long id;
 
     @Schema(title = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @Schema(title = "资源名称")
     private String name;
@@ -32,11 +32,11 @@ public class UmsResource implements Serializable {
         this.id = id;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

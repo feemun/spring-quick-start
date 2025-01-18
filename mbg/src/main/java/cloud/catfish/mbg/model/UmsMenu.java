@@ -2,7 +2,7 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsMenu implements Serializable {
     private Long id;
@@ -11,7 +11,7 @@ public class UmsMenu implements Serializable {
     private Long parentId;
 
     @Schema(title = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @Schema(title = "菜单名称")
     private String title;
@@ -49,11 +49,11 @@ public class UmsMenu implements Serializable {
         this.parentId = parentId;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

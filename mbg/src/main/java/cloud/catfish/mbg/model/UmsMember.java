@@ -2,7 +2,7 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsMember implements Serializable {
     private Long id;
@@ -25,7 +25,7 @@ public class UmsMember implements Serializable {
     private Integer status;
 
     @Schema(title = "注册时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @Schema(title = "头像")
     private String icon;
@@ -34,7 +34,7 @@ public class UmsMember implements Serializable {
     private Integer gender;
 
     @Schema(title = "生日")
-    private Date birthday;
+    private LocalDateTime birthday;
 
     @Schema(title = "所做城市")
     private String city;
@@ -118,11 +118,11 @@ public class UmsMember implements Serializable {
         this.status = status;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -142,11 +142,11 @@ public class UmsMember implements Serializable {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public LocalDateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
     }
 

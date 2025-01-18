@@ -2,14 +2,14 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsAdminLoginLog implements Serializable {
     private Long id;
 
     private Long adminId;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String ip;
 
@@ -36,11 +36,11 @@ public class UmsAdminLoginLog implements Serializable {
         this.adminId = adminId;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

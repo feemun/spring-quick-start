@@ -2,7 +2,7 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsRole implements Serializable {
     private Long id;
@@ -17,7 +17,7 @@ public class UmsRole implements Serializable {
     private Integer adminCount;
 
     @Schema(title = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @Schema(title = "启用状态：0->禁用；1->启用")
     private Integer status;
@@ -58,11 +58,11 @@ public class UmsRole implements Serializable {
         this.adminCount = adminCount;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

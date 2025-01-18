@@ -2,7 +2,7 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsAdmin implements Serializable {
     private Long id;
@@ -24,10 +24,10 @@ public class UmsAdmin implements Serializable {
     private String note;
 
     @Schema(title = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @Schema(title = "最后登录时间")
-    private Date loginTime;
+    private LocalDateTime loginTime;
 
     @Schema(title = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
@@ -90,19 +90,19 @@ public class UmsAdmin implements Serializable {
         this.note = note;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getLoginTime() {
+    public LocalDateTime getLoginTime() {
         return loginTime;
     }
 
-    public void setLoginTime(Date loginTime) {
+    public void setLoginTime(LocalDateTime loginTime) {
         this.loginTime = loginTime;
     }
 

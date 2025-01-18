@@ -26,7 +26,7 @@ public class UmsResourceServiceImpl implements UmsResourceService {
     private UmsAdminCacheService adminCacheService;
     @Override
     public int create(UmsResource umsResource) {
-        umsResource.setCreateTime(new Date());
+        umsResource.setCreateTime(LocalDateTime.now());
         return resourceMapper.insert(umsResource);
     }
 

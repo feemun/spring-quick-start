@@ -3,7 +3,7 @@ package cloud.catfish.mbg.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UmsMemberStatisticsInfo implements Serializable {
     private Long id;
@@ -45,7 +45,7 @@ public class UmsMemberStatisticsInfo implements Serializable {
     private Integer inviteFriendCount;
 
     @Schema(title = "最后一次下订单时间")
-    private Date recentOrderTime;
+    private LocalDateTime recentOrderTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -169,11 +169,11 @@ public class UmsMemberStatisticsInfo implements Serializable {
         this.inviteFriendCount = inviteFriendCount;
     }
 
-    public Date getRecentOrderTime() {
+    public LocalDateTime getRecentOrderTime() {
         return recentOrderTime;
     }
 
-    public void setRecentOrderTime(Date recentOrderTime) {
+    public void setRecentOrderTime(LocalDateTime recentOrderTime) {
         this.recentOrderTime = recentOrderTime;
     }
 
