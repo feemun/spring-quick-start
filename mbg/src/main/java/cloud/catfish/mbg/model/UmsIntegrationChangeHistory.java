@@ -2,11 +2,16 @@ package cloud.catfish.mbg.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @ToString
 @EqualsAndHashCode
@@ -40,68 +45,4 @@ public class UmsIntegrationChangeHistory implements Serializable {
     private Integer sourceType;
 
     private static final long serialVersionUID = 1L;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getChangeType() {
-        return changeType;
-    }
-
-    public void setChangeType(Integer changeType) {
-        this.changeType = changeType;
-    }
-
-    public Integer getChangeCount() {
-        return changeCount;
-    }
-
-    public void setChangeCount(Integer changeCount) {
-        this.changeCount = changeCount;
-    }
-
-    public String getOperateMan() {
-        return operateMan;
-    }
-
-    public void setOperateMan(String operateMan) {
-        this.operateMan = operateMan;
-    }
-
-    public String getOperateNote() {
-        return operateNote;
-    }
-
-    public void setOperateNote(String operateNote) {
-        this.operateNote = operateNote;
-    }
-
-    public Integer getSourceType() {
-        return sourceType;
-    }
-
-    public void setSourceType(Integer sourceType) {
-        this.sourceType = sourceType;
-    }
 }

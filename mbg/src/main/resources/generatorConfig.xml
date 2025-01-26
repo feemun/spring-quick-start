@@ -22,10 +22,12 @@
         <!-- lombok annotation Plugin -->
         <plugin type="cloud.catfish.mbg.plugin.LombokAnnotationPlugin"/>
 
+        <!-- lombok annotation Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.NoGetterSetterPlugin"/>
+
         <!-- 为模型生成序列化方法 -->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-<!--        &lt;!&ndash; 为生成的Java模型创建一个toString方法 &ndash;&gt;-->
-<!--        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
+
         <!-- 生成mapper.xml时覆盖原文件 -->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <commentGenerator type="cloud.catfish.mbg.CommentGenerator">
