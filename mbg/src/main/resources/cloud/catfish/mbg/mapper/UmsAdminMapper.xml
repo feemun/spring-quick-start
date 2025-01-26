@@ -11,7 +11,7 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="status" jdbcType="BIT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -114,7 +114,7 @@
       )
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}
       )
   </insert>
   <insert id="insertSelective" parameterType="cloud.catfish.mbg.model.UmsAdmin">
@@ -177,7 +177,7 @@
         #{loginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
-        #{status,jdbcType=INTEGER},
+        #{status,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -218,7 +218,7 @@
         login_time = #{row.loginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="row.status != null">
-        status = #{row.status,jdbcType=INTEGER},
+        status = #{row.status,jdbcType=BIT},
       </if>
     </set>
     <if test="example != null">
@@ -236,7 +236,7 @@
       note = #{row.note,jdbcType=VARCHAR},
       create_time = #{row.createTime,jdbcType=TIMESTAMP},
       login_time = #{row.loginTime,jdbcType=TIMESTAMP},
-      status = #{row.status,jdbcType=INTEGER}
+      status = #{row.status,jdbcType=BIT}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,7 +269,7 @@
         login_time = #{loginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+        status = #{status,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -284,7 +284,7 @@
       note = #{note,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       login_time = #{loginTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

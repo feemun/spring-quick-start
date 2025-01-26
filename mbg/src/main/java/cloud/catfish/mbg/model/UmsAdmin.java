@@ -51,7 +51,7 @@ public class UmsAdmin implements Serializable {
     private LocalDateTime loginTime;
 
     @Schema(title = "帐号启用状态：0->禁用；1->启用")
-    private Integer status;
+    private Boolean status;
 
     @Serial
     private static final long serialVersionUID = 1L;

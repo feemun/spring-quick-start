@@ -19,6 +19,8 @@ public class CustomJavaTypeResolver extends JavaTypeResolverDefaultImpl {
         typeMap.put(Types.DATE, new JdbcTypeInformation("TIMESTAMP", //$NON-NLS-1$
                 new FullyQualifiedJavaType(LocalDateTime.class.getName())));
         // 你可以根据需要继续添加或修改其他类型映射
+        typeMap.put(Types.TINYINT, new JdbcTypeInformation("TINYINT", //$NON-NLS-1$
+                new FullyQualifiedJavaType(Boolean.class.getName())));
     }
 
     @Override

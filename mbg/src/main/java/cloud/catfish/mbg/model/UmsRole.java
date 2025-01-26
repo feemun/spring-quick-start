@@ -34,7 +34,7 @@ public class UmsRole implements Serializable {
     private LocalDateTime createTime;
 
     @Schema(title = "启用状态：0->禁用；1->启用")
-    private Integer status;
+    private Boolean status;
 
     private Integer sort;
 
