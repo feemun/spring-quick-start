@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class UmsRole implements Serializable {
     private Long id;
@@ -19,6 +20,7 @@ public class UmsRole implements Serializable {
 
     @Schema(title = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @Schema(title = "启用状态：0->禁用；1->启用")

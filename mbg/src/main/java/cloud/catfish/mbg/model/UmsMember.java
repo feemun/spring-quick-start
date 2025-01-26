@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class UmsMember implements Serializable {
     private Long id;
@@ -27,6 +28,7 @@ public class UmsMember implements Serializable {
 
     @Schema(title = "注册时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @Schema(title = "头像")
@@ -37,6 +39,7 @@ public class UmsMember implements Serializable {
 
     @Schema(title = "生日")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime birthday;
 
     @Schema(title = "所做城市")

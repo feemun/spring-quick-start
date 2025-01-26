@@ -13,8 +13,11 @@
         <!-- 配置生成Java文件的编码 -->
         <property name="javaFileEncoding" value="UTF-8"/>
 
-        <!-- LocalDateTime Serializable -->
+        <!-- LocalDateTime Serializable Plugin -->
         <plugin type="cloud.catfish.mbg.plugin.LocalDateTimeSerializablePlugin"/>
+
+        <!-- LocalDateTime Deserializable Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.LocalDateTimeDeserializablePlugin"/>
 
         <!-- 为模型生成序列化方法 -->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
