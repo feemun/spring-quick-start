@@ -4,8 +4,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@ToString
+@EqualsAndHashCode
+@Getter
+@Setter
+@RequiredArgsConstructor
+@Builder
 public class UmsAdmin implements Serializable {
     private Long id;
 
