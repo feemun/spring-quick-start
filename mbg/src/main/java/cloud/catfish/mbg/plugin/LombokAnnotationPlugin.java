@@ -1,12 +1,11 @@
 package cloud.catfish.mbg.plugin;
 
-import org.mybatis.generator.api.PluginAdapter;
-
-import java.util.List;
-
 import org.mybatis.generator.api.IntrospectedTable;
+import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+
+import java.util.List;
 
 public class LombokAnnotationPlugin extends PluginAdapter {
 
@@ -48,9 +47,13 @@ public class LombokAnnotationPlugin extends PluginAdapter {
         topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Setter"));
         topLevelClass.addAnnotation("@Setter");
 
-        // 添加 @RequiredArgsConstructor 注解
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.RequiredArgsConstructor"));
-        topLevelClass.addAnnotation("@RequiredArgsConstructor");
+        // 添加 @AllArgsConstructor 注解
+        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.AllArgsConstructor"));
+        topLevelClass.addAnnotation("@AllArgsConstructor");
+
+        // 添加 @NoArgsConstructor 注解
+        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.NoArgsConstructor"));
+        topLevelClass.addAnnotation("@NoArgsConstructor");
 
         // 添加 @Builder 注解
         topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Builder"));

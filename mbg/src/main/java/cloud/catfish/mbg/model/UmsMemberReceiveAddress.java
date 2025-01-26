@@ -2,10 +2,11 @@ package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,7 +14,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMemberReceiveAddress implements Serializable {
     private Long id;
@@ -123,26 +125,5 @@ public class UmsMemberReceiveAddress implements Serializable {
 
     public void setDetailAddress(String detailAddress) {
         this.detailAddress = detailAddress;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", memberId=").append(memberId);
-        sb.append(", name=").append(name);
-        sb.append(", phoneNumber=").append(phoneNumber);
-        sb.append(", defaultStatus=").append(defaultStatus);
-        sb.append(", postCode=").append(postCode);
-        sb.append(", province=").append(province);
-        sb.append(", city=").append(city);
-        sb.append(", region=").append(region);
-        sb.append(", detailAddress=").append(detailAddress);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

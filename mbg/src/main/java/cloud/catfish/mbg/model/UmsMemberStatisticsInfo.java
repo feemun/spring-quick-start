@@ -5,10 +5,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMemberStatisticsInfo implements Serializable {
     private Long id;
@@ -191,32 +193,5 @@ public class UmsMemberStatisticsInfo implements Serializable {
 
     public void setRecentOrderTime(LocalDateTime recentOrderTime) {
         this.recentOrderTime = recentOrderTime;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", memberId=").append(memberId);
-        sb.append(", consumeAmount=").append(consumeAmount);
-        sb.append(", orderCount=").append(orderCount);
-        sb.append(", couponCount=").append(couponCount);
-        sb.append(", commentCount=").append(commentCount);
-        sb.append(", returnOrderCount=").append(returnOrderCount);
-        sb.append(", loginCount=").append(loginCount);
-        sb.append(", attendCount=").append(attendCount);
-        sb.append(", fansCount=").append(fansCount);
-        sb.append(", collectProductCount=").append(collectProductCount);
-        sb.append(", collectSubjectCount=").append(collectSubjectCount);
-        sb.append(", collectTopicCount=").append(collectTopicCount);
-        sb.append(", collectCommentCount=").append(collectCommentCount);
-        sb.append(", inviteFriendCount=").append(inviteFriendCount);
-        sb.append(", recentOrderTime=").append(recentOrderTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

@@ -3,10 +3,11 @@ package cloud.catfish.mbg.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,7 +15,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMemberTag implements Serializable {
     private Long id;
@@ -59,20 +61,5 @@ public class UmsMemberTag implements Serializable {
 
     public void setFinishOrderAmount(BigDecimal finishOrderAmount) {
         this.finishOrderAmount = finishOrderAmount;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", finishOrderCount=").append(finishOrderCount);
-        sb.append(", finishOrderAmount=").append(finishOrderAmount);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

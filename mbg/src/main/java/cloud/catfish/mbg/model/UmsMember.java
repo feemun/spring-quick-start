@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMember implements Serializable {
     private Long id;
@@ -230,35 +232,5 @@ public class UmsMember implements Serializable {
 
     public void setHistoryIntegration(Integer historyIntegration) {
         this.historyIntegration = historyIntegration;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", memberLevelId=").append(memberLevelId);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", nickname=").append(nickname);
-        sb.append(", phone=").append(phone);
-        sb.append(", status=").append(status);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", icon=").append(icon);
-        sb.append(", gender=").append(gender);
-        sb.append(", birthday=").append(birthday);
-        sb.append(", city=").append(city);
-        sb.append(", job=").append(job);
-        sb.append(", personalizedSignature=").append(personalizedSignature);
-        sb.append(", sourceType=").append(sourceType);
-        sb.append(", integration=").append(integration);
-        sb.append(", growth=").append(growth);
-        sb.append(", luckeyCount=").append(luckeyCount);
-        sb.append(", historyIntegration=").append(historyIntegration);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

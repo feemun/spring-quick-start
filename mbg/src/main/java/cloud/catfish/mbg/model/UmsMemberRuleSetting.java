@@ -3,10 +3,11 @@ package cloud.catfish.mbg.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,7 +15,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMemberRuleSetting implements Serializable {
     private Long id;
@@ -93,23 +95,5 @@ public class UmsMemberRuleSetting implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", continueSignDay=").append(continueSignDay);
-        sb.append(", continueSignPoint=").append(continueSignPoint);
-        sb.append(", consumePerPoint=").append(consumePerPoint);
-        sb.append(", lowOrderAmount=").append(lowOrderAmount);
-        sb.append(", maxPointPerOrder=").append(maxPointPerOrder);
-        sb.append(", type=").append(type);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

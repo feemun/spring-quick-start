@@ -3,10 +3,11 @@ package cloud.catfish.mbg.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,7 +15,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMemberLevel implements Serializable {
     private Long id;
@@ -156,29 +158,5 @@ public class UmsMemberLevel implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", growthPoint=").append(growthPoint);
-        sb.append(", defaultStatus=").append(defaultStatus);
-        sb.append(", freeFreightPoint=").append(freeFreightPoint);
-        sb.append(", commentGrowthPoint=").append(commentGrowthPoint);
-        sb.append(", priviledgeFreeFreight=").append(priviledgeFreeFreight);
-        sb.append(", priviledgeSignIn=").append(priviledgeSignIn);
-        sb.append(", priviledgeComment=").append(priviledgeComment);
-        sb.append(", priviledgePromotion=").append(priviledgePromotion);
-        sb.append(", priviledgeMemberPrice=").append(priviledgeMemberPrice);
-        sb.append(", priviledgeBirthday=").append(priviledgeBirthday);
-        sb.append(", note=").append(note);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsMenu implements Serializable {
     private Long id;
@@ -119,25 +121,5 @@ public class UmsMenu implements Serializable {
 
     public void setHidden(Integer hidden) {
         this.hidden = hidden;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", title=").append(title);
-        sb.append(", level=").append(level);
-        sb.append(", sort=").append(sort);
-        sb.append(", name=").append(name);
-        sb.append(", icon=").append(icon);
-        sb.append(", hidden=").append(hidden);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

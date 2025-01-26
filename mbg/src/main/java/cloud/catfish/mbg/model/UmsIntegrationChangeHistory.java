@@ -2,21 +2,18 @@ package cloud.catfish.mbg.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @ToString
 @EqualsAndHashCode
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UmsIntegrationChangeHistory implements Serializable {
     private Long id;
@@ -106,24 +103,5 @@ public class UmsIntegrationChangeHistory implements Serializable {
 
     public void setSourceType(Integer sourceType) {
         this.sourceType = sourceType;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", memberId=").append(memberId);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", changeType=").append(changeType);
-        sb.append(", changeCount=").append(changeCount);
-        sb.append(", operateMan=").append(operateMan);
-        sb.append(", operateNote=").append(operateNote);
-        sb.append(", sourceType=").append(sourceType);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }
