@@ -2,28 +2,26 @@ package cloud.catfish.admin.controller;
 
 import cloud.catfish.admin.dto.BucketPolicyConfigDto;
 import cloud.catfish.admin.dto.MinioUploadDto;
+import cloud.catfish.common.api.CommonResult;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
-import cloud.catfish.common.api.CommonResult;
 import io.minio.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  * MinIO对象存储管理Controller
  * Created by macro on 2019/12/25.
  */
-@Controller
+@RestController
 @Tag(name = "MinioController", description = "MinIO对象存储管理")
 @RequestMapping("/minio")
 public class MinioController {
@@ -39,8 +37,7 @@ public class MinioController {
     private String SECRET_KEY;
 
     @Operation(summary = "文件上传")
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/upload")
     public CommonResult upload(@RequestPart("file") MultipartFile file) {
         try {
             //创建一个MinIO的Java客户端
@@ -100,8 +97,7 @@ public class MinioController {
     }
 
     @Operation(summary = "文件删除")
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/delete")
     public CommonResult delete(@RequestParam("objectName") String objectName) {
         try {
             MinioClient minioClient = MinioClient.builder()

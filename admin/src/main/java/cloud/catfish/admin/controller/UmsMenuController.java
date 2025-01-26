@@ -1,14 +1,13 @@
 package cloud.catfish.admin.controller;
 
+import cloud.catfish.admin.dto.UmsMenuNode;
 import cloud.catfish.admin.service.UmsMenuService;
 import cloud.catfish.common.api.CommonPage;
 import cloud.catfish.common.api.CommonResult;
-import cloud.catfish.admin.dto.UmsMenuNode;
 import cloud.catfish.mbg.model.UmsMenu;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  * 后台菜单管理Controller
  * Created by macro on 2020/2/4.
  */
-@Controller
+@RestController
 @Tag(name = "UmsMenuController", description = "后台菜单管理")
 @RequestMapping("/menu")
 public class UmsMenuController {
@@ -26,8 +25,7 @@ public class UmsMenuController {
     private UmsMenuService menuService;
 
     @Operation(summary = "添加后台菜单")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping(value = "/create")
     public CommonResult create(@RequestBody UmsMenu umsMenu) {
         int count = menuService.create(umsMenu);
         if (count > 0) {
@@ -38,8 +36,7 @@ public class UmsMenuController {
     }
 
     @Operation(summary = "修改后台菜单")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping(value = "/update/{id}")
     public CommonResult update(@PathVariable Long id,
                                @RequestBody UmsMenu umsMenu) {
         int count = menuService.update(id, umsMenu);
@@ -51,16 +48,14 @@ public class UmsMenuController {
     }
 
     @Operation(summary = "根据ID获取菜单详情")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping(value = "/{id}")
     public CommonResult<UmsMenu> getItem(@PathVariable Long id) {
         UmsMenu umsMenu = menuService.getItem(id);
         return CommonResult.success(umsMenu);
     }
 
     @Operation(summary = "根据ID删除后台菜单")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping(value = "/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         int count = menuService.delete(id);
         if (count > 0) {
@@ -71,8 +66,7 @@ public class UmsMenuController {
     }
 
     @Operation(summary = "分页查询后台菜单")
-    @RequestMapping(value = "/list/{parentId}", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping(value = "/list/{parentId}")
     public CommonResult<CommonPage<UmsMenu>> list(@PathVariable Long parentId,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -81,16 +75,14 @@ public class UmsMenuController {
     }
 
     @Operation(summary = "树形结构返回所有菜单列表")
-    @RequestMapping(value = "/treeList", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping(value = "/treeList")
     public CommonResult<List<UmsMenuNode>> treeList() {
         List<UmsMenuNode> list = menuService.treeList();
         return CommonResult.success(list);
     }
 
     @Operation(summary = "修改菜单显示状态")
-    @RequestMapping(value = "/updateHidden/{id}", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping(value = "/updateHidden/{id}")
     public CommonResult updateHidden(@PathVariable Long id, @RequestParam("hidden") Integer hidden) {
         int count = menuService.updateHidden(id, hidden);
         if (count > 0) {
