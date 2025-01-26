@@ -1,6 +1,7 @@
 package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,6 @@ public class UmsAdminRoleRelation implements Serializable {
 
     private Long roleId;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

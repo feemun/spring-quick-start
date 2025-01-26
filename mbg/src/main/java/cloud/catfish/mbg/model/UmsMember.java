@@ -2,6 +2,7 @@ package cloud.catfish.mbg.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -80,5 +81,6 @@ public class UmsMember implements Serializable {
     @Schema(title = "历史积分数量")
     private Integer historyIntegration;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

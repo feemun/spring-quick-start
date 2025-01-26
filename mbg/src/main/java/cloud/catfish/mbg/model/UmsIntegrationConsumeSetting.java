@@ -1,6 +1,7 @@
 package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,5 +33,6 @@ public class UmsIntegrationConsumeSetting implements Serializable {
     @Schema(title = "是否可以和优惠券同用；0->不可以；1->可以")
     private Integer couponStatus;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

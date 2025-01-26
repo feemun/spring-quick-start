@@ -1,6 +1,7 @@
 package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -39,5 +40,6 @@ public class UmsMemberRuleSetting implements Serializable {
     @Schema(title = "类型：0->积分规则；1->成长值规则")
     private Integer type;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

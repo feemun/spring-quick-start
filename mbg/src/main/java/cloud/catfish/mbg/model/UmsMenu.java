@@ -2,6 +2,7 @@ package cloud.catfish.mbg.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -49,5 +50,6 @@ public class UmsMenu implements Serializable {
     @Schema(title = "前端隐藏")
     private Integer hidden;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

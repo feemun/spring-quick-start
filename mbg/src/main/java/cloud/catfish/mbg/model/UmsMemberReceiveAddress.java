@@ -1,6 +1,7 @@
 package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,5 +46,6 @@ public class UmsMemberReceiveAddress implements Serializable {
     @Schema(title = "详细地址(街道)")
     private String detailAddress;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

@@ -1,6 +1,7 @@
 package cloud.catfish.mbg.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -54,5 +55,6 @@ public class UmsMemberLevel implements Serializable {
 
     private String note;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

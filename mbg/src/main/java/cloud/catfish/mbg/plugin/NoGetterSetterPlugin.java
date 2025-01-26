@@ -16,7 +16,7 @@ public class NoGetterSetterPlugin extends PluginAdapter {
     }
 
     /**
-     * 关闭实体类的 Setter 生成
+     * disable model setter generation
      *
      * @param method             the setter, or mutator, method generated for the specified
      *                           column
@@ -35,7 +35,7 @@ public class NoGetterSetterPlugin extends PluginAdapter {
     }
 
     /**
-     * 关闭实体类的 Getter 生成
+     * disable model getter generation
      *
      * @param method             the getter, or accessor, method generated for the specified
      *                           column

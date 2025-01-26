@@ -2,6 +2,7 @@ package cloud.catfish.mbg.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -65,5 +66,6 @@ public class UmsMemberStatisticsInfo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime recentOrderTime;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }
