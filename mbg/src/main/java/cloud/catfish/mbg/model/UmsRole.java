@@ -1,5 +1,6 @@
 package cloud.catfish.mbg.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class UmsRole implements Serializable {
     private Integer adminCount;
 
     @Schema(title = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
     @Schema(title = "启用状态：0->禁用；1->启用")

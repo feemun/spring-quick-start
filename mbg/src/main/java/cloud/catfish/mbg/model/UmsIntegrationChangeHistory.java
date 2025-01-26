@@ -1,5 +1,6 @@
 package cloud.catfish.mbg.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ public class UmsIntegrationChangeHistory implements Serializable {
 
     private Long memberId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
     @Schema(title = "改变类型：0->增加；1->减少")

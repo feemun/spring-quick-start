@@ -1,5 +1,6 @@
 package cloud.catfish.mbg.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class UmsMember implements Serializable {
     private Integer status;
 
     @Schema(title = "注册时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
     @Schema(title = "头像")
@@ -34,6 +36,7 @@ public class UmsMember implements Serializable {
     private Integer gender;
 
     @Schema(title = "生日")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime birthday;
 
     @Schema(title = "所做城市")

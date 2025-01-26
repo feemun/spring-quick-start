@@ -1,5 +1,6 @@
 package cloud.catfish.mbg.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -45,6 +46,7 @@ public class UmsMemberStatisticsInfo implements Serializable {
     private Integer inviteFriendCount;
 
     @Schema(title = "最后一次下订单时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime recentOrderTime;
 
     private static final long serialVersionUID = 1L;
