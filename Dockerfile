@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # 创建conf目录
-RUN mkdir -p /app/resources
+RUN mkdir -p /app/configs
 
 # 创建非root用户和组，并设置其为主
 RUN addgroup --system appgroup && adduser --system appuser --ingroup appgroup
