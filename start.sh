@@ -9,8 +9,8 @@ HOST_LOG_DIR="/home/catfish/project/map/logs"
 HOST_CONFIG_DIR="/home/catfish/project/map/configs"
 
 # 创建宿主机上的日志目录
-mkdir -p ${HOST_LOG_DIR} && chmod -R 777
-mkdir -p ${HOST_CONFIG_DIR} && chmod -R 777
+mkdir -p ${HOST_LOG_DIR}
+mkdir -p ${HOST_CONFIG_DIR}
 
 # 运行容器
 docker run -d \
