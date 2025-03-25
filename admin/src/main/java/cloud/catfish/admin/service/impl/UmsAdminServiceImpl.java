@@ -36,7 +36,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,8 +81,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     public UmsAdmin register(UmsAdminParam umsAdminParam) {
         UmsAdmin umsAdmin = new UmsAdmin();
         BeanUtils.copyProperties(umsAdminParam, umsAdmin);
-        umsAdmin.setCreateTime(new Date());
-        umsAdmin.setStatus(1);
+        umsAdmin.setCreateTime(LocalDateTime.now());
+        umsAdmin.setStatus(Boolean.TRUE);
         //查询是否有相同用户名的用户
         UmsAdminExample example = new UmsAdminExample();
         example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
@@ -130,7 +129,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         if(admin==null) return;
         UmsAdminLoginLog loginLog = new UmsAdminLoginLog();
         loginLog.setAdminId(admin.getId());
-        loginLog.setCreateTime(new Date());
+        loginLog.setCreateTime(LocalDateTime.now());
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         loginLog.setIp(RequestUtil.getRequestIp(request));
@@ -142,7 +141,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
      */
     private void updateLoginTimeByUsername(String username) {
         UmsAdmin record = new UmsAdmin();
-        record.setLoginTime(new Date());
+        record.setLoginTime(LocalDateTime.now());
         UmsAdminExample example = new UmsAdminExample();
         example.createCriteria().andUsernameEqualTo(username);
         adminMapper.updateByExampleSelective(record, example);

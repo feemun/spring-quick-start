@@ -1,8 +1,8 @@
 package cloud.catfish.mbg.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UmsMemberStatisticsInfoExample {
@@ -1016,52 +1016,52 @@ public class UmsMemberStatisticsInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeEqualTo(Date value) {
+        public Criteria andRecentOrderTimeEqualTo(LocalDateTime value) {
             addCriterion("recent_order_time =", value, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeNotEqualTo(Date value) {
+        public Criteria andRecentOrderTimeNotEqualTo(LocalDateTime value) {
             addCriterion("recent_order_time <>", value, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeGreaterThan(Date value) {
+        public Criteria andRecentOrderTimeGreaterThan(LocalDateTime value) {
             addCriterion("recent_order_time >", value, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andRecentOrderTimeGreaterThanOrEqualTo(LocalDateTime value) {
             addCriterion("recent_order_time >=", value, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeLessThan(Date value) {
+        public Criteria andRecentOrderTimeLessThan(LocalDateTime value) {
             addCriterion("recent_order_time <", value, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeLessThanOrEqualTo(Date value) {
+        public Criteria andRecentOrderTimeLessThanOrEqualTo(LocalDateTime value) {
             addCriterion("recent_order_time <=", value, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeIn(List<Date> values) {
+        public Criteria andRecentOrderTimeIn(List<LocalDateTime> values) {
             addCriterion("recent_order_time in", values, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeNotIn(List<Date> values) {
+        public Criteria andRecentOrderTimeNotIn(List<LocalDateTime> values) {
             addCriterion("recent_order_time not in", values, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeBetween(Date value1, Date value2) {
+        public Criteria andRecentOrderTimeBetween(LocalDateTime value1, LocalDateTime value2) {
             addCriterion("recent_order_time between", value1, value2, "recentOrderTime");
             return (Criteria) this;
         }
 
-        public Criteria andRecentOrderTimeNotBetween(Date value1, Date value2) {
+        public Criteria andRecentOrderTimeNotBetween(LocalDateTime value1, LocalDateTime value2) {
             addCriterion("recent_order_time not between", value1, value2, "recentOrderTime");
             return (Criteria) this;
         }

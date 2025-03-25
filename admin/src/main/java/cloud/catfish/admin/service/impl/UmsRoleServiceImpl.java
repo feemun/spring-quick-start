@@ -34,7 +34,7 @@ public class UmsRoleServiceImpl implements UmsRoleService {
     private UmsAdminCacheService adminCacheService;
     @Override
     public int create(UmsRole role) {
-        role.setCreateTime(new Date());
+        role.setCreateTime(LocalDateTime.now());
         role.setAdminCount(0);
         role.setSort(0);
         return roleMapper.insert(role);

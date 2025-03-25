@@ -26,7 +26,7 @@ public class UmsMenuServiceImpl implements UmsMenuService {
 
     @Override
     public int create(UmsMenu umsMenu) {
-        umsMenu.setCreateTime(new Date());
+        umsMenu.setCreateTime(LocalDateTime.now());
         updateLevel(umsMenu);
         return menuMapper.insert(umsMenu);
     }

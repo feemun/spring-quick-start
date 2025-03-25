@@ -12,10 +12,22 @@
         <property name="endingDelimiter" value="`"/>
         <!-- 配置生成Java文件的编码 -->
         <property name="javaFileEncoding" value="UTF-8"/>
-        <!-- 为模型生成序列化方法 -->
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-        <!-- 为生成的Java模型创建一个toString方法 -->
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+        <!-- LocalDateTime Serializable Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.LocalDateTimeSerializablePlugin"/>
+
+        <!-- LocalDateTime Deserializable Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.LocalDateTimeDeserializablePlugin"/>
+
+        <!-- lombok annotation Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.LombokAnnotationPlugin"/>
+
+        <!-- lombok no getter, setter Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.NoGetterSetterPlugin"/>
+
+        <!-- lombok custom serializable Plugin -->
+        <plugin type="cloud.catfish.mbg.plugin.CustomSerializablePlugin"/>
+
         <!-- 生成mapper.xml时覆盖原文件 -->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <commentGenerator type="cloud.catfish.mbg.CommentGenerator">

@@ -29,7 +29,7 @@ public class UmsResourceCategoryServiceImpl implements UmsResourceCategoryServic
 
     @Override
     public int create(UmsResourceCategory umsResourceCategory) {
-        umsResourceCategory.setCreateTime(new Date());
+        umsResourceCategory.setCreateTime(LocalDateTime.now());
         return resourceCategoryMapper.insert(umsResourceCategory);
     }
 

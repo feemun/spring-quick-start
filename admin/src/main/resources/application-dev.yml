@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.1.108:3306/spring-quick-start?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://intel-nuc:3306/map_oxygen?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: my-secret-pw
     druid:
@@ -14,15 +14,15 @@ spring:
         login-password: druid
   data:
     redis:
-      host: 192.168.1.108 # Redis服务器地址
+      host: intel-nuc # Redis服务器地址
       database: 0 # Redis数据库索引（默认为0）
       port: 6379 # Redis服务器连接端口
       password: # Redis服务器连接密码（默认为空）
       timeout: 300ms # 连接超时时间（毫秒）
 
 minio:
-  endpoint: http://192.168.1.108:9000 #MinIO服务所在地址
-  bucketName: mall #存储桶名称
+  endpoint: http://intel-nuc:9000 #MinIO服务所在地址
+  bucketName: map #存储桶名称
   accessKey: minioadmin #访问的key
   secretKey: minioadmin #访问的秘钥
 

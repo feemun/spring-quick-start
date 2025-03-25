@@ -1,8 +1,7 @@
 package cloud.catfish.mbg.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class UmsMemberExample {
@@ -104,32 +103,6 @@ public class UmsMemberExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -602,52 +575,52 @@ public class UmsMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeEqualTo(Date value) {
+        public Criteria andCreateTimeEqualTo(LocalDateTime value) {
             addCriterion("create_time =", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotEqualTo(Date value) {
+        public Criteria andCreateTimeNotEqualTo(LocalDateTime value) {
             addCriterion("create_time <>", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeGreaterThan(Date value) {
+        public Criteria andCreateTimeGreaterThan(LocalDateTime value) {
             addCriterion("create_time >", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andCreateTimeGreaterThanOrEqualTo(LocalDateTime value) {
             addCriterion("create_time >=", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeLessThan(Date value) {
+        public Criteria andCreateTimeLessThan(LocalDateTime value) {
             addCriterion("create_time <", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+        public Criteria andCreateTimeLessThanOrEqualTo(LocalDateTime value) {
             addCriterion("create_time <=", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeIn(List<Date> values) {
+        public Criteria andCreateTimeIn(List<LocalDateTime> values) {
             addCriterion("create_time in", values, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotIn(List<Date> values) {
+        public Criteria andCreateTimeNotIn(List<LocalDateTime> values) {
             addCriterion("create_time not in", values, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+        public Criteria andCreateTimeBetween(LocalDateTime value1, LocalDateTime value2) {
             addCriterion("create_time between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+        public Criteria andCreateTimeNotBetween(LocalDateTime value1, LocalDateTime value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
@@ -792,53 +765,53 @@ public class UmsMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayEqualTo(Date value) {
-            addCriterionForJDBCDate("birthday =", value, "birthday");
+        public Criteria andBirthdayEqualTo(LocalDateTime value) {
+            addCriterion("birthday =", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayNotEqualTo(Date value) {
-            addCriterionForJDBCDate("birthday <>", value, "birthday");
+        public Criteria andBirthdayNotEqualTo(LocalDateTime value) {
+            addCriterion("birthday <>", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayGreaterThan(Date value) {
-            addCriterionForJDBCDate("birthday >", value, "birthday");
+        public Criteria andBirthdayGreaterThan(LocalDateTime value) {
+            addCriterion("birthday >", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("birthday >=", value, "birthday");
+        public Criteria andBirthdayGreaterThanOrEqualTo(LocalDateTime value) {
+            addCriterion("birthday >=", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayLessThan(Date value) {
-            addCriterionForJDBCDate("birthday <", value, "birthday");
+        public Criteria andBirthdayLessThan(LocalDateTime value) {
+            addCriterion("birthday <", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("birthday <=", value, "birthday");
+        public Criteria andBirthdayLessThanOrEqualTo(LocalDateTime value) {
+            addCriterion("birthday <=", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayIn(List<Date> values) {
-            addCriterionForJDBCDate("birthday in", values, "birthday");
+        public Criteria andBirthdayIn(List<LocalDateTime> values) {
+            addCriterion("birthday in", values, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayNotIn(List<Date> values) {
-            addCriterionForJDBCDate("birthday not in", values, "birthday");
+        public Criteria andBirthdayNotIn(List<LocalDateTime> values) {
+            addCriterion("birthday not in", values, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("birthday between", value1, value2, "birthday");
+        public Criteria andBirthdayBetween(LocalDateTime value1, LocalDateTime value2) {
+            addCriterion("birthday between", value1, value2, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andBirthdayNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("birthday not between", value1, value2, "birthday");
+        public Criteria andBirthdayNotBetween(LocalDateTime value1, LocalDateTime value2) {
+            addCriterion("birthday not between", value1, value2, "birthday");
             return (Criteria) this;
         }
 

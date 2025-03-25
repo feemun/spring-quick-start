@@ -12,13 +12,15 @@ public class CustomJavaTypeResolver extends JavaTypeResolverDefaultImpl {
     public CustomJavaTypeResolver() {
         super();
         // 添加或修改类型映射
-//        typeMap.put(Types.TIME, new JdbcTypeInformation("TIME", //$NON-NLS-1$
-//                new FullyQualifiedJavaType(LocalDateTime.class.getName())));
-//        typeMap.put(Types.TIMESTAMP, new JdbcTypeInformation("TIMESTAMP", //$NON-NLS-1$
-//                new FullyQualifiedJavaType(LocalDateTime.class.getName())));
-//        typeMap.put(Types.DATE, new JdbcTypeInformation("TIMESTAMP", //$NON-NLS-1$
-//                new FullyQualifiedJavaType(LocalDateTime.class.getName())));
-//        // 你可以根据需要继续添加或修改其他类型映射
+        typeMap.put(Types.TIME, new JdbcTypeInformation("TIME", //$NON-NLS-1$
+                new FullyQualifiedJavaType(LocalDateTime.class.getName())));
+        typeMap.put(Types.TIMESTAMP, new JdbcTypeInformation("TIMESTAMP", //$NON-NLS-1$
+                new FullyQualifiedJavaType(LocalDateTime.class.getName())));
+        typeMap.put(Types.DATE, new JdbcTypeInformation("TIMESTAMP", //$NON-NLS-1$
+                new FullyQualifiedJavaType(LocalDateTime.class.getName())));
+        // 你可以根据需要继续添加或修改其他类型映射
+        typeMap.put(Types.TINYINT, new JdbcTypeInformation("TINYINT", //$NON-NLS-1$
+                new FullyQualifiedJavaType(Boolean.class.getName())));
     }
 
     @Override
