@@ -1,0 +1,42 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: spring-quick-start-app
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+# SpringDoc配置
+springdoc:
+  swagger-ui:
+    # 修改Swagger UI路径到/swagger-ui
+    path: /swagger-ui.html
+    # 开启Swagger UI
+    enabled: true
+  api-docs:
+    # 修改api-docs的路径
+    path: /v3/api-docs
+  # 配置需要扫描的包路径
+  packages-to-scan: cloud.catfish.app.controller
+
+# 日志配置
+logging:
+  level:
+    cloud.catfish: debug
+    org.springframework.web: info
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized

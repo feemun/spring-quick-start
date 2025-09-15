@@ -11,6 +11,7 @@
 
     <modules>
         <module>admin</module>
+        <module>app</module>
         <module>common</module>
         <module>mbg</module>
         <module>security</module>
