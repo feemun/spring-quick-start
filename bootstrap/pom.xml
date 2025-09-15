@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>cloud.catfish</groupId>
+        <artifactId>spring-quick-start</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    
+    <artifactId>bootstrap</artifactId>
+    <packaging>jar</packaging>
+    <name>bootstrap</name>
+    <description>统一启动模块，整合所有业务模块</description>
+    
+    <dependencies>
+        <!-- 引入所有业务模块 -->
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>admin</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>app</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>es</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>neo4j</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+        <!-- Spring Boot Starter Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <!-- Spring Boot Starter Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        
+        <!-- Spring Boot Starter Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        
+        <!-- SpringDoc OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        
+        <!-- Spring Boot Configuration Processor -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
+        <!-- Spring Boot Starter Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cloud.catfish.bootstrap.BootstrapApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

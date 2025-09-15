@@ -1,49 +1,39 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: spring-quick-start-app
+    name: spring-quick-start-es
   profiles:
     active: dev
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 
+# Elasticsearch配置
+elasticsearch:
+  host: localhost
+  port: 9200
+  username: 
+  password: 
+  connection-timeout: 10s
+  socket-timeout: 30s
+
 # SpringDoc配置
 springdoc:
   swagger-ui:
-    # 修改Swagger UI路径到/swagger-ui
     path: /swagger-ui.html
-    # 开启Swagger UI
     enabled: true
   api-docs:
-    # 修改api-docs的路径
     path: /v3/api-docs
-  # 配置需要扫描的包路径
-  packages-to-scan: cloud.catfish.app.controller
-
-# Spring Security配置
-secure:
-  ignored:
-    urls: #安全路径白名单
-      - /swagger-ui/**
-      - /v3/api-docs/**
-      - /*/*.html
-      - /*/*.js
-      - /*/*.css
-      - /*/*.png
-      - /favicon.ico
-      - /actuator/**
-      - /api/hello
-      - /api/hello/**
-      - /api/public/**
+  packages-to-scan: cloud.catfish.es.controller
 
 # 日志配置
 logging:
   level:
     cloud.catfish: debug
-    org.springframework.web: info
+    org.springframework.data.elasticsearch: debug
+    org.elasticsearch: info
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
 
@@ -52,7 +42,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
   endpoint:
     health:
       show-details: when-authorized

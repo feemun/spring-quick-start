@@ -31,6 +31,13 @@
             <version>oxygen</version>
         </dependency>
 
+        <!-- 依赖security模块 -->
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>security</artifactId>
+            <version>oxygen</version>
+        </dependency>
+
         <!-- Spring Boot Web Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -46,18 +53,7 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
+            <!-- 移除Spring Boot插件，因为不再需要独立启动 -->
         </plugins>
     </build>
 </project>
