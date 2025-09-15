@@ -41,6 +41,12 @@
             <version>oxygen</version>
         </dependency>
         
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>redis</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
         <!-- Spring Boot Starter Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
