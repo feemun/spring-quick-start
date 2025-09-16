@@ -16,7 +16,7 @@
         <module>mbg</module>
         <module>security</module>
         <module>neo4j</module>
-        <module>es</module>
+        <module>elasticsearch-engine</module>
         <module>redis</module>
         <module>bootstrap</module>
     </modules>

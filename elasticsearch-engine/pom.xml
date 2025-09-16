@@ -9,9 +9,9 @@
         <version>oxygen</version>
     </parent>
 
-    <artifactId>es</artifactId>
+    <artifactId>elasticsearch-engine</artifactId>
     <packaging>jar</packaging>
-    <description>Elasticsearch通用查询模块</description>
+    <description>Elasticsearch引擎模块 - 提供完整的ES搜索、聚合和分析功能</description>
 
     <dependencies>
         <!-- 引入common模块 -->
