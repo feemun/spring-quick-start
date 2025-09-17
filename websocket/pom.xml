@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>websocket</artifactId>
+    <version>oxygen</version>
+    <packaging>jar</packaging>
+
+    <name>websocket</name>
+    <description>WebSocket实时通信模块</description>
+
+    <parent>
+        <groupId>cloud.catfish</groupId>
+        <artifactId>spring-quick-start</artifactId>
+        <version>oxygen</version>
+    </parent>
+
+    <dependencies>
+        <!-- Spring Boot Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        
+        <!-- Spring Boot WebSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        
+        <!-- Spring Boot Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <!-- Common模块依赖 -->
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>common</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+        <!-- Kafka模块依赖 -->
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>kafka</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+        <!-- JSON处理 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        
+        <!-- Swagger文档 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+        
+        <!-- 测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 不需要Spring Boot插件，因为这是一个库模块 -->
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket告警广播测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .status-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .status-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .status-item.connected {
+            border-left-color: #28a745;
+        }
+        
+        .status-item.disconnected {
+            border-left-color: #dc3545;
+        }
+        
+        .control-panel {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #1e7e34;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .message-area {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid #007bff;
+        }
+        
+        .message.alert {
+            background-color: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .message.system {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .message.error {
+            background-color: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        
+        .message.info {
+            background-color: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+        
+        .timestamp {
+            color: #6c757d;
+            font-size: 11px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket告警广播测试页面</h1>
+    
+    <div class="container">
+        <h3>连接状态</h3>
+        <div class="status-panel">
+            <div class="status-item" id="connectionStatus">
+                <strong>WebSocket连接</strong><br>
+                <span id="wsStatus">未连接</span>
+            </div>
+            <div class="status-item" id="subscriptionStatus">
+                <strong>订阅状态</strong><br>
+                <span id="subStatus">未订阅</span>
+            </div>
+            <div class="status-item">
+                <strong>服务器地址</strong><br>
+                <span id="serverUrl">ws://localhost:8080/ws</span>
+            </div>
+        </div>
+        
+        <div class="control-panel">
+            <button class="btn-primary" onclick="connect()">连接WebSocket</button>
+            <button class="btn-danger" onclick="disconnect()">断开连接</button>
+            <button class="btn-success" onclick="subscribe()">订阅告警</button>
+            <button class="btn-warning" onclick="unsubscribe()">取消订阅</button>
+            <button class="btn-primary" onclick="getStatus()">获取状态</button>
+            <button class="btn-warning" onclick="clearMessages()">清空消息</button>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" id="testMessage" placeholder="输入测试消息" value="这是一条测试告警消息">
+            <button class="btn-success" onclick="sendTestMessage()">发送测试消息</button>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="messageCount">0</div>
+                <div class="stat-label">接收消息数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="connectionCount">0</div>
+                <div class="stat-label">连接数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="kafkaStatus">未知</div>
+                <div class="stat-label">Kafka状态</div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="container">
+        <h3>消息日志</h3>
+        <div class="message-area" id="messageArea"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script>
+        let stompClient = null;
+        let connected = false;
+        let subscribed = false;
+        let messageCount = 0;
+        
+        function connect() {
+            const socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+            
+            stompClient.connect({}, function(frame) {
+                connected = true;
+                updateConnectionStatus();
+                addMessage('WebSocket连接成功', 'system');
+                console.log('Connected: ' + frame);
+            }, function(error) {
+                connected = false;
+                updateConnectionStatus();
+                addMessage('WebSocket连接失败: ' + error, 'error');
+                console.log('Connection error: ' + error);
+            });
+        }
+        
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+            connected = false;
+            subscribed = false;
+            updateConnectionStatus();
+            addMessage('WebSocket连接已断开', 'system');
+        }
+        
+        function subscribe() {
+            if (!connected) {
+                addMessage('请先连接WebSocket', 'error');
+                return;
+            }
+            
+            stompClient.subscribe('/topic/broadcast/alert', function(message) {
+                const data = JSON.parse(message.body);
+                messageCount++;
+                updateStats();
+                
+                let messageType = 'info';
+                if (data.type === 'ALERT') {
+                    messageType = 'alert';
+                } else if (data.type === 'SYSTEM_STATUS') {
+                    messageType = 'system';
+                }
+                
+                addMessage(`[${data.type}] ${data.content}`, messageType, data.timestamp);
+            });
+            
+            subscribed = true;
+            updateConnectionStatus();
+            addMessage('已订阅告警主题: /topic/broadcast/alert', 'system');
+        }
+        
+        function unsubscribe() {
+            // Note: STOMP.js doesn't provide easy unsubscribe for individual subscriptions
+            // In a real implementation, you'd need to store subscription objects
+            subscribed = false;
+            updateConnectionStatus();
+            addMessage('已取消订阅告警主题', 'system');
+        }
+        
+        function getStatus() {
+            if (!connected) {
+                addMessage('请先连接WebSocket', 'error');
+                return;
+            }
+            
+            stompClient.send('/app/broadcast/control', {}, JSON.stringify({
+                command: 'GET_STATUS'
+            }));
+        }
+        
+        function sendTestMessage() {
+            const message = document.getElementById('testMessage').value;
+            if (!message.trim()) {
+                addMessage('请输入测试消息', 'error');
+                return;
+            }
+            
+            fetch('/ws/test/alert?message=' + encodeURIComponent(message), {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    addMessage('测试消息发送成功', 'system');
+                } else {
+                    addMessage('测试消息发送失败: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                addMessage('发送测试消息时出错: ' + error, 'error');
+            });
+        }
+        
+
+        
+        function clearMessages() {
+            document.getElementById('messageArea').innerHTML = '';
+            messageCount = 0;
+            updateStats();
+        }
+        
+        function addMessage(content, type = 'info', timestamp = null) {
+            const messageArea = document.getElementById('messageArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + type;
+            
+            const time = timestamp || new Date().toLocaleTimeString();
+            messageDiv.innerHTML = `
+                <div class="timestamp">${time}</div>
+                <div>${content}</div>
+            `;
+            
+            messageArea.appendChild(messageDiv);
+            messageArea.scrollTop = messageArea.scrollHeight;
+        }
+        
+        function updateConnectionStatus() {
+            const wsStatus = document.getElementById('wsStatus');
+            const subStatus = document.getElementById('subStatus');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const subscriptionStatus = document.getElementById('subscriptionStatus');
+            
+            if (connected) {
+                wsStatus.textContent = '已连接';
+                connectionStatus.className = 'status-item connected';
+            } else {
+                wsStatus.textContent = '未连接';
+                connectionStatus.className = 'status-item disconnected';
+            }
+            
+            if (subscribed) {
+                subStatus.textContent = '已订阅';
+                subscriptionStatus.className = 'status-item connected';
+            } else {
+                subStatus.textContent = '未订阅';
+                subscriptionStatus.className = 'status-item disconnected';
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('messageCount').textContent = messageCount;
+            
+            // 获取服务器状态
+            fetch('/ws/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    document.getElementById('connectionCount').textContent = data.data.alertTopicConnections;
+                    document.getElementById('kafkaStatus').textContent = data.data.kafkaConsumerRunning ? '运行中' : '已停止';
+                }
+            })
+            .catch(error => {
+                console.log('获取状态失败:', error);
+            });
+        }
+        
+        // 页面加载时初始化
+        window.onload = function() {
+            updateConnectionStatus();
+            updateStats();
+            
+            // 定期更新统计信息
+            setInterval(updateStats, 5000);
+        };
+        
+        // 页面关闭时断开连接
+        window.onbeforeunload = function() {
+            if (connected) {
+                disconnect();
+            }
+        };
+    </script>
+</body>
+</html>

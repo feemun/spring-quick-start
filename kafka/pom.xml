@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>kafka</artifactId>
+    <version>oxygen</version>
+    <packaging>jar</packaging>
+
+    <name>kafka</name>
+    <description>Kafka消息处理模块</description>
+
+    <parent>
+        <groupId>cloud.catfish</groupId>
+        <artifactId>spring-quick-start</artifactId>
+        <version>oxygen</version>
+    </parent>
+
+    <dependencies>
+        <!-- Spring Boot Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        
+        <!-- Spring Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        
+        <!-- Common模块依赖 -->
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>common</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        
+
+        
+        <!-- 测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 不需要Spring Boot插件，因为这是一个库模块 -->
+        </plugins>
+    </build>
+</project>
