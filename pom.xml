@@ -15,13 +15,6 @@
         <module>common</module>
         <module>mbg</module>
         <module>security</module>
-        <module>neo4j</module>
-        <module>elasticsearch-engine</module>
-        <module>redis</module>
-        <module>data-processing</module>
-        <module>bootstrap</module>
-        <module>kafka</module>
-        <module>websocket</module>
     </modules>
 
     <parent>
@@ -56,10 +49,6 @@
         <logstash-logback.version>7.4</logstash-logback.version>
         <minio.version>8.4.5</minio.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
-        <mall-common.version>1.0-SNAPSHOT</mall-common.version>
-        <mall-mbg.version>1.0-SNAPSHOT</mall-mbg.version>
-        <mall-security.version>1.0-SNAPSHOT</mall-security.version>
-        <spring-kafka.version>3.1.1</spring-kafka.version>
     </properties>
 
     <dependencies>
@@ -99,24 +88,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--mall通用模块-->
-            <dependency>
-                <groupId>com.macro.mall</groupId>
-                <artifactId>mall-common</artifactId>
-                <version>${mall-common.version}</version>
-            </dependency>
-            <!--mall中MBG生成模块-->
-            <dependency>
-                <groupId>com.macro.mall</groupId>
-                <artifactId>mall-mbg</artifactId>
-                <version>${mall-mbg.version}</version>
-            </dependency>
-            <!--mall安全模块-->
-            <dependency>
-                <groupId>com.macro.mall</groupId>
-                <artifactId>mall-security</artifactId>
-                <version>${mall-security.version}</version>
-            </dependency>
             <!--MyBatis分页插件starter-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -200,12 +171,6 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-            <!--Spring Kafka-->
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-                <version>${spring-kafka.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

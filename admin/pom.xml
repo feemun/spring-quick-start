@@ -41,20 +41,6 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
         </dependency>
-        
-        <!-- Kafka模块依赖 -->
-        <dependency>
-            <groupId>cloud.catfish</groupId>
-            <artifactId>kafka</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <!-- WebSocket模块依赖 -->
-        <dependency>
-            <groupId>cloud.catfish</groupId>
-            <artifactId>websocket</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
 

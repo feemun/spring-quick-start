@@ -1,0 +1,3 @@
+cloud/catfish/app/config/AppSecurityConfig.class
+cloud/catfish/app/controller/SecureController.class
+cloud/catfish/app/controller/HelloController.class
