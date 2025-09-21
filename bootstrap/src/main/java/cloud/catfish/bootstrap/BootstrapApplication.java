@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * 统一启动类
- * 整合所有业务模块：admin、app、es、neo4j、redis
+ * 整合所有业务模块：admin、app、es、neo4j、redis、data-processing
  * 
  * @author catfish
  * @since 1.0.0
@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     "cloud.catfish.es",
     "cloud.catfish.neo4j",
     "cloud.catfish.redis",
+    "cloud.catfish.dataprocessing",
     "cloud.catfish.common",
     "cloud.catfish.bootstrap"
 })

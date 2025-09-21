@@ -18,6 +18,7 @@
         <module>neo4j</module>
         <module>es</module>
         <module>redis</module>
+        <module>data-processing</module>
         <module>bootstrap</module>
     </modules>
 
