@@ -16,10 +16,12 @@
         <module>mbg</module>
         <module>security</module>
         <module>neo4j</module>
-        <module>es</module>
+        <module>elasticsearch-engine</module>
         <module>redis</module>
         <module>data-processing</module>
         <module>bootstrap</module>
+        <module>kafka</module>
+        <module>websocket</module>
     </modules>
 
     <parent>
@@ -57,6 +59,7 @@
         <mall-common.version>1.0-SNAPSHOT</mall-common.version>
         <mall-mbg.version>1.0-SNAPSHOT</mall-mbg.version>
         <mall-security.version>1.0-SNAPSHOT</mall-security.version>
+        <spring-kafka.version>3.1.1</spring-kafka.version>
     </properties>
 
     <dependencies>
@@ -197,6 +200,12 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <!--Spring Kafka-->
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-kafka.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

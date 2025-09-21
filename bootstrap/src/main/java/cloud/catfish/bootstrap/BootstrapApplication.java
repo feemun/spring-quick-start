@@ -2,6 +2,7 @@ package cloud.catfish.bootstrap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
  * 统一启动类
@@ -20,6 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     "cloud.catfish.common",
     "cloud.catfish.bootstrap"
 })
+@EnableElasticsearchRepositories(basePackages = "cloud.catfish.es.repository")
 public class BootstrapApplication {
     
     public static void main(String[] args) {

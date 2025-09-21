@@ -1,0 +1,6 @@
+# Elasticsearch配置
+elasticsearch:
+  host: localhost
+  port: 9200
+  username: 
+  password:
