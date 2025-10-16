@@ -71,7 +71,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         if (adminList != null && adminList.size() > 0) {
             admin = adminList.get(0);
             //将数据库中的数据存入缓存中
-            getCacheService().setAdmin(admin);
+//            getCacheService().setAdmin(admin);
             return admin;
         }
         return null;
@@ -106,9 +106,9 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             if(!passwordEncoder.matches(password,userDetails.getPassword())){
                 Asserts.fail("密码不正确");
             }
-            if(!userDetails.isEnabled()){
-                Asserts.fail("帐号已被禁用");
-            }
+//            if(!userDetails.isEnabled()){
+//                Asserts.fail("帐号已被禁用");
+//            }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
