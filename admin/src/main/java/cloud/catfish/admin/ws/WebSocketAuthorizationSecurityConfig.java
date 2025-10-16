@@ -10,12 +10,16 @@ public class WebSocketAuthorizationSecurityConfig extends AbstractSecurityWebSoc
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         // 配置消息级别的授权
         messages
+                // 连接和断开连接消息允许已认证用户
+                .simpTypeMatchers(org.springframework.messaging.simp.SimpMessageType.CONNECT,
+                                  org.springframework.messaging.simp.SimpMessageType.DISCONNECT,
+                                  org.springframework.messaging.simp.SimpMessageType.HEARTBEAT).authenticated()
                 // 应用消息需要认证
                 .simpDestMatchers("/app/**").authenticated()
                 // 用户私有队列和订阅需要认证
                 .simpSubscribeDestMatchers("/user/**", "/queue/**").authenticated()
                 // 公共频道允许已认证用户访问
-                .simpSubscribeDestMatchers("/public/**").authenticated()
+                .simpSubscribeDestMatchers("/topic/**").authenticated()
                 // 其他所有消息拒绝访问
                 .anyMessage().denyAll();
     }

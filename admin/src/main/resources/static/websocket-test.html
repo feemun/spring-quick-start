@@ -333,8 +333,7 @@
         </div>
     </div>
 
-    <!-- 引入 SockJS 和 STOMP 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <!-- 引入 STOMP 库 -->
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
     <script>
@@ -376,10 +375,9 @@
             
             addLog('系统', '正在连接到 ' + serverUrl, 'system');
             
-            // 创建 SockJS 连接
-            const socket = new SockJS(serverUrl);
+            // 创建原生 WebSocket 连接
             stompClient = new StompJs.Client({
-                webSocketFactory: () => socket,
+                brokerURL: serverUrl,
                 connectHeaders: {
                     'Authorization': tokenHead + token
                 },

@@ -2,6 +2,7 @@ package cloud.catfish.admin.ws;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.*;
@@ -20,15 +21,27 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
+    
+    @Autowired
+    private WebSocketHandshakeInterceptor webSocketHandshakeInterceptor;
+    
+    @Autowired
+    private WebSocketChannelInterceptor webSocketChannelInterceptor;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // 注册WebSocket端点，支持SockJS降级
+        // 注册原生WebSocket端点 (不使用SockJS)
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns(webSocketProperties.getAllowedOriginPatterns()) // 从配置文件读取
+                .setAllowedOriginPatterns(webSocketProperties.getAllowedOriginPatterns())
+                .addInterceptors(webSocketHandshakeInterceptor);
+        
+        // 注册WebSocket端点，支持SockJS降级 (保留兼容性)
+        registry.addEndpoint("/ws-sockjs")
+                .setAllowedOriginPatterns(webSocketProperties.getAllowedOriginPatterns())
+                .addInterceptors(webSocketHandshakeInterceptor)
                 .withSockJS()
-                .setHeartbeatTime(webSocketProperties.getSockjsHeartbeatTime()) // 设置心跳间隔
-                .setDisconnectDelay(webSocketProperties.getSockjsDisconnectDelay()); // 设置断开连接延迟
+                .setHeartbeatTime(webSocketProperties.getSockjsHeartbeatTime())
+                .setDisconnectDelay(webSocketProperties.getSockjsDisconnectDelay());
     }
 
     @Override
@@ -37,7 +50,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/app");
         
         // 启用简单消息代理，并配置心跳
-        registry.enableSimpleBroker("/public", "/queue")
+        registry.enableSimpleBroker("/topic", "/queue")
                 .setHeartbeatValue(new long[]{
                     webSocketProperties.getHeartbeatInterval(), 
                     webSocketProperties.getHeartbeatInterval()
@@ -55,5 +68,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setSendBufferSizeLimit(webSocketProperties.getSendBufferSizeLimit()) // 发送缓冲区大小
                 .setSendTimeLimit(webSocketProperties.getSendTimeLimit()) // 发送超时
                 .setTimeToFirstMessage(webSocketProperties.getTimeToFirstMessage()); // 首次消息超时
+    }
+    
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        // 配置客户端入站通道拦截器
+        registration.interceptors(webSocketChannelInterceptor);
     }
 }
