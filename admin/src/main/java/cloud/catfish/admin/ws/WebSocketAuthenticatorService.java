@@ -25,12 +25,21 @@ public class WebSocketAuthenticatorService {
     // This method MUST return a UsernamePasswordAuthenticationToken instance, the spring security chain is testing it with 'instanceof' later on. So don't use a subclass of it or any other class
     public UsernamePasswordAuthenticationToken getAuthenticatedOrFail(String authHeader) throws AuthenticationException {
         if (authHeader == null || authHeader.trim().isEmpty()) {
-            throw new AuthenticationCredentialsNotFoundException("token was null or empty.");
+            throw new AuthenticationCredentialsNotFoundException("Authorization header was null or empty.");
         }
-        if (authHeader.startsWith(BEARER)) {
-            String authToken = authHeader.substring(BEARER.length());
+        
+        if (!authHeader.startsWith(BEARER)) {
+            throw new AuthenticationCredentialsNotFoundException("Authorization header must start with 'Bearer '.");
+        }
+        
+        try {
+            String authToken = authHeader.substring(BEARER.length()).trim();
+            if (authToken.isEmpty()) {
+                throw new AuthenticationCredentialsNotFoundException("JWT token was empty.");
+            }
+            
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
-            log.info("checking username:{}", username);
+            log.info("Checking username: {}", username);
 
             if (username != null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -40,11 +49,20 @@ public class WebSocketAuthenticatorService {
                             null,
                             userDetails.getAuthorities()
                     );
-                    log.info("authenticated user:{}", username);
+                    log.info("Successfully authenticated user: {}", username);
                     return authentication;
+                } else {
+                    throw new AuthenticationCredentialsNotFoundException("JWT token validation failed for user: " + username);
                 }
+            } else {
+                throw new AuthenticationCredentialsNotFoundException("Unable to extract username from JWT token.");
             }
+        } catch (Exception e) {
+            log.error("Authentication failed: {}", e.getMessage());
+            if (e instanceof AuthenticationException) {
+                throw e;
+            }
+            throw new AuthenticationCredentialsNotFoundException("Authentication processing failed: " + e.getMessage());
         }
-        return null;
     }
 }

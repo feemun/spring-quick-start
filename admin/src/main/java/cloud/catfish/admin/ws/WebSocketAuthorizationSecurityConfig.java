@@ -8,13 +8,24 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 public class WebSocketAuthorizationSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-        // You can customize your authorization mapping here.
-//        messages.anyMessage().authenticated();
+        // 配置消息级别的授权
+        messages
+                // 应用消息需要认证
+                .simpDestMatchers("/app/**").authenticated()
+                // 用户私有队列和订阅需要认证
+                .simpSubscribeDestMatchers("/user/**", "/queue/**").authenticated()
+                // 公共频道允许已认证用户访问
+                .simpSubscribeDestMatchers("/public/**").authenticated()
+                // 其他所有消息拒绝访问
+                .anyMessage().denyAll();
     }
 
-    // TODO: For test purpose (and simplicity) i disabled CSRF, but you should re-enable this and provide a CRSF endpoint.
+    // 生产环境建议启用同源检查以增强安全性
+    // 开发环境可以设置为true，生产环境应设置为false
     @Override
     protected boolean sameOriginDisabled() {
-        return true;
+        // 可以通过环境变量或配置文件控制
+        String env = System.getProperty("spring.profiles.active", "dev");
+        return "dev".equals(env) || "test".equals(env);
     }
 }
