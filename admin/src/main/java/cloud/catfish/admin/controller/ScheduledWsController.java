@@ -1,6 +1,6 @@
 package cloud.catfish.admin.controller;
 
-import cloud.catfish.admin.ws.MyTaskScheduler;
+import cloud.catfish.admin.cron.MyTaskScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
