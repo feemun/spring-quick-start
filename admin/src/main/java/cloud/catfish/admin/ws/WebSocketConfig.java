@@ -3,6 +3,7 @@ package cloud.catfish.admin.ws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.*;
 
 /**
@@ -16,6 +17,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
     private WebSocketConfigurationProperties webSocketProperties;
+
+    @Autowired
+    private ThreadPoolTaskScheduler taskScheduler;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -38,7 +42,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     webSocketProperties.getHeartbeatInterval(), 
                     webSocketProperties.getHeartbeatInterval()
                 }) // 服务器发送心跳间隔，客户端期望心跳间隔
-                .setTaskScheduler(null); // 可以配置自定义任务调度器
+                .setTaskScheduler(taskScheduler); // 配置任务调度器以支持心跳功能
         
         // 设置用户目的地前缀，用于点对点消息
         registry.setUserDestinationPrefix("/user");

@@ -49,6 +49,8 @@ secure:
       - /minio/upload
       - /index.html
       - /index2.html
+      - /login.html
+      - /websocket-test.html
       - /app/search
       - /app/**
       - /app/send
