@@ -1,4 +1,4 @@
-package cloud.catfish.ws;
+package cloud.catfish.ws.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;

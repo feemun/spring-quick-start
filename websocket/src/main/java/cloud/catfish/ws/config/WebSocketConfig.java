@@ -1,4 +1,4 @@
-package cloud.catfish.ws;
+package cloud.catfish.ws.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -6,6 +6,8 @@ import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.*;
+import cloud.catfish.ws.interceptor.WebSocketHandshakeInterceptor;
+import cloud.catfish.ws.interceptor.WebSocketChannelInterceptor;
 
 /**
  * WebSocket配置类

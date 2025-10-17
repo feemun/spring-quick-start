@@ -1,4 +1,4 @@
-package cloud.catfish.ws;
+package cloud.catfish.ws.event;
 
 import cloud.catfish.ws.schedule.MyTaskScheduler;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package cloud.catfish.ws;
+package cloud.catfish.ws.interceptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
