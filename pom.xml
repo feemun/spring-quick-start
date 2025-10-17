@@ -14,6 +14,7 @@
         <module>common</module>
         <module>mbg</module>
         <module>security</module>
+        <module>websocket</module>
     </modules>
 
     <parent>

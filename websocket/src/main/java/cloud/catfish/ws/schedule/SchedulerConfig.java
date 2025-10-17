@@ -1,4 +1,4 @@
-package cloud.catfish.admin.cron;
+package cloud.catfish.ws.schedule;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

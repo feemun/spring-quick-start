@@ -1,4 +1,4 @@
-package cloud.catfish.admin.cron;
+package cloud.catfish.ws.schedule;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;

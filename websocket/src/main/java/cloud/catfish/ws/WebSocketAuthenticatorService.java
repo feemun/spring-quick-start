@@ -1,4 +1,4 @@
-package cloud.catfish.admin.ws;
+package cloud.catfish.ws;
 
 import cloud.catfish.security.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;

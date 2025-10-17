@@ -1,4 +1,4 @@
-package cloud.catfish.admin.ws;
+package cloud.catfish.ws;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;

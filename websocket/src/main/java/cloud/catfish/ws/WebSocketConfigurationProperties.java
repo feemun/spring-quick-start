@@ -1,4 +1,4 @@
-package cloud.catfish.admin.ws;
+package cloud.catfish.ws;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
