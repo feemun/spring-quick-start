@@ -1,4 +1,4 @@
-package cloud.catfish.ws.cron;
+package cloud.catfish.admin.cron;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
