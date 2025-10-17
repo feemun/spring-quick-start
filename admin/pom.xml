@@ -18,6 +18,11 @@
     <dependencies>
         <dependency>
             <groupId>cloud.catfish</groupId>
+            <artifactId>es</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.catfish</groupId>
             <artifactId>websocket</artifactId>
             <version>oxygen</version>
         </dependency>
