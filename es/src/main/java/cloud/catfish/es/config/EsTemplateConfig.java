@@ -16,16 +16,16 @@ public class EsTemplateConfig {
 
     /**
      * 配置 DSL 模板
-     * 使用 ElasticsearchClient 进行 DSL 查询操作
+     * 使用 restClient 进行 DSL 查询操作
      */
     @Bean
-    public EsDslTemplate esDslTemplate(ElasticsearchClient elasticsearchClient) {
-        return new EsDslTemplate(elasticsearchClient);
+    public EsDslTemplate esDslTemplate(RestClient restClient) {
+        return new EsDslTemplate(restClient);
     }
 
     /**
      * 配置 SQL 模板
-     * 使用 RestClient 进行 SQL 查询操作
+     * 使用 RestClient 进行 SQL 转 DSL 查询操作
      */
     @Bean
     public EsSqlTemplate esSqlTemplate(RestClient restClient) {
