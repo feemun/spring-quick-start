@@ -1,4 +1,4 @@
-package cloud.catfish.admin.cron;
+package cloud.catfish.admin.controller.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
