@@ -1,4 +1,4 @@
-package cloud.catfish.admin.controller;
+package cloud.catfish.admin.controller.websocket;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
