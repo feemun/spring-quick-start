@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -146,7 +147,7 @@ public class EsMapperProxyFactory {
             
             // 根据查询类型和返回类型调用相应的Template方法
             if (esSQL.pageable()) {
-                int from = (Integer) paramMap.getOrDefault("from", esSQL.defaultFrom());
+                int from = (Integer) paramMap.getOrDefault("from", esSQL.defaultPageSize());
                 int size = (Integer) paramMap.getOrDefault("size", esSQL.defaultPageSize());
                 return esSqlTemplate.searchWithPagination(sql, paramMap, index, from, size, returnType);
             }

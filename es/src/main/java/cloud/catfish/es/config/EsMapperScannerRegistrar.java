@@ -1,7 +1,6 @@
 package cloud.catfish.es.config;
 
 import cloud.catfish.es.annotation.EsMapper;
-import cloud.catfish.es.proxy.EsMapperProxyFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
