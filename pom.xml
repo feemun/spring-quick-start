@@ -18,6 +18,7 @@
         <module>es</module>
         <module>api</module>
         <module>cache</module>
+        <module>data</module>
     </modules>
 
     <parent>

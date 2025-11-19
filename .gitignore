@@ -8,3 +8,5 @@
 /websocket/target/
 /es/target/
 /api/target
+/cache/target
+/data/target
