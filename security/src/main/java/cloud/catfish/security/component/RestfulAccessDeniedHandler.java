@@ -1,6 +1,6 @@
 package cloud.catfish.security.component;
 
-import cloud.catfish.common.api.CommonResult;
+import cloud.catfish.common.api.R;
 import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler{
         response.setHeader("Cache-Control","no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(JSONUtil.parse(CommonResult.forbidden(e.getMessage())));
+        response.getWriter().println(JSONUtil.parse(R.forbidden(e.getMessage())));
         response.getWriter().flush();
     }
 }

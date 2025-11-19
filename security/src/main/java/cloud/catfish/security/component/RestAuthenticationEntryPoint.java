@@ -1,6 +1,6 @@
 package cloud.catfish.security.component;
 
-import cloud.catfish.common.api.CommonResult;
+import cloud.catfish.common.api.R;
 import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setHeader("Cache-Control","no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(JSONUtil.parse(CommonResult.unauthorized(authException.getMessage())));
+        response.getWriter().println(JSONUtil.parse(R.unauthorized(authException.getMessage())));
         response.getWriter().flush();
     }
 }

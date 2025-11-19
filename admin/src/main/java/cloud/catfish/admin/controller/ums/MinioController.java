@@ -2,7 +2,7 @@ package cloud.catfish.admin.controller.ums;
 
 import dto.BucketPolicyConfigDto;
 import dto.MinioUploadDto;
-import cloud.catfish.common.api.CommonResult;
+import cloud.catfish.common.api.R;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 import io.minio.*;
@@ -38,7 +38,7 @@ public class MinioController {
 
     @Operation(summary = "文件上传")
     @RequestMapping(value = "/upload")
-    public CommonResult upload(@RequestPart("file") MultipartFile file) {
+    public R upload(@RequestPart("file") MultipartFile file) {
         try {
             //创建一个MinIO的Java客户端
             MinioClient minioClient =MinioClient.builder()
@@ -73,12 +73,12 @@ public class MinioController {
             MinioUploadDto minioUploadDto = new MinioUploadDto();
             minioUploadDto.setName(filename);
             minioUploadDto.setUrl(ENDPOINT + "/" + BUCKET_NAME + "/" + objectName);
-            return CommonResult.success(minioUploadDto);
+            return R.ok(minioUploadDto);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.info("上传发生错误: {}！", e.getMessage());
         }
-        return CommonResult.failed();
+        return R.failed();
     }
 
     /**
@@ -98,17 +98,17 @@ public class MinioController {
 
     @Operation(summary = "文件删除")
     @RequestMapping(value = "/delete")
-    public CommonResult delete(@RequestParam("objectName") String objectName) {
+    public R delete(@RequestParam("objectName") String objectName) {
         try {
             MinioClient minioClient = MinioClient.builder()
                     .endpoint(ENDPOINT)
                     .credentials(ACCESS_KEY,SECRET_KEY)
                     .build();
             minioClient.removeObject(RemoveObjectArgs.builder().bucket(BUCKET_NAME).object(objectName).build());
-            return CommonResult.success(null);
+            return R.ok(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return CommonResult.failed();
+        return R.failed();
     }
 }

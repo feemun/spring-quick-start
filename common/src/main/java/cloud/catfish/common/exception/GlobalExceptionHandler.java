@@ -1,6 +1,6 @@
 package cloud.catfish.common.exception;
 
-import cloud.catfish.common.api.CommonResult;
+import cloud.catfish.common.api.R;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +22,15 @@ import java.sql.SQLSyntaxErrorException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ApiException.class)
-    public CommonResult handle(ApiException e) {
+    public R handle(ApiException e) {
         if (e.getErrorCode() != null) {
-            return CommonResult.failed(e.getErrorCode());
+            return R.failed(e.getErrorCode());
         }
-        return CommonResult.failed(e.getMessage());
+        return R.failed(e.getMessage());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public CommonResult handleValidException(MethodArgumentNotValidException e) {
+    public R handleValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
         if (bindingResult.hasErrors()) {
@@ -39,11 +39,11 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField() + fieldError.getDefaultMessage();
             }
         }
-        return CommonResult.validateFailed(message);
+        return R.validateFailed(message);
     }
 
     @ExceptionHandler(value = BindException.class)
-    public CommonResult handleValidException(BindException e) {
+    public R handleValidException(BindException e) {
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
         if (bindingResult.hasErrors()) {
@@ -52,34 +52,34 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField() + fieldError.getDefaultMessage();
             }
         }
-        return CommonResult.validateFailed(message);
+        return R.validateFailed(message);
     }
 
     @ExceptionHandler(value = SQLSyntaxErrorException.class)
-    public CommonResult handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
+    public R handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
         }
-        return CommonResult.failed(message);
+        return R.failed(message);
     }
 
     @ExceptionHandler(value = ArithmeticException.class)
-    public ResponseEntity<CommonResult> handleArithmeticException(ArithmeticException e) {
+    public ResponseEntity<R> handleArithmeticException(ArithmeticException e) {
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
         }
-        return new ResponseEntity<>(CommonResult.failed("5/0"), HttpStatusCode.valueOf(500));
+        return new ResponseEntity<>(R.failed("5/0"), HttpStatusCode.valueOf(500));
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<CommonResult> handleException(Exception e) {
+    public ResponseEntity<R> handleException(Exception e) {
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
         }
-        return new ResponseEntity<>(CommonResult.failed("5/0"), HttpStatusCode.valueOf(500));
+        return new ResponseEntity<>(R.failed("5/0"), HttpStatusCode.valueOf(500));
     }
 
     @MessageExceptionHandler

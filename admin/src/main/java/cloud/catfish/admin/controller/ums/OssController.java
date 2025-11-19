@@ -2,7 +2,7 @@ package cloud.catfish.admin.controller.ums;
 
 
 import cloud.catfish.admin.service.OssService;
-import cloud.catfish.common.api.CommonResult;
+import cloud.catfish.common.api.R;
 import dto.OssCallbackResult;
 import dto.OssPolicyResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,16 +27,16 @@ public class OssController {
 
     @Operation(summary = "Oss上传签名生成")
     @GetMapping(value = "/policy")
-    public CommonResult<OssPolicyResult> policy() {
+    public R<OssPolicyResult> policy() {
         OssPolicyResult result = ossService.policy();
-        return CommonResult.success(result);
+        return R.ok(result);
     }
 
     @Operation(summary = "Oss上传成功回调")
     @PostMapping(value = "callback")
-    public CommonResult<OssCallbackResult> callback(HttpServletRequest request) {
+    public R<OssCallbackResult> callback(HttpServletRequest request) {
         OssCallbackResult ossCallbackResult = ossService.callback(request);
-        return CommonResult.success(ossCallbackResult);
+        return R.ok(ossCallbackResult);
     }
 
 }

@@ -1,7 +1,7 @@
 package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsMemberLevelService;
-import cloud.catfish.common.api.CommonResult;
+import cloud.catfish.common.api.R;
 import domain.UmsMemberLevel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,8 +27,8 @@ public class UmsMemberLevelController {
     @Operation(summary = "查询所有会员等级")
     @GetMapping(value = "/list")
     
-    public CommonResult<List<UmsMemberLevel>> list(@RequestParam("defaultStatus") Integer defaultStatus) {
+    public R<List<UmsMemberLevel>> list(@RequestParam("defaultStatus") Integer defaultStatus) {
         List<UmsMemberLevel> memberLevelList = memberLevelService.list(defaultStatus);
-        return CommonResult.success(memberLevelList);
+        return R.ok(memberLevelList);
     }
 }
