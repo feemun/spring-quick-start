@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsMenu;
-import cloud.catfish.mbg.model.UmsMenuExample;
-import java.util.List;
+import domain.UmsMenu;
+import domain.UmsMenuExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsMenuMapper {
     long countByExample(UmsMenuExample example);

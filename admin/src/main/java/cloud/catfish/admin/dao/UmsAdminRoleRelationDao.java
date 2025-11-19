@@ -1,8 +1,8 @@
 package cloud.catfish.admin.dao;
 
-import cloud.catfish.mbg.model.UmsAdminRoleRelation;
-import cloud.catfish.mbg.model.UmsResource;
-import cloud.catfish.mbg.model.UmsRole;
+import domain.UmsAdminRoleRelation;
+import domain.UmsResource;
+import domain.UmsRole;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

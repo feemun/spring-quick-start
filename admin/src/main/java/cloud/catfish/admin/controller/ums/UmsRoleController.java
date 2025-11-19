@@ -3,12 +3,12 @@ package cloud.catfish.admin.controller.ums;
 import cloud.catfish.admin.service.UmsRoleService;
 import cloud.catfish.common.api.CommonPage;
 import cloud.catfish.common.api.CommonResult;
-import cloud.catfish.mbg.model.UmsMenu;
-import cloud.catfish.mbg.model.UmsResource;
-import cloud.catfish.mbg.model.UmsRole;
+import domain.UmsMenu;
+import domain.UmsResource;
+import domain.UmsRole;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 @Tag(name = "UmsRoleController", description = "后台用户角色管理")
 @RequestMapping("/role")
 public class UmsRoleController {
-    @Autowired
+    @Resource
     private UmsRoleService roleService;
 
     @Operation(summary = "添加角色")

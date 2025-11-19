@@ -2,8 +2,9 @@ package cloud.catfish.admin.config;
 
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsResourceService;
-import cloud.catfish.mbg.model.UmsResource;
+import domain.UmsResource;
 import cloud.catfish.security.component.DynamicSecurityService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 public class MallSecurityConfig {
 
-    @Autowired
+    @Resource
     private UmsAdminService adminService;
-    @Autowired
+    @Resource
     private UmsResourceService resourceService;
 
     @Bean

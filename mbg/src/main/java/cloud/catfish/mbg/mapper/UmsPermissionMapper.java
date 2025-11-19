@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsPermission;
-import cloud.catfish.mbg.model.UmsPermissionExample;
-import java.util.List;
+import domain.UmsPermission;
+import domain.UmsPermissionExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsPermissionMapper {
     long countByExample(UmsPermissionExample example);

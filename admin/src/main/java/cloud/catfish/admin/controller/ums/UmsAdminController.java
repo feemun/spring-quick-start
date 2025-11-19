@@ -1,19 +1,19 @@
 package cloud.catfish.admin.controller.ums;
 
-import cloud.catfish.admin.dto.UmsAdminLoginParam;
-import cloud.catfish.admin.dto.UmsAdminParam;
-import cloud.catfish.admin.dto.UpdateAdminPasswordParam;
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsRoleService;
 import cloud.catfish.common.api.CommonPage;
 import cloud.catfish.common.api.CommonResult;
-import cloud.catfish.mbg.model.UmsAdmin;
-import cloud.catfish.mbg.model.UmsRole;
 import cn.hutool.core.collection.CollUtil;
+import domain.UmsAdmin;
+import domain.UmsRole;
+import dto.UmsAdminLoginParam;
+import dto.UmsAdminParam;
+import dto.UpdateAdminPasswordParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +37,9 @@ public class UmsAdminController {
     private String tokenHeader;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
-    @Autowired
+    @Resource
     private UmsAdminService adminService;
-    @Autowired
+    @Resource
     private UmsRoleService roleService;
 
     @Operation(summary = "用户注册")

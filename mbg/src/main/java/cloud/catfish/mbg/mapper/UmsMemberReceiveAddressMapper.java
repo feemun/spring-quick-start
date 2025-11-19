@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsMemberReceiveAddress;
-import cloud.catfish.mbg.model.UmsMemberReceiveAddressExample;
-import java.util.List;
+import domain.UmsMemberReceiveAddress;
+import domain.UmsMemberReceiveAddressExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsMemberReceiveAddressMapper {
     long countByExample(UmsMemberReceiveAddressExample example);

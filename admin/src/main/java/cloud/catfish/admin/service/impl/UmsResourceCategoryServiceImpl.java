@@ -2,13 +2,12 @@ package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.admin.service.UmsResourceCategoryService;
 import cloud.catfish.mbg.mapper.UmsResourceCategoryMapper;
-import cloud.catfish.mbg.model.UmsResourceCategory;
-import cloud.catfish.mbg.model.UmsResourceCategoryExample;
+import domain.UmsResourceCategory;
+import domain.UmsResourceCategoryExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**

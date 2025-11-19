@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsResource;
-import cloud.catfish.mbg.model.UmsResourceExample;
-import java.util.List;
+import domain.UmsResource;
+import domain.UmsResourceExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsResourceMapper {
     long countByExample(UmsResourceExample example);

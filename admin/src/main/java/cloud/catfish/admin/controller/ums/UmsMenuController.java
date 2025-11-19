@@ -1,13 +1,13 @@
 package cloud.catfish.admin.controller.ums;
 
-import cloud.catfish.admin.dto.UmsMenuNode;
 import cloud.catfish.admin.service.UmsMenuService;
 import cloud.catfish.common.api.CommonPage;
 import cloud.catfish.common.api.CommonResult;
-import cloud.catfish.mbg.model.UmsMenu;
+import domain.UmsMenu;
+import dto.UmsMenuNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/menu")
 public class UmsMenuController {
 
-    @Autowired
+    @Resource
     private UmsMenuService menuService;
 
     @Operation(summary = "添加后台菜单")

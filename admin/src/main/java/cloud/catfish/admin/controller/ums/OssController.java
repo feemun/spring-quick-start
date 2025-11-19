@@ -1,15 +1,18 @@
 package cloud.catfish.admin.controller.ums;
 
 
-import cloud.catfish.admin.dto.OssCallbackResult;
-import cloud.catfish.admin.dto.OssPolicyResult;
 import cloud.catfish.admin.service.OssService;
 import cloud.catfish.common.api.CommonResult;
+import dto.OssCallbackResult;
+import dto.OssPolicyResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Oss对象存储管理Controller
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "OssController", description = "Oss对象存储管理")
 @RequestMapping("/aliyun/oss")
 public class OssController {
-    @Autowired
+    @Resource
     private OssService ossService;
 
     @Operation(summary = "Oss上传签名生成")

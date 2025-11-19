@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsAdminPermissionRelation;
-import cloud.catfish.mbg.model.UmsAdminPermissionRelationExample;
-import java.util.List;
+import domain.UmsAdminPermissionRelation;
+import domain.UmsAdminPermissionRelationExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsAdminPermissionRelationMapper {
     long countByExample(UmsAdminPermissionRelationExample example);

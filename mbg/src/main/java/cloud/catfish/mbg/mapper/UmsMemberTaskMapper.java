@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsMemberTask;
-import cloud.catfish.mbg.model.UmsMemberTaskExample;
-import java.util.List;
+import domain.UmsMemberTask;
+import domain.UmsMemberTaskExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsMemberTaskMapper {
     long countByExample(UmsMemberTaskExample example);

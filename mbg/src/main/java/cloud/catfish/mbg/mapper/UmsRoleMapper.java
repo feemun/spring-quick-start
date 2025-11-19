@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsRole;
-import cloud.catfish.mbg.model.UmsRoleExample;
-import java.util.List;
+import domain.UmsRole;
+import domain.UmsRoleExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsRoleMapper {
     long countByExample(UmsRoleExample example);

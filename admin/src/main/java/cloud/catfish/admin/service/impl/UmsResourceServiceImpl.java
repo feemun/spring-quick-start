@@ -3,15 +3,14 @@ package cloud.catfish.admin.service.impl;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsResourceService;
 import cloud.catfish.mbg.mapper.UmsResourceMapper;
-import cloud.catfish.mbg.model.UmsResource;
-import cloud.catfish.mbg.model.UmsResourceExample;
+import domain.UmsResource;
+import domain.UmsResourceExample;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**

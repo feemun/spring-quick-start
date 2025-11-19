@@ -3,11 +3,11 @@ package cloud.catfish.admin.controller.ums;
 import cloud.catfish.admin.service.UmsResourceService;
 import cloud.catfish.common.api.CommonPage;
 import cloud.catfish.common.api.CommonResult;
-import cloud.catfish.mbg.model.UmsResource;
 import cloud.catfish.security.component.DynamicSecurityMetadataSource;
+import domain.UmsResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.List;
 @RequestMapping("/resource")
 public class UmsResourceController {
 
-    @Autowired
+    @Resource
     private UmsResourceService resourceService;
-    @Autowired
+    @Resource
     private DynamicSecurityMetadataSource dynamicSecurityMetadataSource;
 
     @Operation(summary = "添加后台资源")

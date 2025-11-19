@@ -1,8 +1,8 @@
 package cloud.catfish.admin.service;
 
 
-import cloud.catfish.admin.dto.UmsMenuNode;
-import cloud.catfish.mbg.model.UmsMenu;
+import dto.UmsMenuNode;
+import domain.UmsMenu;
 
 import java.util.List;
 

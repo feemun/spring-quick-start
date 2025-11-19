@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsMember;
-import cloud.catfish.mbg.model.UmsMemberExample;
-import java.util.List;
+import domain.UmsMember;
+import domain.UmsMemberExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsMemberMapper {
     long countByExample(UmsMemberExample example);

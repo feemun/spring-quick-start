@@ -1,8 +1,8 @@
 package cloud.catfish.admin.service;
 
 
-import cloud.catfish.mbg.model.UmsAdmin;
-import cloud.catfish.mbg.model.UmsResource;
+import domain.UmsAdmin;
+import domain.UmsResource;
 
 import java.util.List;
 

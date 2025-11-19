@@ -5,9 +5,9 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
-import cloud.catfish.admin.dto.OssCallbackParam;
-import cloud.catfish.admin.dto.OssCallbackResult;
-import cloud.catfish.admin.dto.OssPolicyResult;
+import dto.OssCallbackParam;
+import dto.OssCallbackResult;
+import dto.OssPolicyResult;
 import cloud.catfish.admin.service.OssService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**

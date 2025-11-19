@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsIntegrationConsumeSetting;
-import cloud.catfish.mbg.model.UmsIntegrationConsumeSettingExample;
-import java.util.List;
+import domain.UmsIntegrationConsumeSetting;
+import domain.UmsIntegrationConsumeSettingExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsIntegrationConsumeSettingMapper {
     long countByExample(UmsIntegrationConsumeSettingExample example);

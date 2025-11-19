@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsIntegrationChangeHistory;
-import cloud.catfish.mbg.model.UmsIntegrationChangeHistoryExample;
-import java.util.List;
+import domain.UmsIntegrationChangeHistory;
+import domain.UmsIntegrationChangeHistoryExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsIntegrationChangeHistoryMapper {
     long countByExample(UmsIntegrationChangeHistoryExample example);

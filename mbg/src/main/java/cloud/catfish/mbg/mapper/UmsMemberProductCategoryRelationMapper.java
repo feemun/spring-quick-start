@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsMemberProductCategoryRelation;
-import cloud.catfish.mbg.model.UmsMemberProductCategoryRelationExample;
-import java.util.List;
+import domain.UmsMemberProductCategoryRelation;
+import domain.UmsMemberProductCategoryRelationExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsMemberProductCategoryRelationMapper {
     long countByExample(UmsMemberProductCategoryRelationExample example);

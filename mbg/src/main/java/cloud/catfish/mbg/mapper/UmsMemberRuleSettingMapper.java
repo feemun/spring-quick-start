@@ -1,9 +1,10 @@
 package cloud.catfish.mbg.mapper;
 
-import cloud.catfish.mbg.model.UmsMemberRuleSetting;
-import cloud.catfish.mbg.model.UmsMemberRuleSettingExample;
-import java.util.List;
+import domain.UmsMemberRuleSetting;
+import domain.UmsMemberRuleSettingExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UmsMemberRuleSettingMapper {
     long countByExample(UmsMemberRuleSettingExample example);
