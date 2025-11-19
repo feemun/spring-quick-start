@@ -6,7 +6,7 @@
     <version>oxygen</version>
     <packaging>jar</packaging>
 
-    <name>security</name>
+    <name>websocket</name>
     <description>mall-security project for mall</description>
 
     <parent>

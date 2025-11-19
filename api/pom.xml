@@ -8,8 +8,8 @@
         <version>oxygen</version>
     </parent>
 
-    <groupId>cloud.catfish.api</groupId>
+    <packaging>jar</packaging>
     <artifactId>api</artifactId>
-    <name>Archetype - api</name>
+    <name>api</name>
     <url>http://maven.apache.org</url>
 </project>

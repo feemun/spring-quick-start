@@ -16,6 +16,7 @@
         <module>security</module>
         <module>websocket</module>
         <module>es</module>
+        <module>api</module>
     </modules>
 
     <parent>
