@@ -1,11 +1,7 @@
 package cloud.catfish.security.component;
 
-import cn.hutool.core.util.URLUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -15,9 +11,9 @@ import java.util.*;
  * 动态权限数据源，用于获取动态权限规则
  * Created by macro on 2020/2/7.
  */
-public class DynamicSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+public class DynamicSecurityMetadataSource {
 
-    private static Map<String, ConfigAttribute> configAttributeMap = null;
+    private static Map<String, String> configAttributeMap = null;
     @Autowired
     private DynamicSecurityService dynamicSecurityService;
 
@@ -31,18 +27,12 @@ public class DynamicSecurityMetadataSource implements FilterInvocationSecurityMe
         configAttributeMap = null;
     }
 
-    @Override
-    public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
-        //获取当前访问的路径
-        String url = ((FilterInvocation) o).getRequestUrl();
-        String path = URLUtil.getPath(url);
-        return getConfigAttributesWithPath(path);
-    }
+    
 
     //根据当前访问的路径获取对应权限
-    public List<ConfigAttribute> getConfigAttributesWithPath(String path) {
+    public List<String> getConfigAttributesWithPath(String path) {
         if (configAttributeMap == null) this.loadDataSource();
-        List<ConfigAttribute>  configAttributes = new ArrayList<>();
+        List<String>  configAttributes = new ArrayList<>();
         PathMatcher pathMatcher = new AntPathMatcher();
         Iterator<String> iterator = configAttributeMap.keySet().iterator();
         //获取访问该路径所需资源
@@ -56,14 +46,6 @@ public class DynamicSecurityMetadataSource implements FilterInvocationSecurityMe
         return configAttributes;
     }
 
-    @Override
-    public Collection<ConfigAttribute> getAllConfigAttributes() {
-        return null;
-    }
-
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return true;
-    }
+    
 
 }

@@ -2,12 +2,13 @@ package cloud.catfish.security.component;
 
 import cloud.catfish.security.config.IgnoreUrlsConfig;
 import cn.hutool.core.collection.CollUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
@@ -25,53 +26,42 @@ import java.util.stream.Collectors;
  */
 public class DynamicAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
-    @Autowired
+    @Resource
     private DynamicSecurityMetadataSource securityDataSource;
-    @Autowired
+    @Resource
     private IgnoreUrlsConfig ignoreUrlsConfig;
 
-    @Override
-    public void verify(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
-        AuthorizationManager.super.verify(authentication, object);
-    }
 
     @Override
-    public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext requestAuthorizationContext) {
-        HttpServletRequest request = requestAuthorizationContext.getRequest();
+    public @Nullable AuthorizationResult authorize(Supplier<? extends @Nullable Authentication> authentication, RequestAuthorizationContext object) {
+        HttpServletRequest request = object.getRequest();
         String path = request.getRequestURI();
         PathMatcher pathMatcher = new AntPathMatcher();
-        //白名单路径直接放行
         List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, path)) {
                 return new AuthorizationDecision(true);
             }
         }
-        //对应跨域的预检请求直接放行
-        if(request.getMethod().equals(HttpMethod.OPTIONS.name())){
+        if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
             return new AuthorizationDecision(true);
         }
         if (path.startsWith("/ws")) {
             return new AuthorizationDecision(true);
         }
-        //权限校验逻辑
-        List<ConfigAttribute> configAttributeList = securityDataSource.getConfigAttributesWithPath(path);
-        List<String> needAuthorities = configAttributeList.stream()
-                .map(ConfigAttribute::getAttribute)
-                .collect(Collectors.toList());
+        List<String> needAuthorities = securityDataSource.getConfigAttributesWithPath(path);
         Authentication currentAuth = authentication.get();
-        //判定是否已经实现登录认证
-        if(currentAuth.isAuthenticated()){
+        if (currentAuth != null && currentAuth.isAuthenticated()) {
             Collection<? extends GrantedAuthority> grantedAuthorities = currentAuth.getAuthorities();
             List<? extends GrantedAuthority> hasAuth = grantedAuthorities.stream()
                     .filter(item -> needAuthorities.contains(item.getAuthority()))
                     .collect(Collectors.toList());
-            if(CollUtil.isNotEmpty(hasAuth)){
+            if (CollUtil.isNotEmpty(hasAuth)) {
                 return new AuthorizationDecision(true);
-            }else{
+            } else {
                 return new AuthorizationDecision(false);
             }
-        }else{
+        } else {
             return new AuthorizationDecision(false);
         }
     }

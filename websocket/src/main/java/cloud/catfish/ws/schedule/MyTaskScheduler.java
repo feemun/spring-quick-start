@@ -1,6 +1,7 @@
 package cloud.catfish.ws.schedule;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +14,11 @@ public class MyTaskScheduler {
     private final ConcurrentHashMap<String, ScheduledFuture<?>> tasks = new ConcurrentHashMap<>();
 
     @Autowired
+    @Qualifier("threadPoolTaskScheduler")
     private ThreadPoolTaskScheduler scheduler;
 
     @Autowired
-    public MyTaskScheduler(ThreadPoolTaskScheduler scheduler) {
+    public MyTaskScheduler(@Qualifier("threadPoolTaskScheduler") ThreadPoolTaskScheduler scheduler) {
         this.scheduler = scheduler;
     }
 

@@ -1,35 +1,24 @@
 package cloud.catfish.ws.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
-import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.config.annotation.web.socket.EnableWebSocketSecurity;
+import org.springframework.security.messaging.access.intercept.MessageMatcherDelegatingAuthorizationManager;
 
 @Configuration
-public class WebSocketAuthorizationSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
-    @Override
-    protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-        // 配置消息级别的授权
+@EnableWebSocketSecurity
+public class WebSocketAuthorizationSecurityConfig {
+    @Bean
+    public AuthorizationManager<Message<?>> messageAuthorizationManager(MessageMatcherDelegatingAuthorizationManager.Builder messages) {
         messages
-                // 连接和断开连接消息允许已认证用户
-                .simpTypeMatchers(org.springframework.messaging.simp.SimpMessageType.CONNECT,
-                                  org.springframework.messaging.simp.SimpMessageType.DISCONNECT,
-                                  org.springframework.messaging.simp.SimpMessageType.HEARTBEAT).authenticated()
-                // 应用消息需要认证
+                .simpTypeMatchers(SimpMessageType.CONNECT, SimpMessageType.DISCONNECT, SimpMessageType.HEARTBEAT).authenticated()
                 .simpDestMatchers("/app/**").authenticated()
-                // 用户私有队列和订阅需要认证
                 .simpSubscribeDestMatchers("/user/**", "/queue/**").authenticated()
-                // 公共频道允许已认证用户访问
                 .simpSubscribeDestMatchers("/topic/**").authenticated()
-                // 其他所有消息拒绝访问
                 .anyMessage().denyAll();
-    }
-
-    // 生产环境建议启用同源检查以增强安全性
-    // 开发环境可以设置为true，生产环境应设置为false
-    @Override
-    protected boolean sameOriginDisabled() {
-        // 可以通过环境变量或配置文件控制
-        String env = System.getProperty("spring.profiles.active", "dev");
-        return "dev".equals(env) || "test".equals(env);
+        return messages.build();
     }
 }
