@@ -44,13 +44,11 @@
         <mybatis.version>3.5.14</mybatis.version>
         <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
         <mysql-connector.version>8.0.29</mysql-connector.version>
-        <jjwt.version>0.9.1</jjwt.version>
+        <jjwt.version>0.13.0</jjwt.version>
         <aliyun-oss.version>2.5.0</aliyun-oss.version>
         <alipay-sdk.version>4.38.61.ALL</alipay-sdk.version>
         <logstash-logback.version>7.4</logstash-logback.version>
         <minio.version>8.4.5</minio.version>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
-        <elasticsearch.version>8.18.1</elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -186,20 +184,6 @@
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
             </dependency>
-
-            <!-- 官方 Elasticsearch Java 客户端 -->
-            <dependency>
-                <groupId>co.elastic.clients</groupId>
-                <artifactId>elasticsearch-java</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-            <!-- 低层 REST 客户端（用于传输） -->
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-client</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-
 
         </dependencies>
     </dependencyManagement>
