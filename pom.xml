@@ -33,7 +33,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <skipTests>true</skipTests>
-        <docker.host>http://192.168.3.101:2375</docker.host>
         <docker.maven.plugin.version>0.43.3</docker.maven.plugin.version>
         <pagehelper-starter.version>2.1.0</pagehelper-starter.version>
         <pagehelper.version>6.1.0</pagehelper.version>
