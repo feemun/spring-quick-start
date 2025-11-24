@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
         }
-        return new ResponseEntity<>(R.failed("5/0"), HttpStatusCode.valueOf(500));
+        return new ResponseEntity<>(R.failed(message), HttpStatusCode.valueOf(500));
     }
 
     @ExceptionHandler(value = Exception.class)
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler {
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
         }
-        return new ResponseEntity<>(R.failed("5/0"), HttpStatusCode.valueOf(500));
+        return new ResponseEntity<>(R.failed(message), HttpStatusCode.valueOf(500));
     }
 
     @MessageExceptionHandler
