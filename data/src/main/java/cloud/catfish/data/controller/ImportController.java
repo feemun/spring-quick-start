@@ -41,4 +41,11 @@ public class ImportController {
         importService.importCategoryCsv(file);
         return R.ok("类别CSV导入成功");
     }
+
+    @Operation(summary = "导入地点CSV数据到ES")
+    @PostMapping("/place/csv")
+    public R<String> importPlaceCsv(@RequestParam("file") MultipartFile file) throws IOException {
+        importService.importPlaceCsv(file);
+        return R.ok("地点CSV导入成功");
+    }
 }

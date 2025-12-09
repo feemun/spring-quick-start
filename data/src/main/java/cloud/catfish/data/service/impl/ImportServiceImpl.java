@@ -4,8 +4,10 @@ import cloud.catfish.data.dto.ImportDataDto;
 import cloud.catfish.data.service.ImportService;
 import cloud.catfish.elasticsearch9.model.CategoryDocument;
 import cloud.catfish.elasticsearch9.model.MyDocument;
+import cloud.catfish.elasticsearch9.model.PlaceDocument;
 import cloud.catfish.elasticsearch9.service.CategoryDocumentService;
 import cloud.catfish.elasticsearch9.service.MyDocumentService;
+import cloud.catfish.elasticsearch9.service.PlaceDocumentService;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
@@ -21,6 +23,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +37,9 @@ public class ImportServiceImpl implements ImportService {
 
     private final MyDocumentService myDocumentService;
     private final CategoryDocumentService categoryDocumentService;
+    private final PlaceDocumentService placeDocumentService;
     private static final int BATCH_COUNT = 3000;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
     @Override
     public void importExcel(MultipartFile file) throws IOException {
@@ -149,6 +157,94 @@ public class ImportServiceImpl implements ImportService {
             if (!batchDocs.isEmpty()) {
                 categoryDocumentService.bulkCreateDocuments(batchDocs);
             }
+        }
+    }
+
+    @Override
+    public void importPlaceCsv(MultipartFile file) throws IOException {
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).setIgnoreHeaderCase(true).setTrim(true).build())) {
+
+            List<PlaceDocument> batchDocs = new ArrayList<>(BATCH_COUNT);
+
+            for (CSVRecord csvRecord : csvParser) {
+                PlaceDocument document = new PlaceDocument();
+
+                if (csvRecord.isMapped("Foursquare地点ID")) document.setFsqId(csvRecord.get("Foursquare地点ID"));
+                if (csvRecord.isMapped("名称")) document.setName(csvRecord.get("名称"));
+                
+                if (csvRecord.isMapped("纬度")) {
+                    String latStr = csvRecord.get("纬度");
+                    if (latStr != null && !latStr.isBlank()) {
+                        try {
+                            document.setLatitude(Double.parseDouble(latStr));
+                        } catch (NumberFormatException e) {
+                            log.warn("Invalid latitude: {}", latStr);
+                        }
+                    }
+                }
+                
+                if (csvRecord.isMapped("经度")) {
+                    String lonStr = csvRecord.get("经度");
+                    if (lonStr != null && !lonStr.isBlank()) {
+                        try {
+                            document.setLongitude(Double.parseDouble(lonStr));
+                        } catch (NumberFormatException e) {
+                            log.warn("Invalid longitude: {}", lonStr);
+                        }
+                    }
+                }
+                
+                if (csvRecord.isMapped("地址")) document.setAddress(csvRecord.get("地址"));
+                if (csvRecord.isMapped("所在城市")) document.setCity(csvRecord.get("所在城市"));
+                if (csvRecord.isMapped("区域")) document.setRegion(csvRecord.get("区域"));
+                if (csvRecord.isMapped("邮政编码")) document.setPostcode(csvRecord.get("邮政编码"));
+                if (csvRecord.isMapped("行政区域")) document.setAdminRegion(csvRecord.get("行政区域"));
+                if (csvRecord.isMapped("邮寄城镇")) document.setPostTown(csvRecord.get("邮寄城镇"));
+                if (csvRecord.isMapped("邮政信箱")) document.setPoBox(csvRecord.get("邮政信箱"));
+                if (csvRecord.isMapped("国家")) document.setCountry(csvRecord.get("国家"));
+                
+                if (csvRecord.isMapped("创建日期")) document.setCreatedDate(parseDate(csvRecord.get("创建日期")));
+                if (csvRecord.isMapped("刷新日期")) document.setRefreshedDate(parseDate(csvRecord.get("刷新日期")));
+                if (csvRecord.isMapped("关闭日期")) document.setClosedDate(parseDate(csvRecord.get("关闭日期")));
+                
+                if (csvRecord.isMapped("电话")) document.setPhone(csvRecord.get("电话"));
+                if (csvRecord.isMapped("网站")) document.setWebsite(csvRecord.get("网站"));
+                if (csvRecord.isMapped("电子邮件")) document.setEmail(csvRecord.get("电子邮件"));
+                
+                if (csvRecord.isMapped("Facebook ID")) document.setFacebookId(csvRecord.get("Facebook ID"));
+                if (csvRecord.isMapped("Instagram账号")) document.setInstagram(csvRecord.get("Instagram账号"));
+                if (csvRecord.isMapped("Twitter账号")) document.setTwitter(csvRecord.get("Twitter账号"));
+                
+                if (csvRecord.isMapped("类别ID")) document.setCategoryIds(csvRecord.get("类别ID"));
+                if (csvRecord.isMapped("类别标签")) document.setCategoryLabels(csvRecord.get("类别标签"));
+                if (csvRecord.isMapped("几何形状")) document.setGeometry(csvRecord.get("几何形状"));
+                if (csvRecord.isMapped("边界框")) document.setBounds(csvRecord.get("边界框"));
+
+                batchDocs.add(document);
+
+                if (batchDocs.size() >= BATCH_COUNT) {
+                    placeDocumentService.bulkCreateDocuments(batchDocs);
+                    batchDocs.clear();
+                }
+            }
+
+            if (!batchDocs.isEmpty()) {
+                placeDocumentService.bulkCreateDocuments(batchDocs);
+            }
+        }
+    }
+
+    private LocalDateTime parseDate(String dateStr) {
+        if (dateStr == null || dateStr.isBlank()) {
+            return null;
+        }
+        try {
+            LocalDate date = LocalDate.parse(dateStr, DATE_FORMATTER);
+            return date.atStartOfDay();
+        } catch (DateTimeParseException e) {
+            log.warn("Invalid date format: {}", dateStr);
+            return null;
         }
     }
 }
