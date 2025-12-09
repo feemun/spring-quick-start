@@ -18,5 +18,7 @@ public interface MyDocumentService {
     
     String deleteDocument(String id) throws IOException;
     
+    void bulkCreateDocuments(List<MyDocument> documents) throws IOException;
+
     List<MyDocument> searchByTitle(String title) throws IOException;
 }

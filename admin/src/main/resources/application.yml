@@ -60,6 +60,7 @@ secure:
       - /ws
       - /ws/**
       - /admin/**
+      - /es/document/**
 
 logging:
   level:

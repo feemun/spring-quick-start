@@ -5,15 +5,12 @@ import cloud.catfish.admin.service.UmsResourceService;
 import domain.UmsResource;
 import cloud.catfish.security.component.DynamicSecurityService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
- 
 
 /**
  * mall-security模块相关配置

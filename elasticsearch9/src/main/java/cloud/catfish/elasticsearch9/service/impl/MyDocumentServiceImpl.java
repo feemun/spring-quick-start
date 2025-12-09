@@ -3,8 +3,13 @@ package cloud.catfish.elasticsearch9.service.impl;
 import cloud.catfish.elasticsearch9.model.MyDocument;
 import cloud.catfish.elasticsearch9.service.MyDocumentService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,8 @@ import java.util.List;
 
 @Service
 public class MyDocumentServiceImpl implements MyDocumentService {
+    
+    private static final Logger log = LoggerFactory.getLogger(MyDocumentServiceImpl.class);
 
     private static final String INDEX_NAME = "my-index";
 
@@ -78,6 +85,34 @@ public class MyDocumentServiceImpl implements MyDocumentService {
                 .id(id)
         );
         return "Document deleted";
+    }
+
+    @Override
+    public void bulkCreateDocuments(List<MyDocument> documents) throws IOException {
+        if (documents.isEmpty()) return;
+
+        BulkRequest.Builder br = new BulkRequest.Builder();
+
+        for (MyDocument document : documents) {
+            br.operations(op -> op
+                .index(idx -> idx
+                    .index(INDEX_NAME)
+                    .id(document.getId())
+                    .document(document)
+                )
+            );
+        }
+
+        BulkResponse result = elasticsearchClient.bulk(br.build());
+
+        if (result.errors()) {
+            log.error("Bulk had errors");
+            for (BulkResponseItem item : result.items()) {
+                if (item.error() != null) {
+                    log.error("Error creating document with id: {}, message: {}", item.id(), item.error().reason());
+                }
+            }
+        }
     }
 
     @Override

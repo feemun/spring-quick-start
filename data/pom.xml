@@ -9,4 +9,35 @@
     <artifactId>data</artifactId>
     <name>data</name>
     <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>common</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>elasticsearch9</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 </project>
