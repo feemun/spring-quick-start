@@ -4,6 +4,8 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -121,8 +123,11 @@ public class ElasticsearchConfig {
 
         lowLevelClient = builder.build();
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         ElasticsearchTransport transport =
-                new RestClientTransport(lowLevelClient, new JacksonJsonpMapper());
+                new RestClientTransport(lowLevelClient, new JacksonJsonpMapper(objectMapper));
 
         return new ElasticsearchClient(transport);
     }
