@@ -8,8 +8,7 @@ spring:
     allow-bean-definition-overriding: true
 
 elasticsearch:
-  hosts:
-    - localhost:9200
+  hosts: 10.0.0.6:19200
   username: 
   password: 
   connection-timeout: 3000

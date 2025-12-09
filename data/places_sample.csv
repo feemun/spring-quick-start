@@ -1,0 +1,3 @@
+Foursquare地点ID,名称,纬度,经度,地址,所在城市,区域,邮政编码,行政区域,邮寄城镇,邮政信箱,国家,创建日期,刷新日期,关闭日期,电话,网站,电子邮件,Facebook ID,Instagram账号,Twitter账号,类别ID,类别标签,几何形状,边界框
+FSQ001,星巴克咖啡,39.9042,116.4074,长安街1号,北京,东城区,100010,北京市,北京,,CN,2023/01/01,2023/12/01,,010-12345678,www.starbucks.com.cn,contact@starbucks.com,sbux_cn,starbucks_cn,starbucks,CAT100,咖啡馆,Point(116.4074 39.9042),Box(116.40 39.90 116.41 39.91)
+FSQ002,海底捞火锅,31.2304,121.4737,南京东路888号,上海,黄浦区,200001,上海市,上海,,CN,2022/05/15,2023/11/20,,021-87654321,www.haidilao.com,service@haidilao.com,haidilao_sh,haidilao_hotpot,haidilao,CAT003,火锅店,Point(121.4737 31.2304),Box(121.47 31.23 121.48 31.24)
