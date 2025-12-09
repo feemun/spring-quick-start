@@ -5,12 +5,15 @@ import cloud.catfish.elasticsearch9.service.CategoryDocumentService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,22 +30,22 @@ public class CategoryDocumentServiceImpl implements CategoryDocumentService {
         elasticsearchClient.indices().create(c -> c
                 .index(INDEX_NAME)
                 .mappings(m -> m
-                        .properties("categoryId", p -> p.keyword(k -> k))
-                        .properties("categoryLevel", p -> p.integer(i -> i))
-                        .properties("categoryName", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("categoryLabel", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("level1Id", p -> p.keyword(k -> k))
-                        .properties("level1Name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("level2Id", p -> p.keyword(k -> k))
-                        .properties("level2Name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("level3Id", p -> p.keyword(k -> k))
-                        .properties("level3Name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("level4Id", p -> p.keyword(k -> k))
-                        .properties("level4Name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("level5Id", p -> p.keyword(k -> k))
-                        .properties("level5Name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
-                        .properties("level6Id", p -> p.keyword(k -> k))
-                        .properties("level6Name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("category_id", p -> p.keyword(k -> k))
+                        .properties("category_level", p -> p.integer(i -> i))
+                        .properties("category_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("category_label", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("level1_id", p -> p.keyword(k -> k))
+                        .properties("level1_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("level2_id", p -> p.keyword(k -> k))
+                        .properties("level2_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("level3_id", p -> p.keyword(k -> k))
+                        .properties("level3_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("level4_id", p -> p.keyword(k -> k))
+                        .properties("level4_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("level5_id", p -> p.keyword(k -> k))
+                        .properties("level5_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("level6_id", p -> p.keyword(k -> k))
+                        .properties("level6_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
                 )
         );
         return "Index created with mapping";
@@ -82,5 +85,25 @@ public class CategoryDocumentServiceImpl implements CategoryDocumentService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<CategoryDocument> searchByCategoryName(String categoryName) throws IOException {
+        SearchResponse<CategoryDocument> response = elasticsearchClient.search(s -> s
+                .index(INDEX_NAME)
+                .query(q -> q
+                        .match(m -> m
+                                .field("category_name") // Use snake_case field name here
+                                .query(categoryName)
+                        )
+                ),
+                CategoryDocument.class
+        );
+
+        List<CategoryDocument> result = new ArrayList<>();
+        for (Hit<CategoryDocument> hit : response.hits().hits()) {
+            result.add(hit.source());
+        }
+        return result;
     }
 }

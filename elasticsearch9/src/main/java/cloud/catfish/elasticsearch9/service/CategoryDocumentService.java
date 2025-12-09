@@ -11,4 +11,6 @@ public interface CategoryDocumentService {
     String deleteIndex() throws IOException;
     
     void bulkCreateDocuments(List<CategoryDocument> documents) throws IOException;
+
+    List<CategoryDocument> searchByCategoryName(String categoryName) throws IOException;
 }
