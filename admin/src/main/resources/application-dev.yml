@@ -37,15 +37,13 @@ logstash:
 
 elasticsearch:
   hosts:
-    - https://es-node1:9200
-    - https://es-node2:9200
-    - https://es-node3:9200
+    - http://10.0.0.6:19200
 
-  username: elastic
-  password: changeme
+#  username: elastic
+#  password: changeme
 
   # 如果你使用 API Key，填 apiKey，用户名密码可不填
-  apiKey: ""
+#  apiKey: ""
 
   # 连接池 & 超时设置
   connection-timeout: 3000       # 建立连接超时
@@ -55,5 +53,5 @@ elasticsearch:
   max-conn-per-route: 50         # 每路由最大连接数
 
   # SSL
-  verify-hostname: true          # 是否校验证书 hostname（生产建议 true）
+  verify-hostname: false          # 是否校验证书 hostname（生产建议 true）
   trust-all-cert: false          # 是否信任所有证书（ONLY 用于测试）

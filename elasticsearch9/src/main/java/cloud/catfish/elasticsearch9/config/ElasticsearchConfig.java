@@ -1,10 +1,14 @@
-package config;
+package cloud.catfish.elasticsearch9.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.elasticsearch.client.RestClient;
@@ -78,33 +82,31 @@ public class ElasticsearchConfig {
                     .setMaxConnTotal(maxConnTotal)
                     .setMaxConnPerRoute(maxConnPerRoute);
 
-//            // =======================
-//            // 身份认证
-//            // =======================
-//            if (apiKey != null && !apiKey.isEmpty()) {
-//                httpClientBuilder.addInterceptorLast((request, context) -> {
-//                    request.addHeader("Authorization", "ApiKey " + apiKey);
-//                });
-//            } else if (!username.isEmpty() && !password.isEmpty()) {
-//                CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-//                credentialsProvider.setCredentials(AuthScope.ANY,
-//                        new UsernamePasswordCredentials(username, password));
-//                httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-//            }
+            // =======================
+            // 身份认证
+            // =======================
+            if (apiKey != null && !apiKey.isEmpty()) {
+                httpClientBuilder.addInterceptorLast((org.apache.http.HttpRequest request, org.apache.http.protocol.HttpContext context) -> {
+                    request.addHeader("Authorization", "ApiKey " + apiKey);
+                });
+            } else if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+                CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                credentialsProvider.setCredentials(AuthScope.ANY,
+                        new UsernamePasswordCredentials(username, password));
+                httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+            }
 
             // =======================
             // SSL 配置
             // =======================
             try {
-                SSLContextBuilder sslBuilder = new SSLContextBuilder();
-
                 if (trustAllCert) {
+                    SSLContextBuilder sslBuilder = new SSLContextBuilder();
                     // 信任全部证书 (不安全，仅测试环境用)
                     sslBuilder.loadTrustMaterial(null, (x, y) -> true);
+                    SSLContext sslContext = sslBuilder.build();
+                    httpClientBuilder.setSSLContext(sslContext);
                 }
-
-                SSLContext sslContext = sslBuilder.build();
-                httpClientBuilder.setSSLContext(sslContext);
 
                 if (!verifyHostname) {
                     httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
