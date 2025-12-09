@@ -6,6 +6,13 @@ spring:
     name: data-service
   main:
     allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: data-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 elasticsearch:
   hosts: 10.0.0.6:19200
