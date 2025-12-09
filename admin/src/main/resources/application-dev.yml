@@ -36,8 +36,7 @@ logstash:
   enableInnerLog: false
 
 elasticsearch:
-  hosts:
-    - http://10.0.0.6:19200
+  hosts: http://10.0.0.6:19200
 
 #  username: elastic
 #  password: changeme
