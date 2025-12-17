@@ -4,7 +4,7 @@ import cloud.catfish.admin.service.UmsResourceService;
 import cloud.catfish.common.api.CommonPage;
 import cloud.catfish.common.api.R;
 import cloud.catfish.security.component.DynamicSecurityMetadataSource;
-import domain.UmsResource;
+import cloud.catfish.api.domain.UmsResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

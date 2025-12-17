@@ -2,8 +2,8 @@ package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.admin.service.UmsResourceCategoryService;
 import cloud.catfish.mbg.mapper.UmsResourceCategoryMapper;
-import domain.UmsResourceCategory;
-import domain.UmsResourceCategoryExample;
+import cloud.catfish.api.domain.UmsResourceCategory;
+import cloud.catfish.api.domain.UmsResourceCategoryExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsAdminLoginLog;
-import domain.UmsAdminLoginLogExample;
+import cloud.catfish.api.domain.UmsAdminLoginLog;
+import cloud.catfish.api.domain.UmsAdminLoginLogExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

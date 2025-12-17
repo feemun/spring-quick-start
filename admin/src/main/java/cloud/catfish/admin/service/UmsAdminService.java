@@ -1,10 +1,10 @@
 package cloud.catfish.admin.service;
 
-import dto.UmsAdminParam;
-import dto.UpdateAdminPasswordParam;
-import domain.UmsAdmin;
-import domain.UmsResource;
-import domain.UmsRole;
+import cloud.catfish.api.dto.UmsAdminParam;
+import cloud.catfish.api.dto.UpdateAdminPasswordParam;
+import cloud.catfish.api.domain.UmsAdmin;
+import cloud.catfish.api.domain.UmsResource;
+import cloud.catfish.api.domain.UmsRole;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 

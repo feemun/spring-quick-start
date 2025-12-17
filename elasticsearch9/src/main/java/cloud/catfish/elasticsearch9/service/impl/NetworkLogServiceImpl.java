@@ -1,6 +1,5 @@
 package cloud.catfish.elasticsearch9.service.impl;
 
-import cloud.catfish.elasticsearch9.model.NetworkLogDocument;
 import cloud.catfish.elasticsearch9.service.NetworkLogService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -26,6 +26,12 @@ public class NetworkLogServiceImpl implements NetworkLogService {
                         .properties("src_ip", p -> p.ip(i -> i))
                         .properties("dest_ip", p -> p.ip(i -> i))
                         .properties("tags", p -> p.keyword(k -> k))
+                        .properties("src_cidr", p -> p.keyword(k -> k))
+                        .properties("src_station_id", p -> p.keyword(k -> k))
+                        .properties("src_station_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
+                        .properties("dest_cidr", p -> p.keyword(k -> k))
+                        .properties("dest_station_id", p -> p.keyword(k -> k))
+                        .properties("dest_station_name", p -> p.text(t -> t.analyzer("ik_max_word").searchAnalyzer("ik_smart")))
                 )
         );
         return "Index created";
@@ -38,10 +44,14 @@ public class NetworkLogServiceImpl implements NetworkLogService {
     }
 
     @Override
-    public void createDocument(NetworkLogDocument document) throws IOException {
+    public void createDocument(Map<String, Object> document) throws IOException {
+        String id = (String) document.get("id");
+        if (id == null) {
+            throw new IllegalArgumentException("Document must have an 'id' field");
+        }
         elasticsearchClient.index(i -> i
                 .index(INDEX_NAME)
-                .id(document.getId())
+                .id(id)
                 .document(document)
         );
     }

@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsRoleMenuRelation;
-import domain.UmsRoleMenuRelationExample;
+import cloud.catfish.api.domain.UmsRoleMenuRelation;
+import cloud.catfish.api.domain.UmsRoleMenuRelationExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

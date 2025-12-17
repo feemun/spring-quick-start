@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsMemberReceiveAddress;
-import domain.UmsMemberReceiveAddressExample;
+import cloud.catfish.api.domain.UmsMemberReceiveAddress;
+import cloud.catfish.api.domain.UmsMemberReceiveAddressExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

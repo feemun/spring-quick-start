@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsResource;
-import domain.UmsResourceExample;
+import cloud.catfish.api.domain.UmsResource;
+import cloud.catfish.api.domain.UmsResourceExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

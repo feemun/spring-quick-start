@@ -3,8 +3,8 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.OssService;
 import cloud.catfish.common.api.R;
-import dto.OssCallbackResult;
-import dto.OssPolicyResult;
+import cloud.catfish.api.dto.OssCallbackResult;
+import cloud.catfish.api.dto.OssPolicyResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

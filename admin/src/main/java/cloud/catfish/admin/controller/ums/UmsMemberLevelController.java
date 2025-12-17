@@ -2,7 +2,7 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsMemberLevelService;
 import cloud.catfish.common.api.R;
-import domain.UmsMemberLevel;
+import cloud.catfish.api.domain.UmsMemberLevel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

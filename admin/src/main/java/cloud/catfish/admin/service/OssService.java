@@ -1,7 +1,7 @@
 package cloud.catfish.admin.service;
 
-import dto.OssCallbackResult;
-import dto.OssPolicyResult;
+import cloud.catfish.api.dto.OssCallbackResult;
+import cloud.catfish.api.dto.OssPolicyResult;
 
 import jakarta.servlet.http.HttpServletRequest;
 

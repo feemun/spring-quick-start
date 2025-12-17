@@ -1,10 +1,10 @@
 package cloud.catfish.admin.service.impl;
 
-import dto.UmsMenuNode;
+import cloud.catfish.api.dto.UmsMenuNode;
 import cloud.catfish.admin.service.UmsMenuService;
 import cloud.catfish.mbg.mapper.UmsMenuMapper;
-import domain.UmsMenu;
-import domain.UmsMenuExample;
+import cloud.catfish.api.domain.UmsMenu;
+import cloud.catfish.api.domain.UmsMenuExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

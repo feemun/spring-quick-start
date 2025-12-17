@@ -2,7 +2,7 @@ package cloud.catfish.admin.config;
 
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsResourceService;
-import domain.UmsResource;
+import cloud.catfish.api.domain.UmsResource;
 import cloud.catfish.security.component.DynamicSecurityService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;

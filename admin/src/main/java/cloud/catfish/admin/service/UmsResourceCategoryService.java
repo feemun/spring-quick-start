@@ -1,6 +1,6 @@
 package cloud.catfish.admin.service;
 
-import domain.UmsResourceCategory;
+import cloud.catfish.api.domain.UmsResourceCategory;
 
 import java.util.List;
 

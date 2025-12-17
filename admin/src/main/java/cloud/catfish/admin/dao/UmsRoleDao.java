@@ -1,7 +1,7 @@
 package cloud.catfish.admin.dao;
 
-import domain.UmsMenu;
-import domain.UmsResource;
+import cloud.catfish.api.domain.UmsMenu;
+import cloud.catfish.api.domain.UmsResource;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -2,9 +2,9 @@ package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.admin.bo.AdminUserDetails;
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
-import domain.*;
-import dto.UmsAdminParam;
-import dto.UpdateAdminPasswordParam;
+import cloud.catfish.api.domain.*;
+import cloud.catfish.api.dto.UmsAdminParam;
+import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.common.exception.Asserts;

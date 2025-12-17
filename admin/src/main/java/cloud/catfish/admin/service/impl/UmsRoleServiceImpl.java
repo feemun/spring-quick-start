@@ -3,12 +3,12 @@ package cloud.catfish.admin.service.impl;
 import cloud.catfish.admin.dao.UmsRoleDao;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsRoleService;
+import cloud.catfish.api.domain.*;
 import cloud.catfish.mbg.mapper.UmsRoleMapper;
 import cloud.catfish.mbg.mapper.UmsRoleMenuRelationMapper;
 import cloud.catfish.mbg.mapper.UmsRoleResourceRelationMapper;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
-import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

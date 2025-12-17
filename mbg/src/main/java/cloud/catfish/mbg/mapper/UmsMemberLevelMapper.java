@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsMemberLevel;
-import domain.UmsMemberLevelExample;
+import cloud.catfish.api.domain.UmsMemberLevel;
+import cloud.catfish.api.domain.UmsMemberLevelExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

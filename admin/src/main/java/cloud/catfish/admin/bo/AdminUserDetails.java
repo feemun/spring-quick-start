@@ -1,7 +1,7 @@
 package cloud.catfish.admin.bo;
 
-import domain.UmsAdmin;
-import domain.UmsResource;
+import cloud.catfish.api.domain.UmsAdmin;
+import cloud.catfish.api.domain.UmsResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

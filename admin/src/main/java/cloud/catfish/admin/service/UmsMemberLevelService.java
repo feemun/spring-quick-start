@@ -1,7 +1,7 @@
 package cloud.catfish.admin.service;
 
 
-import domain.UmsMemberLevel;
+import cloud.catfish.api.domain.UmsMemberLevel;
 
 import java.util.List;
 

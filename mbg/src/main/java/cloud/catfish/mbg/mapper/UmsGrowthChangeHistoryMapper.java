@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsGrowthChangeHistory;
-import domain.UmsGrowthChangeHistoryExample;
+import cloud.catfish.api.domain.UmsGrowthChangeHistory;
+import cloud.catfish.api.domain.UmsGrowthChangeHistoryExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

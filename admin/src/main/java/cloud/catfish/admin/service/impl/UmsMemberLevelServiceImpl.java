@@ -2,8 +2,8 @@ package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.admin.service.UmsMemberLevelService;
 import cloud.catfish.mbg.mapper.UmsMemberLevelMapper;
-import domain.UmsMemberLevel;
-import domain.UmsMemberLevelExample;
+import cloud.catfish.api.domain.UmsMemberLevel;
+import cloud.catfish.api.domain.UmsMemberLevelExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

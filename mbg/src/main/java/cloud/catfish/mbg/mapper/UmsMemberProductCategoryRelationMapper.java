@@ -1,7 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
-import domain.UmsMemberProductCategoryRelation;
-import domain.UmsMemberProductCategoryRelationExample;
+import cloud.catfish.api.domain.UmsMemberProductCategoryRelation;
+import cloud.catfish.api.domain.UmsMemberProductCategoryRelationExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

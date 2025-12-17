@@ -1,8 +1,8 @@
 package cloud.catfish.admin.service;
 
-import domain.UmsMenu;
-import domain.UmsResource;
-import domain.UmsRole;
+import cloud.catfish.api.domain.UmsMenu;
+import cloud.catfish.api.domain.UmsResource;
+import cloud.catfish.api.domain.UmsRole;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
