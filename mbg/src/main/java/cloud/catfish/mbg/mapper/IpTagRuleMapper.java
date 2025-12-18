@@ -4,8 +4,10 @@ import java.util.List;
 
 import cloud.catfish.mbg.example.IpTagRuleExample;
 import cloud.catfish.api.domain.IpTagRule;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface IpTagRuleMapper {
     long countByExample(IpTagRuleExample example);
 

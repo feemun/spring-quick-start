@@ -22,7 +22,9 @@ public class ElasticsearchConfig {
     public ElasticsearchClient elasticsearchClient() {
 
         // 1. Jackson ObjectMapper（非常重要）
-        JacksonJsonpMapper jsonpMapper = new JacksonJsonpMapper();
+        // ES Client 9.x 仍然依赖 Jackson 2，所以这里需要创建一个 Jackson 2 的 ObjectMapper
+        com.fasterxml.jackson.databind.ObjectMapper jackson2Mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        JacksonJsonpMapper jsonpMapper = new JacksonJsonpMapper(jackson2Mapper);
 
         // 2. 底层 REST Client（HTTP）
         RestClient restClient = RestClient.builder(

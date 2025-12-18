@@ -2,17 +2,16 @@ package cloud.catfish.common.config;
 
 import cloud.catfish.common.service.RedisService;
 import cloud.catfish.common.service.impl.RedisServiceImpl;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
+import tools.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -39,12 +38,19 @@ public class BaseRedisConfig {
 
     @Bean
     public RedisSerializer<Object> redisSerializer() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        //必须设置，否则无法将JSON转化为对象，会转化成Map类型
-        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,ObjectMapper.DefaultTyping.NON_FINAL);
+        // 使用 BasicPolymorphicTypeValidator 替代 LaissezFaireSubTypeValidator (Jackson 3 已移除)
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfBaseType(Object.class)
+                .build();
+
+        ObjectMapper objectMapper = JsonMapper.builder()
+                //.visibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+                // 必须设置，否则无法将JSON转化为对象，会转化成Map类型
+                //.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL)
+                .build();
+
         //创建JSON序列化器
-        return new Jackson2JsonRedisSerializer<>(objectMapper,Object.class);
+        return new Jackson3JsonRedisSerializer<>(objectMapper,Object.class);
     }
 
     @Bean

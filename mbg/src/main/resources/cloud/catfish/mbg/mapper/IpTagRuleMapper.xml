@@ -71,7 +71,7 @@
   <sql id="Base_Column_List">
     id, cidr, station_id, station_name, description, create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="cloud.catfish.api.domain.IpTagRuleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cloud.catfish.mbg.example.IpTagRuleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -101,7 +101,7 @@
     delete from ip_tag_rule
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="cloud.catfish.api.domain.IpTagRuleExample">
+  <delete id="deleteByExample" parameterType="cloud.catfish.mbg.example.IpTagRuleExample">
     delete from ip_tag_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -164,7 +164,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cloud.catfish.api.domain.IpTagRuleExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="cloud.catfish.mbg.example.IpTagRuleExample" resultType="java.lang.Long">
     select count(*) from ip_tag_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

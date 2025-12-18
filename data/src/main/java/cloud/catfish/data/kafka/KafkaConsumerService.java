@@ -38,19 +38,16 @@ public class KafkaConsumerService {
     // 缓存：Key 为网段，Value 为 IpTagRule 对象
     private static final Map<String, IpTagRule> IP_TAG_CACHE = new ConcurrentHashMap<>();
 
-    @KafkaListener(topics = "data-import-topic")
+    @KafkaListener(topics = "data-import-topic", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(ConsumerRecord<String, String> record) {
-        String key = record.key();
-        String value = record.value();
-
-        log.info("Received Kafka message - Key: {}, Value: {}", key, value);
-
-        if (shouldProcess(key)) {
-            processData(value);
+        log.info("Received message: key={}, value={}", record.key(), record.value());
+        if (shouldProcess(record.key())) {
+            processData(record.value());
         } else {
-            log.info("Skipping message with key: {}", key);
+            log.info("Skipped message with key: {}", record.key());
         }
     }
+
 
     /**
      * 初始化时加载规则，并定时刷新缓存 (每10分钟)

@@ -21,15 +21,29 @@ spring:
         login-password: druid
   kafka:
     bootstrap-servers: 10.0.0.6:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: data-group
+      group-id: data-group-fixed-v1
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        session.timeout.ms: 30000
+        heartbeat.interval.ms: 10000
+        request.timeout.ms: 40000
+        partition.assignment.strategy: org.apache.kafka.clients.consumer.RoundRobinAssignor
+    listener:
+      ack-mode: MANUAL
+      missing-topics-fatal: false
 
-#elasticsearch:
-#  hosts: 10.0.0.6:19200
-#  username:
-#  password:
-#  connection-timeout: 3000
-#  socket-timeout: 30000
+mybatis:
+  mapper-locations:
+    - classpath*:cloud/catfish/mbg/mapper/*.xml
+
+logging:
+  level:
+    root: info
+    cloud.catfish.data: debug
+    org.springframework.kafka: debug
