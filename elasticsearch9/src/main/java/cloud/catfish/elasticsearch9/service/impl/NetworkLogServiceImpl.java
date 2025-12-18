@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,8 +81,10 @@ public class NetworkLogServiceImpl implements NetworkLogService {
                         .size(0)
                         .query(q -> q
                                 .range(r -> r
-                                        .field("create_time")
-                                        .gt(JsonData.of("now-1d/d"))
+                                        .date(d -> d
+                                                .field("create_time")
+                                                .gt("now-1d/d")
+                                        )
                                 )
                         )
                         .aggregations("stats", a -> a
@@ -97,12 +102,15 @@ public class NetworkLogServiceImpl implements NetworkLogService {
     private List<NetworkLogStatDto> extractStats(List<StringTermsBucket> buckets) {
         List<NetworkLogStatDto> stats = new ArrayList<>();
         for (StringTermsBucket bucket : buckets) {
+            long firstMillis = (long) bucket.aggregations().get("first_created").min().value();
+            long lastMillis = (long) bucket.aggregations().get("last_created").max().value();
+
             NetworkLogStatDto dto = NetworkLogStatDto.builder()
                     .key(bucket.key().stringValue())
                     .count(bucket.docCount())
                     .totalBytes(bucket.aggregations().get("total_bytes").sum().value())
-                    .firstCreated(bucket.aggregations().get("first_created").min().valueAsString())
-                    .lastCreated(bucket.aggregations().get("last_created").max().valueAsString())
+                    .firstCreated(LocalDateTime.ofInstant(Instant.ofEpochMilli(firstMillis), ZoneId.systemDefault()))
+                    .lastCreated(LocalDateTime.ofInstant(Instant.ofEpochMilli(lastMillis), ZoneId.systemDefault()))
                     .build();
             stats.add(dto);
         }

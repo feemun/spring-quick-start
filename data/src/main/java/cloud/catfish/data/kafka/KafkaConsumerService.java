@@ -4,11 +4,12 @@ import cn.hutool.core.util.IdUtil;
 import cloud.catfish.api.domain.IpTagRule;
 import cloud.catfish.api.enums.NetworkProtocolEnum;
 import cloud.catfish.common.util.IpUtil;
+import cloud.catfish.elasticsearch9.dto.NetworkLogDto;
 import cloud.catfish.elasticsearch9.service.NetworkLogService;
 import cloud.catfish.mbg.example.IpTagRuleExample;
 import cloud.catfish.mbg.mapper.IpTagRuleMapper;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @RequiredArgsConstructor
 public class KafkaConsumerService {
+
+    private ObjectMapper objectMapper;
+    private final NetworkLogService networkLogService;
+    private final IpTagRuleMapper ipTagRuleMapper;
+
+    // 缓存：Key 为网段，Value 为 IpTagRule 对象
+    private static final Map<String, IpTagRule> IP_TAG_CACHE = new ConcurrentHashMap<>();
+
     @KafkaListener(topics = "data-import-topic")
     public void consume(ConsumerRecord<String, String> record) {
         String key = record.key();
@@ -40,13 +50,6 @@ public class KafkaConsumerService {
             log.info("Skipping message with key: {}", key);
         }
     }
-
-    private final NetworkLogService networkLogService;
-
-    private final IpTagRuleMapper ipTagRuleMapper;
-    // 缓存：Key 为网段，Value 为 IpTagRule 对象
-
-    private static final Map<String, IpTagRule> IP_TAG_CACHE = new ConcurrentHashMap<>();
 
     /**
      * 初始化时加载规则，并定时刷新缓存 (每10分钟)
@@ -89,16 +92,16 @@ public class KafkaConsumerService {
 
     private void processData(String value) {
         try {
-            // 1. 使用 FastJson 解析 JSON
-            JSONObject json = JSON.parseObject(value);
-            if (json == null) {
-                log.warn("Value is not valid JSON: {}", value);
+            // 1. 使用 Jackson 解析 JSON 到 DTO
+            NetworkLogDto logDto = objectMapper.readValue(value, NetworkLogDto.class);
+            if (logDto == null) {
+                log.warn("Parsed DTO is null: {}", value);
                 return;
             }
 
             // 2. 获取srcIp，destIp
-            String srcIp = json.getString("srcIp");
-            String destIp = json.getString("destIp");
+            String srcIp = logDto.getSrcIp();
+            String destIp = logDto.getDestIp();
 
             if (srcIp == null && destIp == null) {
                 log.warn("Both srcIp and destIp are missing in JSON: {}", value);
@@ -106,21 +109,21 @@ public class KafkaConsumerService {
             }
 
             // 初始化必须的字段
-            json.put("id", IdUtil.getSnowflakeNextId());
-            json.put("src_ip", srcIp);
-            json.put("dest_ip", destIp);
-            
+            if (logDto.getId() == null) {
+                logDto.setId(String.valueOf(IdUtil.getSnowflakeNextId()));
+            }
+
             // 3. 根据ip对数据打标
             if (srcIp != null) {
-                tagIp(srcIp, json, "src");
+                tagIp(srcIp, logDto, true);
             }
             if (destIp != null) {
-                tagIp(destIp, json, "dest");
+                tagIp(destIp, logDto, false);
             }
 
             // 4. 打标完成后，数据写入到es
-            networkLogService.createDocument(json);
-            log.info("Document saved to ES: {}", json);
+            networkLogService.createDocument(logDto);
+            log.info("Document saved to ES: {}", logDto);
 
         } catch (IOException e) {
             log.error("Failed to save document to ES", e);
@@ -129,16 +132,22 @@ public class KafkaConsumerService {
         }
     }
 
-    private void tagIp(String ip, JSONObject json, String prefix) {
+    private void tagIp(String ip, NetworkLogDto dto, boolean isSrc) {
         for (Map.Entry<String, IpTagRule> entry : IP_TAG_CACHE.entrySet()) {
             String cidr = entry.getKey();
             IpTagRule rule = entry.getValue();
 
             try {
                 if (IpUtil.isInRange(ip, cidr)) {
-                    json.put(prefix + "_cidr", cidr);
-                    json.put(prefix + "_station_id", rule.getStationId());
-                    json.put(prefix + "_station_name", rule.getStationName());
+                    if (isSrc) {
+                        dto.setSrcCidr(cidr);
+                        dto.setSrcStationId(rule.getStationId());
+                        dto.setSrcStationName(rule.getStationName());
+                    } else {
+                        dto.setDestCidr(cidr);
+                        dto.setDestStationId(rule.getStationId());
+                        dto.setDestStationName(rule.getStationName());
+                    }
                     break;
                 }
             } catch (Exception e) {

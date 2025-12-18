@@ -1,9 +1,13 @@
 package cloud.catfish.elasticsearch9.dto;
 
+import cloud.catfish.elasticsearch9.json.CustomDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -13,6 +17,10 @@ public class NetworkLogStatDto {
     private String key;
     private Long count;
     private Double totalBytes;
-    private String firstCreated;
-    private String lastCreated;
+    
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private LocalDateTime firstCreated;
+    
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private LocalDateTime lastCreated;
 }

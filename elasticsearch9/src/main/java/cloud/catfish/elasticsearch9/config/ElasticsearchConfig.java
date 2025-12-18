@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -13,7 +14,6 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,10 +61,6 @@ public class ElasticsearchConfig {
     private boolean trustAllCert;
 
     private RestClient lowLevelClient;
-
-    // 注入 Spring 容器中全局配置好的 ObjectMapper
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Bean
     public ElasticsearchClient elasticsearchClient() throws Exception {
@@ -127,6 +123,8 @@ public class ElasticsearchConfig {
 
         lowLevelClient = builder.build();
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         // 使用注入的 objectMapper，保持与 Spring 全局配置一致
         ElasticsearchTransport transport =
                 new RestClientTransport(lowLevelClient, new JacksonJsonpMapper(objectMapper));
