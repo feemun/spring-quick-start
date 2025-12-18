@@ -27,9 +27,9 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
-elasticsearch:
-  hosts: 10.0.0.6:19200
-  username: 
-  password: 
-  connection-timeout: 3000
-  socket-timeout: 30000
+#elasticsearch:
+#  hosts: 10.0.0.6:19200
+#  username:
+#  password:
+#  connection-timeout: 3000
+#  socket-timeout: 30000
