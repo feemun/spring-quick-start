@@ -4,7 +4,7 @@ import cloud.catfish.security.config.IgnoreUrlsConfig;
 import cn.hutool.core.collection.CollUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.jspecify.annotations.Nullable;
+import org.springframework.lang.Nullable;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -33,7 +33,7 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
 
 
     @Override
-    public @Nullable AuthorizationResult authorize(Supplier<? extends @Nullable Authentication> authentication, RequestAuthorizationContext object) {
+    public @Nullable AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
         HttpServletRequest request = object.getRequest();
         String path = request.getRequestURI();
         PathMatcher pathMatcher = new AntPathMatcher();

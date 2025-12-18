@@ -2,12 +2,12 @@ package cloud.catfish.common.config;
 
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.JavaType;
-import tools.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 /**
- * Jackson 3 Redis Serializer
+ * Jackson Redis Serializer
  */
 public class Jackson3JsonRedisSerializer<T> implements RedisSerializer<T> {
 

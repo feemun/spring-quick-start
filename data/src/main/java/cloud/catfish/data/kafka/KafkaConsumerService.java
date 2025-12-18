@@ -16,13 +16,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.kafka.annotation.TopicPartition;
+import org.springframework.kafka.support.Acknowledgment;
 
 @Slf4j
 @Service
@@ -38,8 +41,11 @@ public class KafkaConsumerService {
     // 缓存：Key 为网段，Value 为 IpTagRule 对象
     private static final Map<String, IpTagRule> IP_TAG_CACHE = new ConcurrentHashMap<>();
 
-    @KafkaListener(topics = "data-import-topic", groupId = "${spring.kafka.consumer.group-id}")
-    public void consume(ConsumerRecord<String, String> record) {
+    @KafkaListener(topicPartitions = @TopicPartition(topic = "data-import-topic", partitions = "0"))
+    public void consume(ConsumerRecord<String, String> record, Acknowledgment ack) {
+        // Since we use manual assignment and broker has issues with group coordination/offsets,
+        // we do NOT commit offsets. We just process the data.
+        // ack.acknowledge(); // Do NOT call this to avoid "Unexpected error" from broker
         log.info("Received message: key={}, value={}", record.key(), record.value());
         if (shouldProcess(record.key())) {
             processData(record.value());

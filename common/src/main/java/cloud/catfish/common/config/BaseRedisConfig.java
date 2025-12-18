@@ -2,10 +2,10 @@ package cloud.catfish.common.config;
 
 import cloud.catfish.common.service.RedisService;
 import cloud.catfish.common.service.impl.RedisServiceImpl;
-import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;

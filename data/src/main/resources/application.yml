@@ -25,17 +25,13 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: data-group-fixed-v1
+      group-id: data-group-${random.uuid}
+      enable-auto-commit: false
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        session.timeout.ms: 30000
-        heartbeat.interval.ms: 10000
-        request.timeout.ms: 40000
-        partition.assignment.strategy: org.apache.kafka.clients.consumer.RoundRobinAssignor
     listener:
-      ack-mode: MANUAL
+      ack-mode: MANUAL_IMMEDIATE
       missing-topics-fatal: false
 
 mybatis:

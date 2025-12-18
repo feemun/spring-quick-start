@@ -4,12 +4,12 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tools.jackson.databind.ObjectMapper;
 
 @Configuration
 public class ElasticsearchConfig {
@@ -21,17 +21,15 @@ public class ElasticsearchConfig {
     @Bean
     public ElasticsearchClient elasticsearchClient() {
 
-        // 1. Jackson ObjectMapper（非常重要）
-        // ES Client 9.x 仍然依赖 Jackson 2，所以这里需要创建一个 Jackson 2 的 ObjectMapper
-        com.fasterxml.jackson.databind.ObjectMapper jackson2Mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        JacksonJsonpMapper jsonpMapper = new JacksonJsonpMapper(jackson2Mapper);
+        // 1. Jackson ObjectMapper
+        JacksonJsonpMapper jsonpMapper = new JacksonJsonpMapper(objectMapper);
 
         // 2. 底层 REST Client（HTTP）
         RestClient restClient = RestClient.builder(
-                new HttpHost("10.0.0.6", 9200, "http")
+                new HttpHost("10.0.0.6", 19200, "http")
         ).build();
 
-        // 3. Transport（ES 9 的“传输层抽象”）
+        // 3. Transport
         ElasticsearchTransport transport =
                 new RestClientTransport(restClient, jsonpMapper);
 

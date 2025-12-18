@@ -100,8 +100,8 @@ public class NetworkLogServiceImpl implements NetworkLogService {
     private List<NetworkLogStatDto> extractStats(List<StringTermsBucket> buckets) {
         List<NetworkLogStatDto> stats = new ArrayList<>();
         for (StringTermsBucket bucket : buckets) {
-            long firstMillis =  bucket.aggregations().get("first_created").min().value().longValue();
-            long lastMillis =  bucket.aggregations().get("last_created").max().value().longValue();
+            long firstMillis = (long) bucket.aggregations().get("first_created").min().value();
+            long lastMillis = (long) bucket.aggregations().get("last_created").max().value();
 
             NetworkLogStatDto dto = NetworkLogStatDto.builder()
                     .key(bucket.key().stringValue())

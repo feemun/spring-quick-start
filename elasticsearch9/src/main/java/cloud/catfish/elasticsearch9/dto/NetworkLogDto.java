@@ -54,6 +54,7 @@ public class NetworkLogDto {
     private String destStationName;
     
     @JsonProperty("create_time")
+    @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
     
     private Long bytes;
