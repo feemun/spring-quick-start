@@ -8,9 +8,7 @@ import cloud.catfish.elasticsearch9.dto.NetworkLogDto;
 import cloud.catfish.elasticsearch9.service.NetworkLogService;
 import cloud.catfish.mbg.example.IpTagRuleExample;
 import cloud.catfish.mbg.mapper.IpTagRuleMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,12 +26,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class KafkaConsumerService {
 
+    @Resource
     private ObjectMapper objectMapper;
-    private final NetworkLogService networkLogService;
-    private final IpTagRuleMapper ipTagRuleMapper;
+    @Resource
+    private NetworkLogService networkLogService;
+    @Resource
+    private IpTagRuleMapper ipTagRuleMapper;
 
     // 缓存：Key 为网段，Value 为 IpTagRule 对象
     private static final Map<String, IpTagRule> IP_TAG_CACHE = new ConcurrentHashMap<>();

@@ -1,0 +1,37 @@
+[
+  {
+    "srcIp": "192.168.1.50",
+    "destIp": "10.0.0.5",
+    "bytes": 500,
+    "create_time": "2023-10-27 10:00:00",
+    "protocol": "HTTP"
+  },
+  {
+    "srcIp": "172.16.0.100",
+    "destIp": "8.8.8.8",
+    "bytes": 1200,
+    "create_time": "2023-10-27 10:00:05",
+    "protocol": "HTTPS"
+  },
+  {
+    "srcIp": "58.215.10.10",
+    "destIp": "114.114.114.114",
+    "bytes": 300,
+    "create_time": "2023-10-27 10:00:10",
+    "protocol": "DNS"
+  },
+  {
+    "srcIp": "192.168.100.20",
+    "destIp": "10.2.1.1",
+    "bytes": 5000,
+    "create_time": "2023-10-27 10:00:15",
+    "protocol": "SSH"
+  },
+  {
+    "srcIp": "1.1.1.5",
+    "destIp": "192.168.200.5",
+    "bytes": 800,
+    "create_time": "2023-10-27 10:00:20",
+    "protocol": "ICMP"
+  }
+]

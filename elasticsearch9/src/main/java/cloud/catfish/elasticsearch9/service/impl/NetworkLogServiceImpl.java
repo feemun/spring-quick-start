@@ -6,7 +6,6 @@ import cloud.catfish.elasticsearch9.service.NetworkLogService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.json.JsonData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -102,8 +100,8 @@ public class NetworkLogServiceImpl implements NetworkLogService {
     private List<NetworkLogStatDto> extractStats(List<StringTermsBucket> buckets) {
         List<NetworkLogStatDto> stats = new ArrayList<>();
         for (StringTermsBucket bucket : buckets) {
-            long firstMillis = (long) bucket.aggregations().get("first_created").min().value();
-            long lastMillis = (long) bucket.aggregations().get("last_created").max().value();
+            long firstMillis =  bucket.aggregations().get("first_created").min().value().longValue();
+            long lastMillis =  bucket.aggregations().get("last_created").max().value().longValue();
 
             NetworkLogStatDto dto = NetworkLogStatDto.builder()
                     .key(bucket.key().stringValue())
