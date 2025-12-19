@@ -13,9 +13,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NetworkLogStatDto {
+public class NetworkLogMergedStatDto {
     private String key;
-    private Long count;
+    private Long uploadCount;
+    private Double uploadBytes;
+    private Long downloadCount;
+    private Double downloadBytes;
+    private Long totalCount;
     private Double totalBytes;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -25,4 +29,6 @@ public class NetworkLogStatDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastCreated;
+
+    private Boolean hasTrafficToday;
 }

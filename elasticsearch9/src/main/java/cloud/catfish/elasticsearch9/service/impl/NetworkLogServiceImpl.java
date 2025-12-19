@@ -74,6 +74,14 @@ public class NetworkLogServiceImpl implements NetworkLogService {
 
     @Override
     public List<NetworkLogStatDto> getStatistics(String field) throws IOException {
+        String finalField = field;
+        if ("srcIp".equals(field)) {
+            finalField = "src_ip";
+        } else if ("destIp".equals(field)) {
+            finalField = "dest_ip";
+        }
+
+        String searchField = finalField;
         SearchResponse<Void> response = elasticsearchClient.search(s -> s
                         .index(INDEX_NAME)
                         .size(0)
@@ -81,12 +89,12 @@ public class NetworkLogServiceImpl implements NetworkLogService {
                                 .range(r -> r
                                         .date(d -> d
                                                 .field("create_time")
-                                                .gt("now-1d/d")
+                                                .gt("now-1000d/d")
                                         )
                                 )
                         )
                         .aggregations("stats", a -> a
-                                .terms(t -> t.field(field))
+                                .terms(t -> t.field(searchField))
                                 .aggregations("total_bytes", sub -> sub.sum(m -> m.field("bytes")))
                                 .aggregations("first_created", sub -> sub.min(m -> m.field("create_time")))
                                 .aggregations("last_created", sub -> sub.max(m -> m.field("create_time")))
