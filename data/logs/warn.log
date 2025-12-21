@@ -1,0 +1,9 @@
+2025-12-19 14:52:28.099 [main] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 14:52:30.245 [scheduling-1] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 15:02:30.295 [scheduling-1] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 16:21:54.403 [main] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 16:21:56.669 [scheduling-1] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 16:21:57.129 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  [org.apache.kafka.clients.NetworkClient] - [Consumer clientId=consumer-drone-status-group-1, groupId=drone-status-group] Error while fetching metadata with correlation id 2 : {aaa=UNKNOWN_TOPIC_OR_PARTITION}
+2025-12-19 16:25:33.257 [main] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 16:25:35.419 [scheduling-1] WARN  [cloud.catfish.data.kafka.KafkaConsumerService] - No IP tag rules found in database.
+2025-12-19 16:25:35.972 [org.springframework.kafka.KafkaListenerEndpointContainer#2-0-C-1] WARN  [org.apache.kafka.clients.NetworkClient] - [Consumer clientId=consumer-signal-data-status-group-1, groupId=signal-data-status-group] Error while fetching metadata with correlation id 2 : {bbb=UNKNOWN_TOPIC_OR_PARTITION}

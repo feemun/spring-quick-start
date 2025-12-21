@@ -1,0 +1,105 @@
+2025-12-19 16:42:37.645 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:42:37.649 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:42:37.702 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:42:38.983 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:42:39.128 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3386 ms
+2025-12-19 16:42:42.992 [main] INFO  [o.s.b.a.logging.ConditionEvaluationReportLogger] - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19 16:43:47.041 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:43:47.046 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:43:47.144 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 58 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:43:48.717 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:43:48.887 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3974 ms
+2025-12-19 16:43:53.260 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 16:43:53.599 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 16:43:55.051 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 16:43:55.053 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@da2303c]]
+2025-12-19 16:43:55.056 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 16:43:55.077 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 16:44:24.578 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 16:44:24.583 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 5 ms
+2025-12-19 16:44:55.052 [MessageBroker-1] INFO  [o.s.web.socket.config.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[unknown], outboundChannel[unknown], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-12-19 16:45:52.291 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:45:52.295 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:45:52.368 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:45:53.595 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:45:53.755 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3243 ms
+2025-12-19 16:45:57.331 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 16:45:57.482 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 16:45:58.677 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 16:45:58.681 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6203f10f]]
+2025-12-19 16:45:58.683 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 16:45:58.700 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 16:46:12.091 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 16:46:12.094 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 3 ms
+2025-12-19 16:46:58.681 [MessageBroker-1] INFO  [o.s.web.socket.config.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[unknown], outboundChannel[unknown], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-12-19 16:48:43.074 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:48:43.079 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:48:43.129 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 29 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:48:44.238 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:48:44.379 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2787 ms
+2025-12-19 16:48:47.767 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 16:48:47.918 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 16:48:48.962 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 16:48:48.965 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@54351197]]
+2025-12-19 16:48:48.968 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 16:48:48.985 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 16:49:06.100 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 16:49:06.106 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 5 ms
+2025-12-19 16:49:48.956 [MessageBroker-1] INFO  [o.s.web.socket.config.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[unknown], outboundChannel[unknown], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-12-19 16:50:26.595 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:50:26.600 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:50:26.696 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 54 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:50:28.097 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:50:28.352 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3373 ms
+2025-12-19 16:50:32.399 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 16:50:32.558 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 16:50:33.761 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 16:50:33.764 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7966a964]]
+2025-12-19 16:50:33.766 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 16:50:33.784 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 16:50:45.109 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 16:50:45.113 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 4 ms
+2025-12-19 16:51:39.639 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:51:39.642 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:51:39.694 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:51:40.828 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:51:40.965 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2797 ms
+2025-12-19 16:51:44.365 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 16:51:44.500 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 16:51:45.555 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 16:51:45.557 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@54351197]]
+2025-12-19 16:51:45.558 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 16:51:45.579 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 16:51:59.865 [http-nio-18888-exec-2] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 16:51:59.870 [http-nio-18888-exec-2] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 5 ms
+2025-12-19 16:52:45.567 [MessageBroker-1] INFO  [o.s.web.socket.config.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[unknown], outboundChannel[unknown], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-12-19 16:56:52.618 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:56:52.622 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:56:52.682 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 35 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:56:53.884 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 16:56:54.152 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3068 ms
+2025-12-19 16:56:57.575 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 16:56:57.726 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 16:56:58.812 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 16:56:58.814 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@20183e2d]]
+2025-12-19 16:56:58.816 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 16:56:58.832 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 16:57:58.849 [MessageBroker-1] INFO  [o.s.web.socket.config.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[unknown], outboundChannel[unknown], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-12-19 16:59:51.365 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 16:59:51.366 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 1 ms
+2025-12-19 17:01:19.875 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 17:01:19.878 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 17:01:19.927 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2025-12-19 17:01:21.035 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 18888 (http)
+2025-12-19 17:01:21.165 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2811 ms
+2025-12-19 17:01:24.557 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-12-19 17:01:24.692 [main] INFO  [o.s.b.a.web.servlet.WelcomePageHandlerMapping] - Adding welcome page: class path resource [static/index.html]
+2025-12-19 17:01:25.713 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Starting...
+2025-12-19 17:01:25.716 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@20183e2d]]
+2025-12-19 17:01:25.718 [main] INFO  [o.s.m.simp.broker.SimpleBrokerMessageHandler] - Started.
+2025-12-19 17:01:25.735 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 18888 (http) with context path '/'
+2025-12-19 17:01:43.098 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 17:01:43.100 [http-nio-18888-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 17:02:25.722 [MessageBroker-1] INFO  [o.s.web.socket.config.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[unknown], outboundChannel[unknown], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
