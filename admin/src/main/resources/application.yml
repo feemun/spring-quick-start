@@ -48,6 +48,10 @@ secure:
       - /admin/register
       - /admin/info
       - /admin/logout
+      - /droneStatus/**
+      - /signalDataStatus/**
+      - /mergedStatus/**
+      - /schema/**
       - /minio/upload
       - /index.html
       - /index2.html

@@ -79,7 +79,7 @@ public class NetworkLogServiceImpl implements NetworkLogService {
             finalField = "src_ip";
         } else if ("destIp".equals(field)) {
             finalField = "dest_ip";
-        }
+        }==
 
         String searchField = finalField;
         SearchResponse<Void> response = elasticsearchClient.search(s -> s

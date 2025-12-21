@@ -212,3 +212,206 @@ Error starting ApplicationContext. To display the condition evaluation report re
 2025-12-19 00:55:36.415 [main] INFO  [o.s.b.w.c.servlet.WebApplicationContextInitializer] - Root WebApplicationContext: initialization completed in 623 ms
 2025-12-19 00:55:38.065 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
 2025-12-19 00:55:38.442 [main] INFO  [org.springframework.boot.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 09:38:20.001 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 09:38:20.019 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 09:38:20.098 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2025-12-19 09:38:23.944 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 09:38:24.382 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 10390 ms
+2025-12-19 09:38:26.514 [main] INFO  [o.s.b.a.logging.ConditionEvaluationReportLogger] - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19 09:39:31.495 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 09:39:31.500 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 09:39:31.573 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 49 ms. Found 0 Redis repository interfaces.
+2025-12-19 09:39:31.822 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 09:39:31.841 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 09:39:32.775 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 09:39:32.941 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2831 ms
+2025-12-19 09:39:35.635 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 09:39:37.068 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 09:39:37.238 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-4352bc81-befd-442e-9c45-2abdd0ec7ce5-1, groupId=data-group-4352bc81-befd-442e-9c45-2abdd0ec7ce5] Assigned to partition(s): data-import-topic-0
+2025-12-19 09:40:01.600 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 09:40:01.602 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 09:42:26.343 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-4352bc81-befd-442e-9c45-2abdd0ec7ce5-1, groupId=data-group-4352bc81-befd-442e-9c45-2abdd0ec7ce5] Unsubscribed all topics or patterns and assigned partitions
+2025-12-19 09:42:26.348 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  [o.s.kafka.listener.KafkaMessageListenerContainer] - data-group-4352bc81-befd-442e-9c45-2abdd0ec7ce5: Consumer stopped
+2025-12-19 09:42:26.353 [SpringApplicationShutdownHook] INFO  [o.s.boot.web.embedded.tomcat.GracefulShutdown] - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-19 09:42:26.361 [tomcat-shutdown] INFO  [o.s.boot.web.embedded.tomcat.GracefulShutdown] - Graceful shutdown complete
+2025-12-19 10:09:16.529 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:09:16.534 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:09:16.588 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:09:16.799 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:09:17.636 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:09:17.804 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2676 ms
+2025-12-19 10:09:20.958 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:09:22.405 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:09:22.608 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-414c9031-5bee-4375-a477-8a9941919927-1, groupId=data-group-414c9031-5bee-4375-a477-8a9941919927] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:09:41.447 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:09:41.450 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 3 ms
+2025-12-19 10:11:16.233 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:11:16.238 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:11:16.296 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 22 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:11:16.490 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:11:17.268 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:11:17.428 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2561 ms
+2025-12-19 10:11:20.249 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:11:21.714 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:11:21.913 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-d0fbb082-8652-4d04-ad76-8312f0d55936-1, groupId=data-group-d0fbb082-8652-4d04-ad76-8312f0d55936] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:13:49.062 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:13:49.066 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:13:49.115 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 24 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:13:49.362 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:13:50.272 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:13:50.456 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2961 ms
+2025-12-19 10:13:53.133 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:13:54.506 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:13:54.712 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-2733075d-7781-4721-8405-6a50dfc83a10-1, groupId=data-group-2733075d-7781-4721-8405-6a50dfc83a10] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:31:58.572 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:31:58.576 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:31:58.622 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 26 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:31:58.810 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:31:59.514 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:31:59.654 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2289 ms
+2025-12-19 10:32:02.231 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:32:03.943 [main] INFO  [o.s.b.a.logging.ConditionEvaluationReportLogger] - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19 10:32:41.292 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:32:41.297 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:32:41.345 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 23 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:32:41.552 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:32:42.373 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:32:42.527 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2564 ms
+2025-12-19 10:32:44.955 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:32:46.216 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:32:46.496 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-05f3a913-001b-4105-83fc-bc8df2f5e8ad-1, groupId=data-group-05f3a913-001b-4105-83fc-bc8df2f5e8ad] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:32:58.821 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:32:58.824 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 10:38:25.198 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:38:25.202 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:38:25.254 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 25 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:38:25.462 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:38:26.225 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:38:26.385 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2513 ms
+2025-12-19 10:38:29.114 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:38:30.552 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:38:30.732 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-f4747699-7140-4f55-92c3-b4907dbddaa9-1, groupId=data-group-f4747699-7140-4f55-92c3-b4907dbddaa9] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:38:36.620 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:38:36.624 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 10:40:26.218 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:40:26.224 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:40:26.265 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:40:26.458 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:40:27.254 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:40:27.401 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2439 ms
+2025-12-19 10:40:29.926 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:40:31.214 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:40:31.393 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-ce6d9dbc-41d0-4aac-ae6a-61535ce88166-1, groupId=data-group-ce6d9dbc-41d0-4aac-ae6a-61535ce88166] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:40:40.214 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:40:40.218 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 10:45:56.498 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:45:56.502 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:45:56.553 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 26 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:45:56.768 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:45:57.592 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:45:57.746 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2705 ms
+2025-12-19 10:46:00.671 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:46:01.937 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:46:02.121 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-14fe8bb8-8448-439f-8e48-218a37178afb-1, groupId=data-group-14fe8bb8-8448-439f-8e48-218a37178afb] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:46:37.094 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:46:37.097 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 10:48:48.062 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:48:48.066 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:48:48.113 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 25 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:48:48.322 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:48:49.184 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:48:49.359 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2757 ms
+2025-12-19 10:48:51.993 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:48:53.422 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:48:53.613 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-200d68c9-e9ec-4f15-b772-b9180b23dfa5-1, groupId=data-group-200d68c9-e9ec-4f15-b772-b9180b23dfa5] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:49:01.342 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:49:01.343 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 1 ms
+2025-12-19 10:51:06.084 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 10:51:06.088 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 10:51:06.139 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2025-12-19 10:51:06.337 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 10:51:07.044 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 10:51:07.186 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2573 ms
+2025-12-19 10:51:09.675 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 10:51:11.181 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 10:51:11.388 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-c605e50e-8e2e-41c3-9193-a0f50746e75a-1, groupId=data-group-c605e50e-8e2e-41c3-9193-a0f50746e75a] Assigned to partition(s): data-import-topic-0
+2025-12-19 10:51:18.887 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 10:51:18.891 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 11:32:10.091 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 11:32:10.095 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 11:32:10.144 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 29 ms. Found 0 Redis repository interfaces.
+2025-12-19 11:32:10.413 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 11:32:11.157 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 11:32:11.317 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2876 ms
+2025-12-19 11:32:14.207 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 11:32:15.908 [main] INFO  [o.s.b.a.logging.ConditionEvaluationReportLogger] - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19 11:33:50.979 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 11:33:50.989 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 11:33:51.052 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 27 ms. Found 0 Redis repository interfaces.
+2025-12-19 11:33:51.291 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 11:33:52.023 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 11:33:52.185 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2422 ms
+2025-12-19 11:33:54.729 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 11:33:56.567 [main] INFO  [o.s.b.a.logging.ConditionEvaluationReportLogger] - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19 11:34:27.835 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 11:34:27.838 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 11:34:27.888 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 27 ms. Found 0 Redis repository interfaces.
+2025-12-19 11:34:28.263 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 11:34:29.486 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 11:34:29.660 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3303 ms
+2025-12-19 11:34:32.355 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 11:34:33.851 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 11:34:34.057 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-692cbdf0-5501-4163-816a-4b1fcac3e73e-1, groupId=data-group-692cbdf0-5501-4163-816a-4b1fcac3e73e] Assigned to partition(s): data-import-topic-0
+2025-12-19 11:34:44.136 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 11:34:44.139 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 11:37:35.265 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 11:37:35.270 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 11:37:35.316 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 22 ms. Found 0 Redis repository interfaces.
+2025-12-19 11:37:35.514 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 11:37:36.281 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 11:37:36.451 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2576 ms
+2025-12-19 11:37:39.259 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 11:37:40.716 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 11:37:40.973 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-ddf65d86-cd1b-4691-a65f-97d96168b393-1, groupId=data-group-ddf65d86-cd1b-4691-a65f-97d96168b393] Assigned to partition(s): data-import-topic-0
+2025-12-19 11:37:44.137 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 11:37:44.140 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 3 ms
+2025-12-19 14:52:23.841 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 14:52:23.844 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 14:52:23.891 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 27 ms. Found 0 Redis repository interfaces.
+2025-12-19 14:52:24.095 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 14:52:24.960 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 14:52:25.246 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2982 ms
+2025-12-19 14:52:28.419 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 14:52:29.841 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 14:52:30.052 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-28cb7018-b9fc-452c-8b2f-e54a9385ed31-1, groupId=data-group-28cb7018-b9fc-452c-8b2f-e54a9385ed31] Assigned to partition(s): data-import-topic-0
+2025-12-19 14:52:34.080 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2025-12-19 14:52:34.083 [http-nio-8085-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] - Completed initialization in 2 ms
+2025-12-19 16:21:50.108 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:21:50.113 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:21:50.162 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 23 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:21:50.388 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 16:21:51.510 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 16:21:51.669 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 3160 ms
+2025-12-19 16:21:54.745 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 16:21:56.209 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 16:21:56.444 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-drone-status-group-1, groupId=drone-status-group] Subscribed to topic(s): aaa
+2025-12-19 16:21:56.476 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-3639b689-9f22-4438-a293-1c08a228629b-2, groupId=data-group-3639b689-9f22-4438-a293-1c08a228629b] Assigned to partition(s): data-import-topic-0
+2025-12-19 16:25:29.843 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-19 16:25:29.847 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-19 16:25:29.907 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 38 ms. Found 0 Redis repository interfaces.
+2025-12-19 16:25:30.084 [main] INFO  [o.s.c.i.s.PathMatchingResourcePatternResolver] - Skipping search for files matching pattern [**/*.class]: directory [C:\Users\feemu\Documents\GitHub\spring-quick-start\data\target\classes\cloud\catfish\mbg\mapper] does not exist
+2025-12-19 16:25:30.835 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port 8085 (http)
+2025-12-19 16:25:30.984 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 2470 ms
+2025-12-19 16:25:33.560 [main] INFO  [o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-19 16:25:34.992 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] - Tomcat started on port 8085 (http) with context path '/'
+2025-12-19 16:25:35.189 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-signal-data-status-group-1, groupId=signal-data-status-group] Subscribed to topic(s): bbb
+2025-12-19 16:25:35.218 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-drone-status-group-2, groupId=drone-status-group] Subscribed to topic(s): aaa
+2025-12-19 16:25:35.238 [main] INFO  [o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer] - [Consumer clientId=consumer-data-group-1dff2858-047f-4852-b422-759d8ad0a439-3, groupId=data-group-1dff2858-047f-4852-b422-759d8ad0a439] Assigned to partition(s): data-import-topic-0

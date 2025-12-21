@@ -75,6 +75,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<R> handleException(Exception e) {
+        e.printStackTrace();
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.catfish.mbg.mapper.XlcSignalDataStatusMapper">
+  <resultMap id="BaseResultMap" type="cloud.catfish.api.domain.XlcSignalDataStatus">
+    <id column="uav_port" jdbcType="BIGINT" property="uavPort" />
+    <result column="azimuth" jdbcType="DOUBLE" property="azimuth" />
+    <result column="frequency" jdbcType="DOUBLE" property="frequency" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="pitch" jdbcType="DOUBLE" property="pitch" />
+    <result column="power" jdbcType="DOUBLE" property="power" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    uav_port, azimuth, frequency, latitude, longitude, pitch, power, time, updated_at
+  </sql>
+  <select id="selectByExample" parameterType="cloud.catfish.api.domain.XlcSignalDataStatusExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xlc_signal_data_status
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xlc_signal_data_status
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from xlc_signal_data_status
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cloud.catfish.api.domain.XlcSignalDataStatusExample">
+    delete from xlc_signal_data_status
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cloud.catfish.api.domain.XlcSignalDataStatus">
+    insert into xlc_signal_data_status (uav_port, azimuth, frequency, 
+      latitude, longitude, pitch, 
+      power, time, updated_at
+      )
+    values (#{uavPort,jdbcType=BIGINT}, #{azimuth,jdbcType=DOUBLE}, #{frequency,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, #{pitch,jdbcType=DOUBLE}, 
+      #{power,jdbcType=DOUBLE}, #{time,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cloud.catfish.api.domain.XlcSignalDataStatus">
+    insert into xlc_signal_data_status
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uavPort != null">
+        uav_port,
+      </if>
+      <if test="azimuth != null">
+        azimuth,
+      </if>
+      <if test="frequency != null">
+        frequency,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="pitch != null">
+        pitch,
+      </if>
+      <if test="power != null">
+        power,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uavPort != null">
+        #{uavPort,jdbcType=BIGINT},
+      </if>
+      <if test="azimuth != null">
+        #{azimuth,jdbcType=DOUBLE},
+      </if>
+      <if test="frequency != null">
+        #{frequency,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="pitch != null">
+        #{pitch,jdbcType=DOUBLE},
+      </if>
+      <if test="power != null">
+        #{power,jdbcType=DOUBLE},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cloud.catfish.api.domain.XlcSignalDataStatusExample" resultType="java.lang.Long">
+    select count(*) from xlc_signal_data_status
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xlc_signal_data_status
+    <set>
+      <if test="row.uavPort != null">
+        uav_port = #{row.uavPort,jdbcType=BIGINT},
+      </if>
+      <if test="row.azimuth != null">
+        azimuth = #{row.azimuth,jdbcType=DOUBLE},
+      </if>
+      <if test="row.frequency != null">
+        frequency = #{row.frequency,jdbcType=DOUBLE},
+      </if>
+      <if test="row.latitude != null">
+        latitude = #{row.latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="row.longitude != null">
+        longitude = #{row.longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="row.pitch != null">
+        pitch = #{row.pitch,jdbcType=DOUBLE},
+      </if>
+      <if test="row.power != null">
+        power = #{row.power,jdbcType=DOUBLE},
+      </if>
+      <if test="row.time != null">
+        time = #{row.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.updatedAt != null">
+        updated_at = #{row.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xlc_signal_data_status
+    set uav_port = #{row.uavPort,jdbcType=BIGINT},
+      azimuth = #{row.azimuth,jdbcType=DOUBLE},
+      frequency = #{row.frequency,jdbcType=DOUBLE},
+      latitude = #{row.latitude,jdbcType=DOUBLE},
+      longitude = #{row.longitude,jdbcType=DOUBLE},
+      pitch = #{row.pitch,jdbcType=DOUBLE},
+      power = #{row.power,jdbcType=DOUBLE},
+      time = #{row.time,jdbcType=TIMESTAMP},
+      updated_at = #{row.updatedAt,jdbcType=TIMESTAMP}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cloud.catfish.api.domain.XlcSignalDataStatus">
+    update xlc_signal_data_status
+    <set>
+      <if test="azimuth != null">
+        azimuth = #{azimuth,jdbcType=DOUBLE},
+      </if>
+      <if test="frequency != null">
+        frequency = #{frequency,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="pitch != null">
+        pitch = #{pitch,jdbcType=DOUBLE},
+      </if>
+      <if test="power != null">
+        power = #{power,jdbcType=DOUBLE},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cloud.catfish.api.domain.XlcSignalDataStatus">
+    update xlc_signal_data_status
+    set azimuth = #{azimuth,jdbcType=DOUBLE},
+      frequency = #{frequency,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      pitch = #{pitch,jdbcType=DOUBLE},
+      power = #{power,jdbcType=DOUBLE},
+      time = #{time,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="java.util.List">
+    INSERT INTO xlc_signal_data_status (uav_port, azimuth, frequency, latitude, longitude, pitch, power, time, updated_at) VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.uavPort}, #{item.azimuth}, #{item.frequency}, #{item.latitude}, #{item.longitude}, #{item.pitch}, #{item.power}, #{item.time}, #{item.updatedAt})
+    </foreach>
+  </insert>
+</mapper>

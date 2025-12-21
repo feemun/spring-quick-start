@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.catfish.mbg.mapper.XlcDroneStatusMapper">
+  <resultMap id="BaseResultMap" type="cloud.catfish.api.domain.XlcDroneStatus">
+    <id column="uav_port" jdbcType="BIGINT" property="uavPort" />
+    <result column="altitude" jdbcType="DOUBLE" property="altitude" />
+    <result column="battery_remain" jdbcType="DOUBLE" property="batteryRemain" />
+    <result column="drone_name" jdbcType="VARCHAR" property="droneName" />
+    <result column="fix_type" jdbcType="INTEGER" property="fixType" />
+    <result column="hdg" jdbcType="DOUBLE" property="hdg" />
+    <result column="heading" jdbcType="DOUBLE" property="heading" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="satellites" jdbcType="INTEGER" property="satellites" />
+    <result column="vx" jdbcType="DOUBLE" property="vx" />
+    <result column="vy" jdbcType="DOUBLE" property="vy" />
+    <result column="vz" jdbcType="DOUBLE" property="vz" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    uav_port, altitude, battery_remain, drone_name, fix_type, hdg, heading, latitude, 
+    longitude, satellites, vx, vy, vz, updated_at
+  </sql>
+  <select id="selectByExample" parameterType="cloud.catfish.api.domain.XlcDroneStatusExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xlc_drone_status
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xlc_drone_status
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from xlc_drone_status
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cloud.catfish.api.domain.XlcDroneStatusExample">
+    delete from xlc_drone_status
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cloud.catfish.api.domain.XlcDroneStatus">
+    insert into xlc_drone_status (uav_port, altitude, battery_remain, 
+      drone_name, fix_type, hdg, 
+      heading, latitude, longitude, 
+      satellites, vx, vy, vz, 
+      updated_at)
+    values (#{uavPort,jdbcType=BIGINT}, #{altitude,jdbcType=DOUBLE}, #{batteryRemain,jdbcType=DOUBLE}, 
+      #{droneName,jdbcType=VARCHAR}, #{fixType,jdbcType=INTEGER}, #{hdg,jdbcType=DOUBLE}, 
+      #{heading,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, 
+      #{satellites,jdbcType=INTEGER}, #{vx,jdbcType=DOUBLE}, #{vy,jdbcType=DOUBLE}, #{vz,jdbcType=DOUBLE}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cloud.catfish.api.domain.XlcDroneStatus">
+    insert into xlc_drone_status
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uavPort != null">
+        uav_port,
+      </if>
+      <if test="altitude != null">
+        altitude,
+      </if>
+      <if test="batteryRemain != null">
+        battery_remain,
+      </if>
+      <if test="droneName != null">
+        drone_name,
+      </if>
+      <if test="fixType != null">
+        fix_type,
+      </if>
+      <if test="hdg != null">
+        hdg,
+      </if>
+      <if test="heading != null">
+        heading,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="satellites != null">
+        satellites,
+      </if>
+      <if test="vx != null">
+        vx,
+      </if>
+      <if test="vy != null">
+        vy,
+      </if>
+      <if test="vz != null">
+        vz,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uavPort != null">
+        #{uavPort,jdbcType=BIGINT},
+      </if>
+      <if test="altitude != null">
+        #{altitude,jdbcType=DOUBLE},
+      </if>
+      <if test="batteryRemain != null">
+        #{batteryRemain,jdbcType=DOUBLE},
+      </if>
+      <if test="droneName != null">
+        #{droneName,jdbcType=VARCHAR},
+      </if>
+      <if test="fixType != null">
+        #{fixType,jdbcType=INTEGER},
+      </if>
+      <if test="hdg != null">
+        #{hdg,jdbcType=DOUBLE},
+      </if>
+      <if test="heading != null">
+        #{heading,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="satellites != null">
+        #{satellites,jdbcType=INTEGER},
+      </if>
+      <if test="vx != null">
+        #{vx,jdbcType=DOUBLE},
+      </if>
+      <if test="vy != null">
+        #{vy,jdbcType=DOUBLE},
+      </if>
+      <if test="vz != null">
+        #{vz,jdbcType=DOUBLE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cloud.catfish.api.domain.XlcDroneStatusExample" resultType="java.lang.Long">
+    select count(*) from xlc_drone_status
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xlc_drone_status
+    <set>
+      <if test="row.uavPort != null">
+        uav_port = #{row.uavPort,jdbcType=BIGINT},
+      </if>
+      <if test="row.altitude != null">
+        altitude = #{row.altitude,jdbcType=DOUBLE},
+      </if>
+      <if test="row.batteryRemain != null">
+        battery_remain = #{row.batteryRemain,jdbcType=DOUBLE},
+      </if>
+      <if test="row.droneName != null">
+        drone_name = #{row.droneName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.fixType != null">
+        fix_type = #{row.fixType,jdbcType=INTEGER},
+      </if>
+      <if test="row.hdg != null">
+        hdg = #{row.hdg,jdbcType=DOUBLE},
+      </if>
+      <if test="row.heading != null">
+        heading = #{row.heading,jdbcType=DOUBLE},
+      </if>
+      <if test="row.latitude != null">
+        latitude = #{row.latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="row.longitude != null">
+        longitude = #{row.longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="row.satellites != null">
+        satellites = #{row.satellites,jdbcType=INTEGER},
+      </if>
+      <if test="row.vx != null">
+        vx = #{row.vx,jdbcType=DOUBLE},
+      </if>
+      <if test="row.vy != null">
+        vy = #{row.vy,jdbcType=DOUBLE},
+      </if>
+      <if test="row.vz != null">
+        vz = #{row.vz,jdbcType=DOUBLE},
+      </if>
+      <if test="row.updatedAt != null">
+        updated_at = #{row.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xlc_drone_status
+    set uav_port = #{row.uavPort,jdbcType=BIGINT},
+      altitude = #{row.altitude,jdbcType=DOUBLE},
+      battery_remain = #{row.batteryRemain,jdbcType=DOUBLE},
+      drone_name = #{row.droneName,jdbcType=VARCHAR},
+      fix_type = #{row.fixType,jdbcType=INTEGER},
+      hdg = #{row.hdg,jdbcType=DOUBLE},
+      heading = #{row.heading,jdbcType=DOUBLE},
+      latitude = #{row.latitude,jdbcType=DOUBLE},
+      longitude = #{row.longitude,jdbcType=DOUBLE},
+      satellites = #{row.satellites,jdbcType=INTEGER},··
+      vx = #{row.vx,jdbcType=DOUBLE},
+      vy = #{row.vy,jdbcType=DOUBLE},
+      vz = #{row.vz,jdbcType=DOUBLE},
+      updated_at = #{row.updatedAt,jdbcType=TIMESTAMP}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cloud.catfish.api.domain.XlcDroneStatus">
+    update xlc_drone_status
+    <set>
+      <if test="altitude != null">
+        altitude = #{altitude,jdbcType=DOUBLE},
+      </if>
+      <if test="batteryRemain != null">
+        battery_remain = #{batteryRemain,jdbcType=DOUBLE},
+      </if>
+      <if test="droneName != null">
+        drone_name = #{droneName,jdbcType=VARCHAR},
+      </if>
+      <if test="fixType != null">
+        fix_type = #{fixType,jdbcType=INTEGER},
+      </if>
+      <if test="hdg != null">
+        hdg = #{hdg,jdbcType=DOUBLE},
+      </if>
+      <if test="heading != null">
+        heading = #{heading,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="satellites != null">
+        satellites = #{satellites,jdbcType=INTEGER},
+      </if>
+      <if test="vx != null">
+        vx = #{vx,jdbcType=DOUBLE},
+      </if>
+      <if test="vy != null">
+        vy = #{vy,jdbcType=DOUBLE},
+      </if>
+      <if test="vz != null">
+        vz = #{vz,jdbcType=DOUBLE},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cloud.catfish.api.domain.XlcDroneStatus">
+    update xlc_drone_status
+    set altitude = #{altitude,jdbcType=DOUBLE},
+      battery_remain = #{batteryRemain,jdbcType=DOUBLE},
+      drone_name = #{droneName,jdbcType=VARCHAR},
+      fix_type = #{fixType,jdbcType=INTEGER},
+      hdg = #{hdg,jdbcType=DOUBLE},
+      heading = #{heading,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      satellites = #{satellites,jdbcType=INTEGER},
+      vx = #{vx,jdbcType=DOUBLE},
+      vy = #{vy,jdbcType=DOUBLE},
+      vz = #{vz,jdbcType=DOUBLE},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where uav_port = #{uavPort,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="java.util.List">
+    INSERT INTO xlc_drone_status (uav_port, altitude, battery_remain, drone_name, fix_type, hdg, heading, latitude, longitude, satellites, vx, vy, vz, updated_at) VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.uavPort}, #{item.altitude}, #{item.batteryRemain}, #{item.droneName}, #{item.fixType}, #{item.hdg}, #{item.heading}, #{item.latitude}, #{item.longitude}, #{item.satellites}, #{item.vx}, #{item.vy}, #{item.vz}, #{item.updatedAt})
+    </foreach>
+  </insert>
+</mapper>
