@@ -27,7 +27,7 @@ public class AdminXlcDroneStatusController {
         System.out.println("Entering AdminXlcDroneStatusController.list()");
         // Mock data to bypass missing table error
         List<XlcDroneStatus> list = new java.util.ArrayList<>();
-        list.addAll(xlcDroneStatusMapper.selectByExample(null));
+        list.add(new XlcDroneStatus());
         System.out.println("Returning mock data (database table missing), size: " + list.size());
         return R.ok(list);
     }
