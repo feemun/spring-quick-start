@@ -3,7 +3,7 @@ package cloud.catfish.admin.service.impl;
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsAdminService;
-import cloud.catfish.common.service.RedisService;
+import cloud.catfish.cache.service.RedisService;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsAdminRoleRelation;

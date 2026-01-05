@@ -7,7 +7,7 @@ import cloud.catfish.api.dto.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsAdminService;
-import cloud.catfish.common.exception.Asserts;
+import cloud.catfish.api.exception.Asserts;
 import cloud.catfish.common.util.RequestUtil;
 import cloud.catfish.mbg.mapper.UmsAdminLoginLogMapper;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;

@@ -1,6 +1,6 @@
 package cloud.catfish.security.config;
 
-import cloud.catfish.common.config.BaseRedisConfig;
+import cloud.catfish.cache.config.BaseRedisConfig;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 

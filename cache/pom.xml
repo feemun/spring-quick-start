@@ -9,4 +9,24 @@
     <artifactId>cache</artifactId>
     <name>cache</name>
     <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>common</artifactId>
+            <version>oxygen</version>
+        </dependency>
+    </dependencies>
 </project>
