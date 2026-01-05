@@ -32,16 +32,13 @@ public class MallSecurityConfig {
 
     @Bean
     public DynamicSecurityService dynamicSecurityService() {
-        return new DynamicSecurityService() {
-            @Override
-            public Map<String, String> loadDataSource() {
-                Map<String, String> map = new ConcurrentHashMap<>();
-                List<UmsResource> resourceList = resourceService.listAll();
-                for (UmsResource resource : resourceList) {
-                    map.put(resource.getUrl(), resource.getId() + ":" + resource.getName());
-                }
-                return map;
+        return () -> {
+            Map<String, String> map = new ConcurrentHashMap<>();
+            List<UmsResource> resourceList = resourceService.listAll();
+            for (UmsResource resource : resourceList) {
+                map.put(resource.getUrl(), resource.getId() + ":" + resource.getName());
             }
+            return map;
         };
     }
 }

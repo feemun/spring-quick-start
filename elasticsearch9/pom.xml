@@ -7,7 +7,7 @@
         <version>oxygen</version>
     </parent>
     <artifactId>elasticsearch9</artifactId>
-    <name>Archetype - elasticsearch9</name>
+    <name>elasticsearch9</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
