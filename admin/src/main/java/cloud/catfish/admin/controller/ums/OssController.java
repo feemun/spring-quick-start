@@ -2,7 +2,8 @@ package cloud.catfish.admin.controller.ums;
 
 
 import cloud.catfish.admin.service.OssService;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.R;
+import cloud.catfish.api.common.ResultCode;
 import cloud.catfish.api.dto.OssCallbackResult;
 import cloud.catfish.api.dto.OssPolicyResult;
 import io.swagger.v3.oas.annotations.Operation;

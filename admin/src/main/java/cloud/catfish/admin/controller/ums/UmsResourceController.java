@@ -1,8 +1,8 @@
 package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsResourceService;
-import cloud.catfish.common.api.CommonPage;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.CommonPage;
+import cloud.catfish.api.common.R;
 import cloud.catfish.security.component.DynamicSecurityMetadataSource;
 import cloud.catfish.api.domain.UmsResource;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,6 +1,6 @@
 package cloud.catfish.security.component;
 
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.R;
 import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

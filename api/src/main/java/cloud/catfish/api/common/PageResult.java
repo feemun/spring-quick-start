@@ -1,4 +1,4 @@
-package cloud.catfish.common.api;
+package cloud.catfish.api.common;
 
 import java.util.List;
 

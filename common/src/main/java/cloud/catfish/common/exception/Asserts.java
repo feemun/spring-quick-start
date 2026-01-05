@@ -1,6 +1,6 @@
 package cloud.catfish.common.exception;
 
-import cloud.catfish.common.api.IErrorCode;
+import cloud.catfish.api.common.IErrorCode;
 
 /**
  * 断言处理类，用于抛出各种API异常

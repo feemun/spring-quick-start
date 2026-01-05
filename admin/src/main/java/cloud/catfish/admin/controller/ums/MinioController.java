@@ -2,7 +2,7 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.api.dto.BucketPolicyConfigDto;
 import cloud.catfish.api.dto.MinioUploadDto;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.R;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 import io.minio.*;

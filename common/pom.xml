@@ -19,6 +19,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>api</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
         </dependency>

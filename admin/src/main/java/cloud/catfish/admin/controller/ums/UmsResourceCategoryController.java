@@ -1,7 +1,7 @@
 package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsResourceCategoryService;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.R;
 import cloud.catfish.api.domain.UmsResourceCategory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,6 +1,7 @@
 package cloud.catfish.common.exception;
 
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.R;
+import cloud.catfish.api.common.ResultCode;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

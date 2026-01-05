@@ -1,4 +1,4 @@
-package cloud.catfish.common.api;
+package cloud.catfish.api.common;
 
 /**
  * 通用返回结果封装类

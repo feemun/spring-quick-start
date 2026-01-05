@@ -1,6 +1,6 @@
 package cloud.catfish.common.exception;
 
-import cloud.catfish.common.api.IErrorCode;
+import cloud.catfish.api.common.IErrorCode;
 
 /**
  * 自定义API异常

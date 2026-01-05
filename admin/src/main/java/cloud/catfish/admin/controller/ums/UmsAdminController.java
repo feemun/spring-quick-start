@@ -2,8 +2,8 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsRoleService;
-import cloud.catfish.common.api.CommonPage;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.CommonPage;
+import cloud.catfish.api.common.R;
 import cn.hutool.core.collection.CollUtil;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsRole;
