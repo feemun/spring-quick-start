@@ -42,10 +42,27 @@ public class JacksonConfig implements WebMvcConfigurer {
 
     /**
      * 配置 Spring MVC 使用 Jackson 2
-     * 将 Jackson 2 转换器添加到列表首位，确保优先级高于默认的 Jackson 3 转换器
+     * 将 Jackson 2 转换器添加到列表中，确保优先级高于默认的 Jackson 3 转换器，但低于 ByteArrayHttpMessageConverter
      */
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper()));
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter jackson2Converter = new MappingJackson2HttpMessageConverter(objectMapper());
+        
+        // 查找 ByteArrayHttpMessageConverter 的位置
+        int byteArrayIndex = -1;
+        for (int i = 0; i < converters.size(); i++) {
+            if (converters.get(i) instanceof org.springframework.http.converter.ByteArrayHttpMessageConverter) {
+                byteArrayIndex = i;
+                break;
+            }
+        }
+        
+        // 确保在 ByteArrayHttpMessageConverter 之后插入
+        if (byteArrayIndex != -1) {
+            converters.add(byteArrayIndex + 1, jackson2Converter);
+        } else {
+            // 如果没找到，则添加到列表首位（兜底策略，虽然可能会有问题）
+            converters.add(0, jackson2Converter);
+        }
     }
 }
