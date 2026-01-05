@@ -72,11 +72,11 @@
             <version>oxygen</version>
         </dependency>
 
-        <dependency>
-            <groupId>cloud.catfish</groupId>
-            <artifactId>elasticsearch9</artifactId>
-            <version>oxygen</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cloud.catfish</groupId>-->
+<!--            <artifactId>elasticsearch9</artifactId>-->
+<!--            <version>oxygen</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 

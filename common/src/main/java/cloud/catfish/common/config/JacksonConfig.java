@@ -27,7 +27,7 @@ import java.util.List;
 @Configuration
 public class JacksonConfig implements WebMvcConfigurer {
 
-    @Bean
+    @Bean("customJacksonObjectMapper")
     @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();

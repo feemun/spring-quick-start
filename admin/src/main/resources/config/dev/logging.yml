@@ -1,0 +1,8 @@
+logging:
+  level:
+    root: info
+    cloud.catfish.admin: debug
+
+logstash:
+  host: localhost
+  enableInnerLog: false

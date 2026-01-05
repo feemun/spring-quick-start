@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -13,6 +14,8 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +27,10 @@ import java.util.List;
 
 @Configuration
 public class ElasticsearchConfig {
+
+    @Autowired
+    @Qualifier("customJacksonObjectMapper")
+    private ObjectMapper objectMapper;
 
 
     @Value("${elasticsearch.hosts}")
@@ -124,7 +131,7 @@ public class ElasticsearchConfig {
 
         // 使用注入的 objectMapper，保持与 Spring 全局配置一致
         ElasticsearchTransport transport =
-                new RestClientTransport(lowLevelClient, new JacksonJsonpMapper());
+                new RestClientTransport(lowLevelClient, new JacksonJsonpMapper(objectMapper));
 
         return new ElasticsearchClient(transport);
     }

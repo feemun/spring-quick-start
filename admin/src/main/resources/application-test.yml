@@ -1,0 +1,9 @@
+spring:
+  config:
+    import:
+      - classpath:config/test/database.yml
+      - classpath:config/test/redis.yml
+      - classpath:config/test/minio.yml
+      - classpath:config/test/elasticsearch.yml
+      - classpath:config/test/websocket.yml
+      - classpath:config/test/logging.yml

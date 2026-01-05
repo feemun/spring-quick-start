@@ -1,0 +1,9 @@
+logging:
+  file:
+    path: /var/logs
+  level:
+    root: info
+    cloud.catfish.admin: info
+
+logstash:
+  host: logstash

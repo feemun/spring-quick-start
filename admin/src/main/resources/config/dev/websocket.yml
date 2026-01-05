@@ -1,0 +1,17 @@
+websocket:
+  # 开发环境更宽松的配置
+  allowed-origin-patterns: "*"
+  # 消息大小限制 (字节) - 128KB，更大的消息限制
+  message-size-limit: 131072
+  # 发送缓冲区大小限制 (字节) - 默认512KB
+  send-buffer-size-limit: 524288
+  # 发送超时时间 (毫秒) - 30秒，更长的超时时间
+  send-time-limit: 30000
+  # 首次消息超时时间 (毫秒) - 默认30秒
+  time-to-first-message: 30000
+  # 心跳间隔时间 (毫秒) - 默认10秒
+  heartbeat-interval: 10000
+  # SockJS心跳时间 (毫秒) - 默认25秒
+  sockjs-heartbeat-time: 25000
+  # SockJS断开连接延迟 (毫秒) - 默认5秒
+  sockjs-disconnect-delay: 5000

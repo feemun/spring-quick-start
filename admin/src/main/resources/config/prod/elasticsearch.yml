@@ -1,0 +1,9 @@
+# Prod elasticsearch config (placeholder based on dev)
+elasticsearch:
+  hosts: http://es:9200 # Assuming 'es' host for prod
+  
+  connection-timeout: 3000
+  socket-timeout: 30000
+  max-retry-timeout: 60000
+  max-conn-total: 200
+  max-conn-per-route: 50

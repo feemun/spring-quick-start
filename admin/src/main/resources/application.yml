@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: spring-quick-start
+  main:
+    allow-bean-definition-overriding: true
   profiles:
     active: dev #默认为开发环境
   servlet:
