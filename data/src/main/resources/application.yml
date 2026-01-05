@@ -27,6 +27,19 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:8080/xxl-job-admin
+    accessToken: default_token
+    executor:
+      appname: data-service-executor
+      address: 
+      ip: 
+      port: 9999
+      logpath: ./data/xxl-job/jobhandler
+      logretentiondays: 30
+
 elasticsearch:
   hosts: 10.0.0.6:19200
   username: 
