@@ -73,10 +73,10 @@ public class UmsAdminController {
         if (refreshToken == null) {
             return R.failed("token已经过期！");
         }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", refreshToken);
-        tokenMap.put("tokenHead", tokenHead);
-        return R.ok(tokenMap);
+        AdminLoginVO adminLoginVO = umsAdminConverter.toAdminLoginVO();
+        adminLoginVO.setToken(refreshToken);
+        adminLoginVO.setTokenHead(tokenHead);
+        return R.ok(adminLoginVO);
     }
 
     @Operation(summary = "获取当前登录用户信息")
