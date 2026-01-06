@@ -1,6 +1,5 @@
 package cloud.catfish.security.config;
 
-import cloud.catfish.cache.config.BaseRedisConfig;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @EnableCaching
 @Configuration
-public class RedisConfig extends BaseRedisConfig {
+public class RedisConfig {
 
 }
