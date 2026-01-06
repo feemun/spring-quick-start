@@ -9,6 +9,7 @@ import cloud.catfish.mbg.mapper.UmsRoleMenuRelationMapper;
 import cloud.catfish.mbg.mapper.UmsRoleResourceRelationMapper;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class UmsRoleServiceImpl implements UmsRoleService {
     private UmsRoleDao roleDao;
     @Autowired
     private UmsAdminCacheService adminCacheService;
+
     @Override
     public int create(UmsRole role) {
         role.setCreateTime(LocalDateTime.now());
@@ -63,7 +65,7 @@ public class UmsRoleServiceImpl implements UmsRoleService {
     public List<UmsRole> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         UmsRoleExample example = new UmsRoleExample();
-        if (!StrUtil.isEmpty(keyword)) {
+        if (StringUtils.isNotBlank(keyword)) {
             example.createCriteria().andNameLike("%" + keyword + "%");
         }
         return roleMapper.selectByExample(example);
@@ -75,21 +77,24 @@ public class UmsRoleServiceImpl implements UmsRoleService {
     }
 
     @Override
-    public List<UmsMenu> listMenu(Long roleId) {
+    public List<UmsMenu> getRoleRelatedMenu(Long roleId) {
         return roleDao.getMenuListByRoleId(roleId);
     }
 
     @Override
-    public List<UmsResource> listResource(Long roleId) {
+    public List<UmsResource> getRoleRelatedResource(Long roleId) {
         return roleDao.getResourceListByRoleId(roleId);
     }
 
     @Override
-    public int allocMenu(Long roleId, List<Long> menuIds) {
-        //先删除原有关系
-        UmsRoleMenuRelationExample example=new UmsRoleMenuRelationExample();
-        example.createCriteria().andRoleIdEqualTo(roleId);
+    public int allocateMenu2Role(Long roleId, List<Long> menuIds) {
+        // todo 事务
+        // 删除旧的关系
+        UmsRoleMenuRelationExample example = new UmsRoleMenuRelationExample();
+        example.createCriteria()
+                .andRoleIdEqualTo(roleId);
         roleMenuRelationMapper.deleteByExample(example);
+
         //批量插入新关系
         for (Long menuId : menuIds) {
             UmsRoleMenuRelation relation = new UmsRoleMenuRelation();
@@ -101,9 +106,10 @@ public class UmsRoleServiceImpl implements UmsRoleService {
     }
 
     @Override
-    public int allocResource(Long roleId, List<Long> resourceIds) {
+    public int allocateResource2Role(Long roleId, List<Long> resourceIds) {
+        // todo 事务
         //先删除原有关系
-        UmsRoleResourceRelationExample example=new UmsRoleResourceRelationExample();
+        UmsRoleResourceRelationExample example = new UmsRoleResourceRelationExample();
         example.createCriteria().andRoleIdEqualTo(roleId);
         roleResourceRelationMapper.deleteByExample(example);
         //批量插入新关系
