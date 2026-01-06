@@ -59,7 +59,7 @@ public class UmsAdminController {
         if (token == null) {
             return R.validateFailed("用户名或密码错误");
         }
-        AdminLoginVO adminLoginVO = umsAdminConverter.toAdminLoginVO();
+        AdminLoginVO adminLoginVO = new AdminLoginVO();
         adminLoginVO.setToken(token);
         adminLoginVO.setTokenHead(tokenHead);
         return R.ok(adminLoginVO);
@@ -73,7 +73,7 @@ public class UmsAdminController {
         if (refreshToken == null) {
             return R.failed("token已经过期！");
         }
-        AdminLoginVO adminLoginVO = umsAdminConverter.toAdminLoginVO();
+        AdminLoginVO adminLoginVO = new AdminLoginVO();
         adminLoginVO.setToken(refreshToken);
         adminLoginVO.setTokenHead(tokenHead);
         return R.ok(adminLoginVO);
