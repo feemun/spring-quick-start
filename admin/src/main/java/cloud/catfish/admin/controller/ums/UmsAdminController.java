@@ -4,10 +4,12 @@ import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsRoleService;
 import cloud.catfish.api.common.CommonPage;
 import cloud.catfish.api.common.R;
+import cloud.catfish.api.converter.UmsAdminConverter;
+import cloud.catfish.api.vo.AdminLoginVO;
 import cn.hutool.core.collection.CollUtil;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsRole;
-import cloud.catfish.api.dto.UmsAdminLoginParam;
+import cloud.catfish.api.req.UmsAdminLoginParam;
 import cloud.catfish.api.req.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,15 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * 后台用户管理Controller
- * Created by macro on 2018/4/26.
- */
 @RestController
 @Tag(name = "UmsAdminController", description = "后台用户管理")
 @RequestMapping("/admin")
 public class UmsAdminController {
-    
+
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
     @Value("${jwt.tokenHead}")
@@ -41,6 +39,8 @@ public class UmsAdminController {
     private UmsAdminService adminService;
     @Resource
     private UmsRoleService roleService;
+    @Resource
+    private UmsAdminConverter umsAdminConverter;
 
     @Operation(summary = "用户注册")
     @PostMapping(value = "/register")
@@ -59,10 +59,10 @@ public class UmsAdminController {
         if (token == null) {
             return R.validateFailed("用户名或密码错误");
         }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-        tokenMap.put("tokenHead", tokenHead);
-        return R.ok(tokenMap);
+        AdminLoginVO adminLoginVO = umsAdminConverter.toAdminLoginVO();
+        adminLoginVO.setToken(token);
+        adminLoginVO.setTokenHead(tokenHead);
+        return R.ok(adminLoginVO);
     }
 
     @Operation(summary = "刷新token")

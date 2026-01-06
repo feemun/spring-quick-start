@@ -83,7 +83,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public UmsAdmin register(UmsAdminParam umsAdminParam) {
-        UmsAdmin umsAdmin =  umsAdminConverter.param2Entity(umsAdminParam);
+        UmsAdmin umsAdmin = umsAdminConverter.param2Entity(umsAdminParam);
         umsAdmin.setCreateTime(LocalDateTime.now());
         umsAdmin.setStatus(Boolean.TRUE);
 
@@ -112,13 +112,13 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 Asserts.fail("密码不正确");
             }
-//            if(!userDetails.isEnabled()){
-//                Asserts.fail("帐号已被禁用");
-//            }
+            if (!userDetails.isEnabled()) {
+                Asserts.fail("帐号已被禁用");
+            }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
-//            updateLoginTimeByUsername(username);
+            updateLoginTimeByUsername(username);
             insertLoginLog(username);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());

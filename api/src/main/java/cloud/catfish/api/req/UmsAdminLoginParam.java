@@ -1,4 +1,4 @@
-package cloud.catfish.api.dto;
+package cloud.catfish.api.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
