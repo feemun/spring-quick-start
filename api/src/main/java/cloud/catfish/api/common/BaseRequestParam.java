@@ -1,4 +1,4 @@
-package cloud.catfish.api.req;
+package cloud.catfish.api.common;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;

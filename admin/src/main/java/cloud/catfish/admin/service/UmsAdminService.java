@@ -1,6 +1,6 @@
 package cloud.catfish.admin.service;
 
-import cloud.catfish.api.dto.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsResource;

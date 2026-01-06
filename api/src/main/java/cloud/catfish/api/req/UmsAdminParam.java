@@ -1,5 +1,6 @@
-package cloud.catfish.api.dto;
+package cloud.catfish.api.req;
 
+import cloud.catfish.api.common.BaseRequestParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,13 +8,9 @@ import lombok.Setter;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
-/**
- * 用户注册参数
- * Created by macro on 2018/4/26.
- */
 @Getter
 @Setter
-public class UmsAdminParam {
+public class UmsAdminParam extends BaseRequestParam {
     @NotEmpty
     @Schema(title = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     private String username;

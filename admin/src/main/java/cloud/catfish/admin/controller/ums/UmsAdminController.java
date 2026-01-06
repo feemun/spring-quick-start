@@ -8,7 +8,7 @@ import cn.hutool.core.collection.CollUtil;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsRole;
 import cloud.catfish.api.dto.UmsAdminLoginParam;
-import cloud.catfish.api.dto.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
