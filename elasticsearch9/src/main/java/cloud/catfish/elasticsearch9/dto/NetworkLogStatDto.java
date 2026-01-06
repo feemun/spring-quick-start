@@ -1,7 +1,7 @@
 package cloud.catfish.elasticsearch9.dto;
 
 import cloud.catfish.elasticsearch9.json.CustomDateSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package cloud.catfish.elasticsearch9.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import tools.jackson.annotation.JsonFormat;
+import tools.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;

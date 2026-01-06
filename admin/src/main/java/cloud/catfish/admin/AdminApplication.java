@@ -14,7 +14,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "cloud.catfish.common",
         "cloud.catfish.mbg",
         "cloud.catfish.security",
-        "cloud.catfish.ws"}
+        "cloud.catfish.ws",
+        "cloud.catfish.api",
+        "cloud.catfish.cache"}
 )
 @MapperScan({"cloud.catfish.admin.dao", "cloud.catfish.mbg.mapper"})
 @EnableScheduling

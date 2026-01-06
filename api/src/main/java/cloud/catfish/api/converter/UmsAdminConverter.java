@@ -10,5 +10,5 @@ public interface UmsAdminConverter {
 
     UmsAdmin param2Entity(UmsAdminParam umsAdminParam);
 
-    AdminLoginVO toAdminLoginVO();
+    // AdminLoginVO toAdminLoginVO();
 }

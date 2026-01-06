@@ -2,11 +2,11 @@ package cloud.catfish.elasticsearch9.dto;
 
 import cloud.catfish.elasticsearch9.json.CustomDateDeserializer;
 import cloud.catfish.elasticsearch9.json.CustomDateSerializer;
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.annotation.JsonAlias;
+import tools.jackson.annotation.JsonIgnoreProperties;
+import tools.jackson.annotation.JsonProperty;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
