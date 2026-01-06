@@ -1,4 +1,6 @@
 logging:
+  file:
+    path: ${user.dir}/../logs
   level:
     root: info
     cloud.catfish.admin: debug
