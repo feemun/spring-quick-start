@@ -9,7 +9,6 @@ import cloud.catfish.api.req.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsAdminService;
-import cloud.catfish.api.exception.Asserts;
 import cloud.catfish.common.util.RequestUtil;
 import cloud.catfish.mbg.mapper.UmsAdminLoginLogMapper;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;
@@ -24,6 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -110,10 +111,10 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         try {
             UserDetails userDetails = loadUserByUsername(username);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-                Asserts.fail("密码不正确");
+                throw new BadCredentialsException("密码不正确");
             }
             if (!userDetails.isEnabled()) {
-                Asserts.fail("帐号已被禁用");
+                throw new DisabledException("帐号已被禁用");
             }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

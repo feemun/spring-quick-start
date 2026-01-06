@@ -9,7 +9,6 @@ import java.util.*;
 
 /**
  * 动态权限数据源，用于获取动态权限规则
- * Created by macro on 2020/2/7.
  */
 public class DynamicSecurityMetadataSource {
 
@@ -27,12 +26,11 @@ public class DynamicSecurityMetadataSource {
         configAttributeMap = null;
     }
 
-    
 
     //根据当前访问的路径获取对应权限
     public List<String> getConfigAttributesWithPath(String path) {
         if (configAttributeMap == null) this.loadDataSource();
-        List<String>  configAttributes = new ArrayList<>();
+        List<String> configAttributes = new ArrayList<>();
         PathMatcher pathMatcher = new AntPathMatcher();
         Iterator<String> iterator = configAttributeMap.keySet().iterator();
         //获取访问该路径所需资源
@@ -46,6 +44,5 @@ public class DynamicSecurityMetadataSource {
         return configAttributes;
     }
 
-    
 
 }

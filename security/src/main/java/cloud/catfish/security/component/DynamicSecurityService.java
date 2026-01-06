@@ -4,7 +4,6 @@ import java.util.Map;
 
 /**
  * 动态权限相关业务接口
- * Created by macro on 2020/2/7.
  */
 public interface DynamicSecurityService {
     /**

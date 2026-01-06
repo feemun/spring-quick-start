@@ -5,6 +5,8 @@ import cloud.catfish.security.util.JwtTokenUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -42,8 +44,11 @@ public class CommonSecurityConfig {
     }
 
     @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
-        return new JwtAuthenticationTokenFilter();
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(UserDetailsService userDetailsService,
+                                                                     JwtTokenUtil jwtTokenUtil,
+                                                                     @Value("${jwt.tokenHeader}") String tokenHeader,
+                                                                     @Value("${jwt.tokenHead}") String tokenHead){
+        return new JwtAuthenticationTokenFilter(userDetailsService, jwtTokenUtil, tokenHeader, tokenHead);
     }
 
     @ConditionalOnBean(name = "dynamicSecurityService")
