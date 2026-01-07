@@ -3,6 +3,7 @@ package cloud.catfish.admin.service.impl;
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsAdminService;
+import cloud.catfish.cache.service.CacheService;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsAdminRoleRelation;
@@ -11,11 +12,11 @@ import cloud.catfish.api.domain.UmsResource;
 import cn.hutool.core.collection.CollUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
 
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +28,7 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     @Autowired
     private UmsAdminService adminService;
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private CacheService cacheService;
     @Autowired
     private UmsAdminRoleRelationMapper adminRoleRelationMapper;
     @Autowired
@@ -46,14 +47,14 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         UmsAdmin admin = adminService.getItem(adminId);
         if (admin != null) {
             String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
-            redisTemplate.delete(key);
+            cacheService.delete(key);
         }
     }
 
     @Override
     public void delResourceList(Long adminId) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
-        redisTemplate.delete(key);
+        cacheService.delete(key);
     }
 
     @Override
@@ -64,8 +65,9 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         if (CollUtil.isNotEmpty(relationList)) {
             String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
             List<String> keys = relationList.stream().map(relation -> keyPrefix + relation.getAdminId()).collect(Collectors.toList());
-            redisTemplate.delete(keys);
+            cacheService.delete(keys);
         }
+
     }
 
     @Override
@@ -76,8 +78,9 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         if (CollUtil.isNotEmpty(relationList)) {
             String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
             List<String> keys = relationList.stream().map(relation -> keyPrefix + relation.getAdminId()).collect(Collectors.toList());
-            redisTemplate.delete(keys);
+            cacheService.delete(keys);
         }
+
     }
 
     @Override
@@ -86,39 +89,32 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         if (CollUtil.isNotEmpty(adminIdList)) {
             String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
             List<String> keys = adminIdList.stream().map(adminId -> keyPrefix + adminId).collect(Collectors.toList());
-            redisTemplate.delete(keys);
+            cacheService.delete(keys);
         }
+
     }
 
     @Override
     public UmsAdmin getAdmin(String username) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username;
-        Object value = redisTemplate.opsForValue().get(key);
-        if (value instanceof UmsAdmin umsAdmin) {
-            return umsAdmin;
-        }
-        return null;
+        return cacheService.get(key, UmsAdmin.class);
     }
 
     @Override
     public void setAdmin(UmsAdmin admin) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
-        redisTemplate.opsForValue().set(key, admin, REDIS_EXPIRE, TimeUnit.SECONDS);
+        cacheService.set(key, admin, Duration.ofSeconds(REDIS_EXPIRE));
     }
 
     @Override
     public List<UmsResource> getResourceList(Long adminId) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
-        Object value = redisTemplate.opsForValue().get(key);
-        if (value instanceof List<?> list) {
-            return (List<UmsResource>) list;
-        }
-        return null;
+        return cacheService.get(key, new TypeReference<List<UmsResource>>() {});
     }
 
     @Override
     public void setResourceList(Long adminId, List<UmsResource> resourceList) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
-        redisTemplate.opsForValue().set(key, resourceList, REDIS_EXPIRE, TimeUnit.SECONDS);
+        cacheService.set(key, resourceList, Duration.ofSeconds(REDIS_EXPIRE));
     }
 }
