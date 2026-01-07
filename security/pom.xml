@@ -22,6 +22,11 @@
             <version>oxygen</version>
         </dependency>
         <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>mbg</artifactId>
+            <version>oxygen</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>

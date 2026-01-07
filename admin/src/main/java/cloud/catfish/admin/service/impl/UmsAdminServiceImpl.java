@@ -1,6 +1,6 @@
 package cloud.catfish.admin.service.impl;
 
-import cloud.catfish.admin.bo.AdminUserDetails;
+import cloud.catfish.api.bo.AdminUserDetails;
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
 import cloud.catfish.api.converter.UmsAdminConverter;
 import cloud.catfish.api.domain.*;

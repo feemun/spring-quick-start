@@ -1,7 +1,5 @@
 package cloud.catfish.cache.config;
 
-import cloud.catfish.cache.service.RedisService;
-import cloud.catfish.cache.service.impl.RedisServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,10 +19,6 @@ import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 import java.time.Duration;
 
-/**
- * Redis基础配置
- * Created by macro on 2020/6/19.
- */
 @Configuration
 public class BaseRedisConfig {
 
@@ -60,17 +54,9 @@ public class BaseRedisConfig {
     @Primary
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, RedisSerializer<Object> redisSerializer) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
-        //设置Redis缓存有效期为1天
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
                 .entryTtl(Duration.ofDays(1));
         return new RedisCacheManager(redisCacheWriter, redisCacheConfiguration);
     }
-
-
-    @Bean
-    public RedisService redisService(){
-        return new RedisServiceImpl();
-    }
-
 }

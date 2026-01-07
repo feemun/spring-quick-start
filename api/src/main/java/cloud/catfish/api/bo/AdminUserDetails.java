@@ -1,4 +1,4 @@
-package cloud.catfish.admin.bo;
+package cloud.catfish.api.bo;
 
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsResource;
@@ -9,10 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * SpringSecurity需要的用户信息封装类
- * Created by macro on 2018/4/26.
- */
 public class AdminUserDetails implements UserDetails {
     //后台用户
     private final UmsAdmin umsAdmin;

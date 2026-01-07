@@ -2,7 +2,6 @@ package cloud.catfish.security.config;
 
 import cloud.catfish.security.component.*;
 import cloud.catfish.security.util.JwtTokenUtil;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,13 +50,11 @@ public class CommonSecurityConfig {
         return new JwtAuthenticationTokenFilter(userDetailsService, jwtTokenUtil, tokenHeader, tokenHead);
     }
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityMetadataSource dynamicSecurityMetadataSource() {
         return new DynamicSecurityMetadataSource();
     }
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicAuthorizationManager dynamicAuthorizationManager() {
         return new DynamicAuthorizationManager();
