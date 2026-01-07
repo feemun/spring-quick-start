@@ -14,7 +14,6 @@ import cloud.catfish.mbg.mapper.UmsAdminLoginLogMapper;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.security.util.JwtTokenUtil;
-import cloud.catfish.security.util.SpringUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
@@ -62,13 +61,14 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     private UmsAdminLoginLogMapper loginLogMapper;
     @Resource
     private UmsAdminConverter umsAdminConverter;
+    @Autowired
+    private UmsAdminCacheService adminCacheService;
 
     @Override
     public UmsAdmin getAdminByUsername(String username) {
-        UmsAdmin admin = null;
-//        //先从缓存中获取数据
-//        UmsAdmin admin = getCacheService().getAdmin(username);
-//        if (admin != null) return admin;
+        //先从缓存中获取数据
+        UmsAdmin admin = getCacheService().getAdmin(username);
+        if (admin != null) return admin;
         //缓存中没有从数据库中获取
         UmsAdminExample example = new UmsAdminExample();
         example.createCriteria().andUsernameEqualTo(username);
@@ -76,7 +76,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         if (adminList != null && adminList.size() > 0) {
             admin = adminList.get(0);
             //将数据库中的数据存入缓存中
-//            getCacheService().setAdmin(admin);
+            getCacheService().setAdmin(admin);
             return admin;
         }
         return null;
@@ -234,18 +234,17 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public List<UmsResource> getResourceList(Long adminId) {
-        List<UmsResource> resourceList = Collections.emptyList();
-//        //先从缓存中获取数据
-//        List<UmsResource> resourceList = getCacheService().getResourceList(adminId);
-//        if(CollUtil.isNotEmpty(resourceList)){
-//            return  resourceList;
-//        }
+        //先从缓存中获取数据
+        List<UmsResource> resourceList = getCacheService().getResourceList(adminId);
+        if (CollUtil.isNotEmpty(resourceList)) {
+            return resourceList;
+        }
         //缓存中没有从数据库中获取
         resourceList = adminRoleRelationDao.getResourceList(adminId);
-//        if(CollUtil.isNotEmpty(resourceList)){
-//            //将数据库中的数据存入缓存中
-//            getCacheService().setResourceList(adminId,resourceList);
-//        }
+        if (CollUtil.isNotEmpty(resourceList)) {
+            //将数据库中的数据存入缓存中
+            getCacheService().setResourceList(adminId, resourceList);
+        }
         return resourceList;
     }
 
@@ -285,7 +284,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public UmsAdminCacheService getCacheService() {
-        return SpringUtil.getBean(UmsAdminCacheService.class);
+        return adminCacheService;
     }
 
     @Override

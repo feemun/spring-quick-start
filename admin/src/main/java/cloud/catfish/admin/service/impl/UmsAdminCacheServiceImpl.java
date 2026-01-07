@@ -2,9 +2,9 @@ package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
 import cloud.catfish.admin.service.UmsAdminCacheService;
-import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.cache.service.CacheService;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
+import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsAdminRoleRelation;
 import cloud.catfish.api.domain.UmsAdminRoleRelationExample;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     @Autowired
-    private UmsAdminService adminService;
+    private UmsAdminMapper adminMapper;
     @Autowired
     private CacheService cacheService;
     @Autowired
@@ -44,7 +44,7 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
 
     @Override
     public void delAdmin(Long adminId) {
-        UmsAdmin admin = adminService.getItem(adminId);
+        UmsAdmin admin = adminMapper.selectByPrimaryKey(adminId);
         if (admin != null) {
             String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
             cacheService.delete(key);
