@@ -26,30 +26,18 @@ import java.time.Duration;
 public class RedisConfig {
 
     @Bean
-    public RedisSerializer<Object> redisSerializer() {
-        PolymorphicTypeValidator polymorphicTypeValidator = BasicPolymorphicTypeValidator.builder()
-                .allowIfSubType("cloud.catfish.")
-                .allowIfSubType("java.lang.")
-                .allowIfSubType("java.time.")
-                .allowIfSubType("java.util.")
-                .build();
-
-        JsonMapper objectMapper = JsonMapper.builder()
-                .findAndAddModules()
-                .activateDefaultTyping(polymorphicTypeValidator, DefaultTyping.NON_FINAL)
-                .build();
-
-        return new GenericJacksonJsonRedisSerializer(objectMapper);
-    }
-
-    @Bean
     @Primary
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, RedisSerializer<Object> redisSerializer) {
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory,
+                                               RedisSerializer<Object> redisSerializer) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer.UTF_8))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
+                .disableCachingNullValues()
                 .entryTtl(Duration.ofDays(1));
-        return new RedisCacheManager(redisCacheWriter, redisCacheConfiguration);
+        return RedisCacheManager.builder(redisCacheWriter)
+                .cacheDefaults(redisCacheConfiguration)
+                .build();
     }
 
     @Bean(destroyMethod = "shutdown")
