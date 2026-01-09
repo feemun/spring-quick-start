@@ -4,7 +4,7 @@ import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsResourceService;
 import cloud.catfish.mbg.mapper.UmsResourceMapper;
 import cloud.catfish.api.domain.UmsResource;
-import cloud.catfish.api.domain.UmsResourceExample;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +32,19 @@ public class UmsResourceServiceImpl implements UmsResourceService {
     @Override
     public int update(Long id, UmsResource umsResource) {
         umsResource.setId(id);
-        int count = resourceMapper.updateByPrimaryKeySelective(umsResource);
+        int count = resourceMapper.updateById(umsResource);
         adminCacheService.delResourceListByResource(id);
         return count;
     }
 
     @Override
     public UmsResource getItem(Long id) {
-        return resourceMapper.selectByPrimaryKey(id);
+        return resourceMapper.selectById(id);
     }
 
     @Override
     public int delete(Long id) {
-        int count = resourceMapper.deleteByPrimaryKey(id);
+        int count = resourceMapper.deleteById(id);
         adminCacheService.delResourceListByResource(id);
         return count;
     }
@@ -52,22 +52,21 @@ public class UmsResourceServiceImpl implements UmsResourceService {
     @Override
     public List<UmsResource> list(Long categoryId, String nameKeyword, String urlKeyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        UmsResourceExample example = new UmsResourceExample();
-        UmsResourceExample.Criteria criteria = example.createCriteria();
+        LambdaQueryWrapper<UmsResource> query = new LambdaQueryWrapper<>();
         if(categoryId!=null){
-            criteria.andCategoryIdEqualTo(categoryId);
+            query.eq(UmsResource::getCategoryId, categoryId);
         }
         if(StrUtil.isNotEmpty(nameKeyword)){
-            criteria.andNameLike('%'+nameKeyword+'%');
+            query.like(UmsResource::getName, nameKeyword);
         }
         if(StrUtil.isNotEmpty(urlKeyword)){
-            criteria.andUrlLike('%'+urlKeyword+'%');
+            query.like(UmsResource::getUrl, urlKeyword);
         }
-        return resourceMapper.selectByExample(example);
+        return resourceMapper.selectList(query);
     }
 
     @Override
     public List<UmsResource> listAll() {
-        return resourceMapper.selectByExample(new UmsResourceExample());
+        return resourceMapper.selectList(null);
     }
 }

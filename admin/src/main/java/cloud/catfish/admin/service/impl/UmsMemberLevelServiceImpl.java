@@ -3,7 +3,7 @@ package cloud.catfish.admin.service.impl;
 import cloud.catfish.admin.service.UmsMemberLevelService;
 import cloud.catfish.mbg.mapper.UmsMemberLevelMapper;
 import cloud.catfish.api.domain.UmsMemberLevel;
-import cloud.catfish.api.domain.UmsMemberLevelExample;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,6 @@ public class UmsMemberLevelServiceImpl implements UmsMemberLevelService {
     private UmsMemberLevelMapper memberLevelMapper;
     @Override
     public List<UmsMemberLevel> list(Integer defaultStatus) {
-        UmsMemberLevelExample example = new UmsMemberLevelExample();
-        example.createCriteria().andDefaultStatusEqualTo(defaultStatus);
-        return memberLevelMapper.selectByExample(example);
+        return memberLevelMapper.selectList(new LambdaQueryWrapper<UmsMemberLevel>().eq(UmsMemberLevel::getDefaultStatus, defaultStatus));
     }
 }

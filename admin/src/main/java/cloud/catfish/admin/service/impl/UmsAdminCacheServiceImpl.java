@@ -6,11 +6,10 @@ import cloud.catfish.cache.service.CacheService;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.api.domain.UmsAdmin;
-import cloud.catfish.api.domain.UmsAdminExample;
 import cloud.catfish.api.domain.UmsAdminRoleRelation;
-import cloud.catfish.api.domain.UmsAdminRoleRelationExample;
 import cloud.catfish.api.domain.UmsResource;
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +51,7 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
 
     @Override
     public void delAdmin(Long adminId) {
-        UmsAdmin admin = adminMapper.selectByPrimaryKey(adminId);
+        UmsAdmin admin = adminMapper.selectById(adminId);
         if (admin == null || admin.getUsername() == null) {
             return;
         }
@@ -66,9 +65,9 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
 
     @Override
     public void delResourceListByRole(Long roleId) {
-        UmsAdminRoleRelationExample example = new UmsAdminRoleRelationExample();
-        example.createCriteria().andRoleIdEqualTo(roleId);
-        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectByExample(example);
+        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectList(
+                new LambdaQueryWrapper<UmsAdminRoleRelation>().eq(UmsAdminRoleRelation::getRoleId, roleId)
+        );
         if (CollUtil.isNotEmpty(relationList)) {
             ArrayList<String> keys = new ArrayList<>(relationList.size());
             for (UmsAdminRoleRelation relation : relationList) {
@@ -81,9 +80,9 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
 
     @Override
     public void delResourceListByRoleIds(List<Long> roleIds) {
-        UmsAdminRoleRelationExample example = new UmsAdminRoleRelationExample();
-        example.createCriteria().andRoleIdIn(roleIds);
-        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectByExample(example);
+        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectList(
+                new LambdaQueryWrapper<UmsAdminRoleRelation>().in(UmsAdminRoleRelation::getRoleId, roleIds)
+        );
         if (CollUtil.isNotEmpty(relationList)) {
             ArrayList<String> keys = new ArrayList<>(relationList.size());
             for (UmsAdminRoleRelation relation : relationList) {
@@ -113,13 +112,10 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         if (username == null) {
             return null;
         }
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        List<UmsAdmin> adminList = adminMapper.selectByExample(example);
-        if (CollUtil.isEmpty(adminList)) {
-            return null;
-        }
-        return adminList.get(0);
+        List<UmsAdmin> adminList = adminMapper.selectList(
+                new LambdaQueryWrapper<UmsAdmin>().eq(UmsAdmin::getUsername, username)
+        );
+        return CollUtil.isEmpty(adminList) ? null : adminList.get(0);
     }
 
     @Override

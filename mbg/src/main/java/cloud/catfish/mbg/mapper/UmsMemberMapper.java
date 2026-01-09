@@ -1,31 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
 import cloud.catfish.api.domain.UmsMember;
-import cloud.catfish.api.domain.UmsMemberExample;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import java.util.List;
-
-public interface UmsMemberMapper {
-    long countByExample(UmsMemberExample example);
-
-    int deleteByExample(UmsMemberExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(UmsMember row);
-
-    int insertSelective(UmsMember row);
-
-    List<UmsMember> selectByExample(UmsMemberExample example);
-
-    UmsMember selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("row") UmsMember row, @Param("example") UmsMemberExample example);
-
-    int updateByExample(@Param("row") UmsMember row, @Param("example") UmsMemberExample example);
-
-    int updateByPrimaryKeySelective(UmsMember row);
-
-    int updateByPrimaryKey(UmsMember row);
+public interface UmsMemberMapper extends BaseMapper<UmsMember> {
 }

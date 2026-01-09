@@ -6,6 +6,7 @@ import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.mbg.mapper.UmsResourceMapper;
 import cloud.catfish.mbg.mapper.UmsRoleResourceRelationMapper;
 import cloud.catfish.security.component.DynamicSecurityService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.User;
@@ -40,9 +41,9 @@ public class MallSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            UmsAdminExample example = new UmsAdminExample();
-            example.createCriteria().andUsernameEqualTo(username);
-            List<UmsAdmin> admins = umsAdminMapper.selectByExample(example);
+            LambdaQueryWrapper<UmsAdmin> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(UmsAdmin::getUsername, username);
+            List<UmsAdmin> admins = umsAdminMapper.selectList(queryWrapper);
             if (admins == null || admins.isEmpty()) {
                 throw new UsernameNotFoundException("用户名或密码错误");
             }
@@ -68,7 +69,7 @@ public class MallSecurityConfig {
     public DynamicSecurityService dynamicSecurityService() {
         return () -> {
             Map<String, String> map = new ConcurrentHashMap<>();
-            List<UmsResource> resources = umsResourceMapper.selectByExample(new UmsResourceExample());
+            List<UmsResource> resources = umsResourceMapper.selectList(null);
             for (UmsResource resource : resources) {
                 map.put(resource.getUrl(), resource.getId() + ":" + resource.getName());
             }
@@ -81,9 +82,9 @@ public class MallSecurityConfig {
             return Collections.emptyList();
         }
 
-        UmsAdminRoleRelationExample adminRoleExample = new UmsAdminRoleRelationExample();
-        adminRoleExample.createCriteria().andAdminIdEqualTo(adminId);
-        List<UmsAdminRoleRelation> adminRoles = umsAdminRoleRelationMapper.selectByExample(adminRoleExample);
+        LambdaQueryWrapper<UmsAdminRoleRelation> adminRoleQueryWrapper = new LambdaQueryWrapper<>();
+        adminRoleQueryWrapper.eq(UmsAdminRoleRelation::getAdminId, adminId);
+        List<UmsAdminRoleRelation> adminRoles = umsAdminRoleRelationMapper.selectList(adminRoleQueryWrapper);
         if (adminRoles == null || adminRoles.isEmpty()) {
             return Collections.emptyList();
         }
@@ -93,9 +94,9 @@ public class MallSecurityConfig {
             return Collections.emptyList();
         }
 
-        UmsRoleResourceRelationExample roleResourceExample = new UmsRoleResourceRelationExample();
-        roleResourceExample.createCriteria().andRoleIdIn(roleIds);
-        List<UmsRoleResourceRelation> roleResources = umsRoleResourceRelationMapper.selectByExample(roleResourceExample);
+        LambdaQueryWrapper<UmsRoleResourceRelation> roleResourceQueryWrapper = new LambdaQueryWrapper<>();
+        roleResourceQueryWrapper.in(UmsRoleResourceRelation::getRoleId, roleIds);
+        List<UmsRoleResourceRelation> roleResources = umsRoleResourceRelationMapper.selectList(roleResourceQueryWrapper);
         if (roleResources == null || roleResources.isEmpty()) {
             return Collections.emptyList();
         }
@@ -105,9 +106,6 @@ public class MallSecurityConfig {
             return Collections.emptyList();
         }
 
-        UmsResourceExample resourceExample = new UmsResourceExample();
-        resourceExample.createCriteria().andIdIn(resourceIds);
-        resourceExample.setDistinct(true);
-        return umsResourceMapper.selectByExample(resourceExample);
+        return umsResourceMapper.selectBatchIds(resourceIds);
     }
 }

@@ -40,9 +40,9 @@
         <druid.version>1.2.21</druid.version>
         <hutool.version>5.8.16</hutool.version>
         <springdoc-openapi.version>3.0.0</springdoc-openapi.version>
-        <mybatis-generator.version>1.4.2</mybatis-generator.version>
-        <mybatis.version>3.5.14</mybatis.version>
-        <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
+        <mybatis.version>3.5.19</mybatis.version>
+        <mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <mysql-connector.version>8.0.29</mysql-connector.version>
         <jjwt.version>0.13.0</jjwt.version>
         <aliyun-oss.version>2.5.0</aliyun-oss.version>
@@ -130,17 +130,21 @@
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc-openapi.version}</version>
             </dependency>
-            <!-- MyBatis 生成器 -->
-            <dependency>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-core</artifactId>
-                <version>${mybatis-generator.version}</version>
-            </dependency>
             <!-- MyBatis-->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
             <!--Mysql数据库驱动-->
             <dependency>

@@ -1,31 +1,7 @@
 package cloud.catfish.mbg.mapper;
 
 import cloud.catfish.api.domain.UmsIntegrationConsumeSetting;
-import cloud.catfish.api.domain.UmsIntegrationConsumeSettingExample;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import java.util.List;
-
-public interface UmsIntegrationConsumeSettingMapper {
-    long countByExample(UmsIntegrationConsumeSettingExample example);
-
-    int deleteByExample(UmsIntegrationConsumeSettingExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(UmsIntegrationConsumeSetting row);
-
-    int insertSelective(UmsIntegrationConsumeSetting row);
-
-    List<UmsIntegrationConsumeSetting> selectByExample(UmsIntegrationConsumeSettingExample example);
-
-    UmsIntegrationConsumeSetting selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("row") UmsIntegrationConsumeSetting row, @Param("example") UmsIntegrationConsumeSettingExample example);
-
-    int updateByExample(@Param("row") UmsIntegrationConsumeSetting row, @Param("example") UmsIntegrationConsumeSettingExample example);
-
-    int updateByPrimaryKeySelective(UmsIntegrationConsumeSetting row);
-
-    int updateByPrimaryKey(UmsIntegrationConsumeSetting row);
+public interface UmsIntegrationConsumeSettingMapper extends BaseMapper<UmsIntegrationConsumeSetting> {
 }

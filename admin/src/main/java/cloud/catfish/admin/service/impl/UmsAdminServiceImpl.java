@@ -16,6 +16,7 @@ import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.security.util.JwtTokenUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,10 +77,10 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         umsAdmin.setStatus(Boolean.TRUE);
 
         // 查询是否有相同用户名的用户
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
-        List<UmsAdmin> umsAdminList = adminMapper.selectByExample(example);
-        if (umsAdminList.size() > 0) {
+        Long existingCount = adminMapper.selectCount(
+                new LambdaQueryWrapper<UmsAdmin>().eq(UmsAdmin::getUsername, umsAdmin.getUsername())
+        );
+        if (existingCount != null && existingCount > 0) {
             throw new ApiException("用户名已存在，注册失败");
         }
 
@@ -137,9 +138,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     private void updateLoginTimeByUsername(String username) {
         UmsAdmin record = new UmsAdmin();
         record.setLoginTime(LocalDateTime.now());
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        adminMapper.updateByExampleSelective(record, example);
+        adminMapper.update(record, new LambdaQueryWrapper<UmsAdmin>().eq(UmsAdmin::getUsername, username));
     }
 
     @Override
@@ -149,25 +148,27 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public UmsAdmin getItem(Long id) {
-        return adminMapper.selectByPrimaryKey(id);
+        return adminMapper.selectById(id);
     }
 
     @Override
     public List<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
-        UmsAdminExample example = new UmsAdminExample();
-        UmsAdminExample.Criteria criteria = example.createCriteria();
         if (!StrUtil.isEmpty(keyword)) {
-            criteria.andUsernameLike("%" + keyword + "%");
-            example.or(example.createCriteria().andNickNameLike("%" + keyword + "%"));
+            return adminMapper.selectList(
+                    new LambdaQueryWrapper<UmsAdmin>()
+                            .like(UmsAdmin::getUsername, keyword)
+                            .or()
+                            .like(UmsAdmin::getNickName, keyword)
+            );
         }
-        return adminMapper.selectByExample(example);
+        return adminMapper.selectList(null);
     }
 
     @Override
     public int update(Long id, UmsAdmin admin) {
         admin.setId(id);
-        UmsAdmin rawAdmin = adminMapper.selectByPrimaryKey(id);
+        UmsAdmin rawAdmin = adminMapper.selectById(id);
         if (rawAdmin.getPassword().equals(admin.getPassword())) {
             //与原加密密码相同的不需要修改
             admin.setPassword(null);
@@ -179,14 +180,14 @@ public class UmsAdminServiceImpl implements UmsAdminService {
                 admin.setPassword(passwordEncoder.encode(admin.getPassword()));
             }
         }
-        int count = adminMapper.updateByPrimaryKeySelective(admin);
+        int count = adminMapper.updateById(admin);
         getCacheService().delAdmin(id);
         return count;
     }
 
     @Override
     public int delete(Long id) {
-        int count = adminMapper.deleteByPrimaryKey(id);
+        int count = adminMapper.deleteById(id);
         getCacheService().delAdmin(id);
         getCacheService().delResourceList(id);
         return count;
@@ -196,9 +197,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     public int updateRole(Long adminId, List<Long> roleIds) {
         int count = roleIds == null ? 0 : roleIds.size();
         //先删除原来的关系
-        UmsAdminRoleRelationExample adminRoleRelationExample = new UmsAdminRoleRelationExample();
-        adminRoleRelationExample.createCriteria().andAdminIdEqualTo(adminId);
-        adminRoleRelationMapper.deleteByExample(adminRoleRelationExample);
+        adminRoleRelationMapper.delete(new LambdaQueryWrapper<UmsAdminRoleRelation>().eq(UmsAdminRoleRelation::getAdminId, adminId));
         //建立新关系
         if (!CollectionUtils.isEmpty(roleIds)) {
             List<UmsAdminRoleRelation> list = new ArrayList<>();
@@ -231,9 +230,9 @@ public class UmsAdminServiceImpl implements UmsAdminService {
                 || StrUtil.isEmpty(param.getNewPassword())) {
             return -1;
         }
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andUsernameEqualTo(param.getUsername());
-        List<UmsAdmin> adminList = adminMapper.selectByExample(example);
+        List<UmsAdmin> adminList = adminMapper.selectList(
+                new LambdaQueryWrapper<UmsAdmin>().eq(UmsAdmin::getUsername, param.getUsername())
+        );
         if (CollUtil.isEmpty(adminList)) {
             return -2;
         }
@@ -242,7 +241,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             return -3;
         }
         umsAdmin.setPassword(passwordEncoder.encode(param.getNewPassword()));
-        adminMapper.updateByPrimaryKey(umsAdmin);
+        adminMapper.updateById(umsAdmin);
         getCacheService().delAdmin(umsAdmin.getId());
         return 1;
     }

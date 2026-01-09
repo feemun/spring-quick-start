@@ -1,8 +1,8 @@
 package cloud.catfish.admin.config;
 
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
@@ -20,15 +20,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 public class MyBatisConfig {
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+        MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        var resources1 = resolver.getResources("classpath:dao/*.xml");
-        var resources2 = resolver.getResources("classpath*:cloud/catfish/mbg/mapper/*.xml");
-        var combined = new org.springframework.core.io.Resource[resources1.length + resources2.length];
-        System.arraycopy(resources1, 0, combined, 0, resources1.length);
-        System.arraycopy(resources2, 0, combined, resources1.length, resources2.length);
-        factoryBean.setMapperLocations(combined);
+        factoryBean.setMapperLocations(resolver.getResources("classpath:dao/*.xml"));
         return factoryBean.getObject();
     }
 
