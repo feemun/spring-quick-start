@@ -28,13 +28,15 @@ public class RedisConfig {
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory,
-                                               RedisSerializer<Object> redisSerializer) {
+                                               RedisSerializer<Object> redisSerializer,
+                                               Environment environment) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
+        long ttlSeconds = environment.getProperty("redis.expire.common", Long.class, 86400L);
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer.UTF_8))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
                 .disableCachingNullValues()
-                .entryTtl(Duration.ofDays(1));
+                .entryTtl(Duration.ofSeconds(ttlSeconds));
         return RedisCacheManager.builder(redisCacheWriter)
                 .cacheDefaults(redisCacheConfiguration)
                 .build();
