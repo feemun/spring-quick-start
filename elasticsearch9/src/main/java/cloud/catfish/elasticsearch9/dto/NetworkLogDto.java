@@ -1,12 +1,8 @@
 package cloud.catfish.elasticsearch9.dto;
 
-import cloud.catfish.elasticsearch9.json.CustomDateDeserializer;
-import cloud.catfish.elasticsearch9.json.CustomDateSerializer;
-import tools.jackson.annotation.JsonAlias;
-import tools.jackson.annotation.JsonIgnoreProperties;
-import tools.jackson.annotation.JsonProperty;
-import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -57,8 +53,6 @@ public class NetworkLogDto {
     private String destStationName;
     
     @JsonProperty("create_time")
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @JsonSerialize(using = CustomDateSerializer.class)
     private LocalDateTime createTime;
     
     private Long bytes;

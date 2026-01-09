@@ -1,6 +1,6 @@
 package cloud.catfish.elasticsearch9.model;
 
-import tools.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
