@@ -7,7 +7,7 @@ import cloud.catfish.security.component.DynamicSecurityMetadataSource;
 import cloud.catfish.api.domain.UmsResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +19,11 @@ import java.util.List;
 @Tag(name = "UmsResourceController", description = "后台资源管理")
 @RestController
 @RequestMapping("/resource")
+@RequiredArgsConstructor
 public class UmsResourceController {
 
-    @Resource
-    private UmsResourceService resourceService;
-    @Resource
-    private DynamicSecurityMetadataSource dynamicSecurityMetadataSource;
+    private final UmsResourceService resourceService;
+    private final DynamicSecurityMetadataSource dynamicSecurityMetadataSource;
 
     @Operation(summary = "添加后台资源")
     @PostMapping(value = "/create")

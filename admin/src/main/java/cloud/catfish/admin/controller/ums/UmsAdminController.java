@@ -2,6 +2,7 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsRoleService;
+import cloud.catfish.admin.config.AdminProperties.JwtProperties;
 import cloud.catfish.api.common.CommonPage;
 import cloud.catfish.api.common.R;
 import cloud.catfish.api.converter.UmsAdminConverter;
@@ -14,9 +15,8 @@ import cloud.catfish.api.req.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +29,12 @@ import java.util.stream.Collectors;
 @RestController
 @Tag(name = "UmsAdminController", description = "后台用户管理")
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class UmsAdminController {
-
-    @Value("${jwt.tokenHeader}")
-    private String tokenHeader;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
-    @Resource
-    private UmsAdminService adminService;
-    @Resource
-    private UmsRoleService roleService;
-    @Resource
-    private UmsAdminConverter umsAdminConverter;
+    private final JwtProperties jwtProperties;
+    private final UmsAdminService adminService;
+    private final UmsRoleService roleService;
+    private final UmsAdminConverter umsAdminConverter;
 
     @Operation(summary = "用户注册")
     @PostMapping(value = "/register")
@@ -61,21 +55,21 @@ public class UmsAdminController {
         }
         AdminLoginVO adminLoginVO = new AdminLoginVO();
         adminLoginVO.setToken(token);
-        adminLoginVO.setTokenHead(tokenHead);
+        adminLoginVO.setTokenHead(jwtProperties.tokenHead());
         return R.ok(adminLoginVO);
     }
 
     @Operation(summary = "刷新token")
     @GetMapping(value = "/refreshToken")
     public R refreshToken(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader);
+        String token = request.getHeader(jwtProperties.tokenHeader());
         String refreshToken = adminService.refreshToken(token);
         if (refreshToken == null) {
             return R.failed("token已经过期！");
         }
         AdminLoginVO adminLoginVO = new AdminLoginVO();
         adminLoginVO.setToken(refreshToken);
-        adminLoginVO.setTokenHead(tokenHead);
+        adminLoginVO.setTokenHead(jwtProperties.tokenHead());
         return R.ok(adminLoginVO);
     }
 

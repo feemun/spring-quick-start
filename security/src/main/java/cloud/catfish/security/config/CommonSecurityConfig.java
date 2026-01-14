@@ -4,7 +4,7 @@ import cloud.catfish.security.component.*;
 import cloud.catfish.security.util.JwtTokenUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Created by macro on 2022/5/20.
  */
 @Configuration
+@EnableConfigurationProperties({IgnoreUrlsConfig.class, SecurityProperties.JwtProperties.class})
 public class CommonSecurityConfig {
 
     @Bean
@@ -23,13 +24,8 @@ public class CommonSecurityConfig {
     }
 
     @Bean
-    public IgnoreUrlsConfig ignoreUrlsConfig() {
-        return new IgnoreUrlsConfig();
-    }
-
-    @Bean
-    public JwtTokenUtil jwtTokenUtil() {
-        return new JwtTokenUtil();
+    public JwtTokenUtil jwtTokenUtil(SecurityProperties.JwtProperties jwtProperties) {
+        return new JwtTokenUtil(jwtProperties);
     }
 
     @Bean
@@ -45,18 +41,22 @@ public class CommonSecurityConfig {
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(UserDetailsService userDetailsService,
                                                                      JwtTokenUtil jwtTokenUtil,
-                                                                     @Value("${jwt.tokenHeader}") String tokenHeader,
-                                                                     @Value("${jwt.tokenHead}") String tokenHead){
-        return new JwtAuthenticationTokenFilter(userDetailsService, jwtTokenUtil, tokenHeader, tokenHead);
+                                                                     SecurityProperties.JwtProperties jwtProperties) {
+        return new JwtAuthenticationTokenFilter(
+                userDetailsService,
+                jwtTokenUtil,
+                jwtProperties.tokenHeader(),
+                jwtProperties.tokenHead()
+        );
     }
 
     @Bean
-    public DynamicSecurityMetadataSource dynamicSecurityMetadataSource() {
-        return new DynamicSecurityMetadataSource();
+    public DynamicSecurityMetadataSource dynamicSecurityMetadataSource(DynamicSecurityService dynamicSecurityService) {
+        return new DynamicSecurityMetadataSource(dynamicSecurityService);
     }
 
     @Bean
-    public DynamicAuthorizationManager dynamicAuthorizationManager() {
-        return new DynamicAuthorizationManager();
+    public DynamicAuthorizationManager dynamicAuthorizationManager(DynamicSecurityMetadataSource securityDataSource, IgnoreUrlsConfig ignoreUrlsConfig) {
+        return new DynamicAuthorizationManager(securityDataSource, ignoreUrlsConfig);
     }
 }

@@ -4,7 +4,7 @@ import cloud.catfish.admin.service.UmsResourceCategoryService;
 import cloud.catfish.mbg.mapper.UmsResourceCategoryMapper;
 import cloud.catfish.api.domain.UmsResourceCategory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,9 +15,9 @@ import java.util.List;
  * Created by macro on 2020/2/5.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsResourceCategoryServiceImpl implements UmsResourceCategoryService {
-    @Autowired
-    private UmsResourceCategoryMapper resourceCategoryMapper;
+    private final UmsResourceCategoryMapper resourceCategoryMapper;
 
     @Override
     public List<UmsResourceCategory> listAll() {

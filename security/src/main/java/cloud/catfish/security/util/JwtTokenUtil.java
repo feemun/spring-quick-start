@@ -8,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
@@ -31,12 +30,15 @@ public class JwtTokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
-    @Value("${jwt.secret}")
-    private String secret;
-    @Value("${jwt.expiration}")
-    private Long expiration;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
+    private final String secret;
+    private final Long expiration;
+    private final String tokenHead;
+
+    public JwtTokenUtil(cloud.catfish.security.config.SecurityProperties.JwtProperties properties) {
+        this.secret = properties.secret();
+        this.expiration = properties.expiration();
+        this.tokenHead = properties.tokenHead();
+    }
 
     /**
      * 根据负责生成JWT的token

@@ -7,7 +7,7 @@ import cloud.catfish.api.domain.UmsMenu;
 import cloud.catfish.api.dto.UmsMenuNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @Tag(name = "UmsMenuController", description = "后台菜单管理")
 @RequestMapping("/menu")
+@RequiredArgsConstructor
 public class UmsMenuController {
 
-    @Resource
-    private UmsMenuService menuService;
+    private final UmsMenuService menuService;
 
     @Operation(summary = "添加后台菜单")
     @PostMapping(value = "/create")

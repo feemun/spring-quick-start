@@ -10,8 +10,8 @@ import cloud.catfish.mbg.mapper.UmsRoleResourceRelationMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,17 +22,13 @@ import java.util.List;
  * Created by macro on 2018/9/30.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsRoleServiceImpl implements UmsRoleService {
-    @Autowired
-    private UmsRoleMapper roleMapper;
-    @Autowired
-    private UmsRoleMenuRelationMapper roleMenuRelationMapper;
-    @Autowired
-    private UmsRoleResourceRelationMapper roleResourceRelationMapper;
-    @Autowired
-    private UmsRoleDao roleDao;
-    @Autowired
-    private UmsAdminCacheService adminCacheService;
+    private final UmsRoleMapper roleMapper;
+    private final UmsRoleMenuRelationMapper roleMenuRelationMapper;
+    private final UmsRoleResourceRelationMapper roleResourceRelationMapper;
+    private final UmsRoleDao roleDao;
+    private final UmsAdminCacheService adminCacheService;
 
     @Override
     public int create(UmsRole role) {

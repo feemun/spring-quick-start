@@ -7,7 +7,7 @@ import cloud.catfish.api.domain.UmsResource;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,11 +18,10 @@ import java.util.List;
  * Created by macro on 2020/2/2.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsResourceServiceImpl implements UmsResourceService {
-    @Autowired
-    private UmsResourceMapper resourceMapper;
-    @Autowired
-    private UmsAdminCacheService adminCacheService;
+    private final UmsResourceMapper resourceMapper;
+    private final UmsAdminCacheService adminCacheService;
     @Override
     public int create(UmsResource umsResource) {
         umsResource.setCreateTime(LocalDateTime.now());

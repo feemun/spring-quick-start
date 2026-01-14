@@ -1,9 +1,9 @@
 package cloud.catfish.security.component;
 
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
+import org.springframework.http.server.PathContainer;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.util.*;
 
@@ -12,37 +12,50 @@ import java.util.*;
  */
 public class DynamicSecurityMetadataSource {
 
-    private static Map<String, String> configAttributeMap = null;
-    @Autowired
-    private DynamicSecurityService dynamicSecurityService;
+    private final DynamicSecurityService dynamicSecurityService;
+    private final PathPatternParser pathPatternParser = PathPatternParser.defaultInstance;
+    private volatile List<Rule> rules;
+
+    public DynamicSecurityMetadataSource(DynamicSecurityService dynamicSecurityService) {
+        this.dynamicSecurityService = dynamicSecurityService;
+    }
 
     @PostConstruct
     public void loadDataSource() {
-        configAttributeMap = dynamicSecurityService.loadDataSource();
+        Map<String, String> raw = dynamicSecurityService.loadDataSource();
+        if (raw == null || raw.isEmpty()) {
+            this.rules = List.of();
+            return;
+        }
+        List<Rule> compiled = new ArrayList<>(raw.size());
+        for (Map.Entry<String, String> entry : raw.entrySet()) {
+            compiled.add(new Rule(pathPatternParser.parse(entry.getKey()), entry.getValue()));
+        }
+        this.rules = List.copyOf(compiled);
     }
 
     public void clearDataSource() {
-        configAttributeMap.clear();
-        configAttributeMap = null;
+        this.rules = null;
     }
 
 
     //根据当前访问的路径获取对应权限
     public List<String> getConfigAttributesWithPath(String path) {
-        if (configAttributeMap == null) this.loadDataSource();
+        if (this.rules == null) {
+            this.loadDataSource();
+        }
         List<String> configAttributes = new ArrayList<>();
-        PathMatcher pathMatcher = new AntPathMatcher();
-        Iterator<String> iterator = configAttributeMap.keySet().iterator();
-        //获取访问该路径所需资源
-        while (iterator.hasNext()) {
-            String pattern = iterator.next();
-            if (pathMatcher.match(pattern, path)) {
-                configAttributes.add(configAttributeMap.get(pattern));
+        PathContainer pathContainer = PathContainer.parsePath(path);
+        for (Rule rule : this.rules) {
+            if (rule.pattern().matches(pathContainer)) {
+                configAttributes.add(rule.attribute());
             }
         }
         // 未设置操作请求权限，返回空集合
         return configAttributes;
     }
 
+    private record Rule(PathPattern pattern, String attribute) {
+    }
 
 }

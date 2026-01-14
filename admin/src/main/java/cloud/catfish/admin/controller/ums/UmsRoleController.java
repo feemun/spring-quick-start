@@ -8,7 +8,7 @@ import cloud.catfish.api.domain.UmsResource;
 import cloud.catfish.api.domain.UmsRole;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.List;
 @RestController
 @Tag(name = "UmsRoleController", description = "后台用户角色管理")
 @RequestMapping("/role")
+@RequiredArgsConstructor
 public class UmsRoleController {
 
-    @Resource
-    private UmsRoleService roleService;
+    private final UmsRoleService roleService;
 
     @Operation(summary = "添加角色")
     @PostMapping(value = "/create")

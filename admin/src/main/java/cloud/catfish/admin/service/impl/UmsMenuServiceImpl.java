@@ -6,8 +6,8 @@ import cloud.catfish.mbg.mapper.UmsMenuMapper;
 import cloud.catfish.api.domain.UmsMenu;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
  * Created by macro on 2020/2/2.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsMenuServiceImpl implements UmsMenuService {
-    @Autowired
-    private UmsMenuMapper menuMapper;
+    private final UmsMenuMapper menuMapper;
 
     @Override
     public int create(UmsMenu umsMenu) {

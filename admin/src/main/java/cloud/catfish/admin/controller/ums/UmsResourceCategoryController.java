@@ -5,7 +5,7 @@ import cloud.catfish.api.common.R;
 import cloud.catfish.api.domain.UmsResourceCategory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 @RestController
 @Tag(name = "UmsResourceCategoryController", description = "后台资源分类管理")
 @RequestMapping("/resourceCategory")
+@RequiredArgsConstructor
 public class UmsResourceCategoryController {
-    @Resource
-    private UmsResourceCategoryService resourceCategoryService;
+    private final UmsResourceCategoryService resourceCategoryService;
 
     @Operation(summary = "查询所有后台资源分类")
     @GetMapping(value = "/listAll")

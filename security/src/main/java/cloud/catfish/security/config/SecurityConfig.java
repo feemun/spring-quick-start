@@ -10,11 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 
 /**
@@ -22,7 +22,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
  * Created by macro on 2019/11/5.
  */
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     private final IgnoreUrlsConfig ignoreUrlsConfig;
@@ -49,10 +48,10 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(registry -> {
-                    for (String url : ignoreUrlsConfig.getUrls()) {
-                        registry.requestMatchers(url).permitAll();
+                    for (String url : ignoreUrlsConfig.urls()) {
+                        registry.requestMatchers(PathPatternRequestMatcher.pathPattern(url)).permitAll();
                     }
-                    registry.requestMatchers(HttpMethod.OPTIONS).permitAll();
+                    registry.requestMatchers(PathPatternRequestMatcher.pathPattern(HttpMethod.OPTIONS, "/**")).permitAll();
                     registry.anyRequest().access(
                             dynamicAuthorizationManager == null
                                     ? AuthenticatedAuthorizationManager.authenticated()
