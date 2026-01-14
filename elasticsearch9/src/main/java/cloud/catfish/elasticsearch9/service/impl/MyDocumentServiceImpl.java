@@ -1,6 +1,6 @@
 package cloud.catfish.elasticsearch9.service.impl;
 
-import cloud.catfish.elasticsearch9.model.MyDocument;
+import cloud.catfish.elasticsearch9.dto.MyDocumentDto;
 import cloud.catfish.elasticsearch9.service.MyDocumentService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
@@ -8,9 +8,9 @@ import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MyDocumentServiceImpl implements MyDocumentService {
     
     private static final Logger log = LoggerFactory.getLogger(MyDocumentServiceImpl.class);
 
     private static final String INDEX_NAME = "my-index";
 
-    @Autowired
-    private ElasticsearchClient elasticsearchClient;
+    private final ElasticsearchClient elasticsearchClient;
 
     @Override
     public String createIndex() throws IOException {
@@ -49,31 +49,31 @@ public class MyDocumentServiceImpl implements MyDocumentService {
     }
 
     @Override
-    public String createDocument(MyDocument document) throws IOException {
+    public String createDocument(MyDocumentDto document) throws IOException {
         elasticsearchClient.index(i -> i
                 .index(INDEX_NAME)
-                .id(document.getId())
+                .id(document.id())
                 .document(document)
         );
         return "Document created";
     }
 
     @Override
-    public MyDocument getDocument(String id) throws IOException {
+    public MyDocumentDto getDocument(String id) throws IOException {
         return elasticsearchClient.get(g -> g
                 .index(INDEX_NAME)
                 .id(id),
-                MyDocument.class
+                MyDocumentDto.class
         ).source();
     }
 
     @Override
-    public String updateDocument(MyDocument document) throws IOException {
+    public String updateDocument(MyDocumentDto document) throws IOException {
         elasticsearchClient.update(u -> u
                 .index(INDEX_NAME)
-                .id(document.getId())
+                .id(document.id())
                 .doc(document),
-                MyDocument.class
+                MyDocumentDto.class
         );
         return "Document updated";
     }
@@ -88,16 +88,16 @@ public class MyDocumentServiceImpl implements MyDocumentService {
     }
 
     @Override
-    public void bulkCreateDocuments(List<MyDocument> documents) throws IOException {
+    public void bulkCreateDocuments(List<MyDocumentDto> documents) throws IOException {
         if (documents.isEmpty()) return;
 
         BulkRequest.Builder br = new BulkRequest.Builder();
 
-        for (MyDocument document : documents) {
+        for (MyDocumentDto document : documents) {
             br.operations(op -> op
                 .index(idx -> idx
                     .index(INDEX_NAME)
-                    .id(document.getId())
+                    .id(document.id())
                     .document(document)
                 )
             );
@@ -116,8 +116,8 @@ public class MyDocumentServiceImpl implements MyDocumentService {
     }
 
     @Override
-    public List<MyDocument> searchByTitle(String title) throws IOException {
-        SearchResponse<MyDocument> response = elasticsearchClient.search(s -> s
+    public List<MyDocumentDto> searchByTitle(String title) throws IOException {
+        SearchResponse<MyDocumentDto> response = elasticsearchClient.search(s -> s
                 .index(INDEX_NAME)
                 .query(q -> q
                         .match(m -> m
@@ -125,11 +125,11 @@ public class MyDocumentServiceImpl implements MyDocumentService {
                                 .query(title)
                         )
                 ),
-                MyDocument.class
+                MyDocumentDto.class
         );
 
-        List<MyDocument> result = new ArrayList<>();
-        for (Hit<MyDocument> hit : response.hits().hits()) {
+        List<MyDocumentDto> result = new ArrayList<>();
+        for (Hit<MyDocumentDto> hit : response.hits().hits()) {
             result.add(hit.source());
         }
         return result;

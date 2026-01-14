@@ -1,6 +1,6 @@
 package cloud.catfish.elasticsearch9.service;
 
-import cloud.catfish.elasticsearch9.model.MyDocument;
+import cloud.catfish.elasticsearch9.dto.MyDocumentDto;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,15 +10,15 @@ public interface MyDocumentService {
     
     String deleteIndex() throws IOException;
     
-    String createDocument(MyDocument document) throws IOException;
+    String createDocument(MyDocumentDto document) throws IOException;
     
-    MyDocument getDocument(String id) throws IOException;
+    MyDocumentDto getDocument(String id) throws IOException;
     
-    String updateDocument(MyDocument document) throws IOException;
+    String updateDocument(MyDocumentDto document) throws IOException;
     
     String deleteDocument(String id) throws IOException;
     
-    void bulkCreateDocuments(List<MyDocument> documents) throws IOException;
+    void bulkCreateDocuments(List<MyDocumentDto> documents) throws IOException;
 
-    List<MyDocument> searchByTitle(String title) throws IOException;
+    List<MyDocumentDto> searchByTitle(String title) throws IOException;
 }

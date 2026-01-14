@@ -1,6 +1,6 @@
 package cloud.catfish.elasticsearch9.service;
 
-import cloud.catfish.elasticsearch9.model.PlaceDocument;
+import cloud.catfish.elasticsearch9.dto.PlaceDocumentDto;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,5 +10,5 @@ public interface PlaceDocumentService {
     
     String deleteIndex() throws IOException;
     
-    void bulkCreateDocuments(List<PlaceDocument> documents) throws IOException;
+    void bulkCreateDocuments(List<PlaceDocumentDto> documents) throws IOException;
 }

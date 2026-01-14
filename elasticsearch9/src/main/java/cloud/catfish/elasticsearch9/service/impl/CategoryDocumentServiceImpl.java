@@ -1,6 +1,6 @@
 package cloud.catfish.elasticsearch9.service.impl;
 
-import cloud.catfish.elasticsearch9.model.CategoryDocument;
+import cloud.catfish.elasticsearch9.dto.CategoryDocumentDto;
 import cloud.catfish.elasticsearch9.service.CategoryDocumentService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
@@ -60,16 +60,16 @@ public class CategoryDocumentServiceImpl implements CategoryDocumentService {
     }
 
     @Override
-    public void bulkCreateDocuments(List<CategoryDocument> documents) throws IOException {
+    public void bulkCreateDocuments(List<CategoryDocumentDto> documents) throws IOException {
         if (documents.isEmpty()) return;
 
         BulkRequest.Builder br = new BulkRequest.Builder();
 
-        for (CategoryDocument document : documents) {
+        for (CategoryDocumentDto document : documents) {
             br.operations(op -> op
                 .index(idx -> idx
                     .index(INDEX_NAME)
-                    .id(document.getCategoryId())
+                    .id(document.categoryId())
                     .document(document)
                 )
             );
@@ -88,8 +88,8 @@ public class CategoryDocumentServiceImpl implements CategoryDocumentService {
     }
 
     @Override
-    public List<CategoryDocument> searchByCategoryName(String categoryName) throws IOException {
-        SearchResponse<CategoryDocument> response = elasticsearchClient.search(s -> s
+    public List<CategoryDocumentDto> searchByCategoryName(String categoryName) throws IOException {
+        SearchResponse<CategoryDocumentDto> response = elasticsearchClient.search(s -> s
                 .index(INDEX_NAME)
                 .query(q -> q
                         .match(m -> m
@@ -97,11 +97,11 @@ public class CategoryDocumentServiceImpl implements CategoryDocumentService {
                                 .query(categoryName)
                         )
                 ),
-                CategoryDocument.class
+                CategoryDocumentDto.class
         );
 
-        List<CategoryDocument> result = new ArrayList<>();
-        for (Hit<CategoryDocument> hit : response.hits().hits()) {
+        List<CategoryDocumentDto> result = new ArrayList<>();
+        for (Hit<CategoryDocumentDto> hit : response.hits().hits()) {
             result.add(hit.source());
         }
         return result;

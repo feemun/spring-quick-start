@@ -1,6 +1,6 @@
 package cloud.catfish.elasticsearch9.service.impl;
 
-import cloud.catfish.elasticsearch9.model.PlaceDocument;
+import cloud.catfish.elasticsearch9.dto.PlaceDocumentDto;
 import cloud.catfish.elasticsearch9.service.PlaceDocumentService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
@@ -66,16 +66,16 @@ public class PlaceDocumentServiceImpl implements PlaceDocumentService {
     }
 
     @Override
-    public void bulkCreateDocuments(List<PlaceDocument> documents) throws IOException {
+    public void bulkCreateDocuments(List<PlaceDocumentDto> documents) throws IOException {
         if (documents.isEmpty()) return;
 
         BulkRequest.Builder br = new BulkRequest.Builder();
 
-        for (PlaceDocument document : documents) {
+        for (PlaceDocumentDto document : documents) {
             br.operations(op -> op
                 .index(idx -> idx
                     .index(INDEX_NAME)
-                    .id(document.getFsqId())
+                    .id(document.fsqId())
                     .document(document)
                 )
             );
