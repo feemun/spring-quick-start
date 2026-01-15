@@ -1,6 +1,9 @@
-package cloud.catfish.security.config;
+package cloud.catfish.admin.config;
 
-import cloud.catfish.api.domain.*;
+import cloud.catfish.api.domain.UmsAdmin;
+import cloud.catfish.api.domain.UmsAdminRoleRelation;
+import cloud.catfish.api.domain.UmsResource;
+import cloud.catfish.api.domain.UmsRoleResourceRelation;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.mbg.mapper.UmsResourceMapper;
@@ -19,14 +22,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
-public class MallSecurityConfig {
-
+public class AdminSecurityConfig {
     private final UmsAdminMapper umsAdminMapper;
     private final UmsResourceMapper umsResourceMapper;
     private final UmsAdminRoleRelationMapper umsAdminRoleRelationMapper;
     private final UmsRoleResourceRelationMapper umsRoleResourceRelationMapper;
 
-    public MallSecurityConfig(
+    public AdminSecurityConfig(
             UmsAdminMapper umsAdminMapper,
             UmsResourceMapper umsResourceMapper,
             UmsAdminRoleRelationMapper umsAdminRoleRelationMapper,
@@ -109,3 +111,4 @@ public class MallSecurityConfig {
         return umsResourceMapper.selectBatchIds(resourceIds);
     }
 }
+

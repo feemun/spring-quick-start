@@ -2,17 +2,19 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsRoleService;
-import cloud.catfish.admin.config.AdminProperties.JwtProperties;
+import cloud.catfish.admin.dto.TokenPair;
 import cloud.catfish.api.common.CommonPage;
 import cloud.catfish.api.common.R;
 import cloud.catfish.api.converter.UmsAdminConverter;
 import cloud.catfish.api.vo.AdminLoginVO;
+import cloud.catfish.api.req.RefreshTokenParam;
 import cn.hutool.core.collection.CollUtil;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsRole;
 import cloud.catfish.api.req.UmsAdminLoginParam;
 import cloud.catfish.api.req.UmsAdminParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
+import cloud.catfish.security.config.SecurityProperties.JwtProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,26 +51,41 @@ public class UmsAdminController {
     @Operation(summary = "登录以后返回token")
     @PostMapping(value = "/login")
     public R login(@Validated @RequestBody UmsAdminLoginParam umsAdminLoginParam) {
-        String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
-        if (token == null) {
+        TokenPair tokenPair = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
+        if (tokenPair == null) {
             return R.validateFailed("用户名或密码错误");
         }
         AdminLoginVO adminLoginVO = new AdminLoginVO();
-        adminLoginVO.setToken(token);
+        adminLoginVO.setToken(tokenPair.accessToken());
         adminLoginVO.setTokenHead(jwtProperties.tokenHead());
+        adminLoginVO.setRefreshToken(tokenPair.refreshToken());
         return R.ok(adminLoginVO);
     }
 
     @Operation(summary = "刷新token")
+    @PostMapping(value = "/refreshToken")
+    public R refreshToken(@RequestBody RefreshTokenParam param) {
+        TokenPair tokenPair = adminService.refreshToken(param.getRefreshToken());
+        if (tokenPair == null) {
+            return R.failed("refreshToken无效或已过期！");
+        }
+        AdminLoginVO adminLoginVO = new AdminLoginVO();
+        adminLoginVO.setToken(tokenPair.accessToken());
+        adminLoginVO.setTokenHead(jwtProperties.tokenHead());
+        adminLoginVO.setRefreshToken(tokenPair.refreshToken());
+        return R.ok(adminLoginVO);
+    }
+
+    @Operation(summary = "兼容旧版：刷新token")
     @GetMapping(value = "/refreshToken")
-    public R refreshToken(HttpServletRequest request) {
-        String token = request.getHeader(jwtProperties.tokenHeader());
-        String refreshToken = adminService.refreshToken(token);
-        if (refreshToken == null) {
+    public R refreshTokenLegacy(HttpServletRequest request) {
+        String oldToken = request.getHeader(jwtProperties.tokenHeader());
+        String accessToken = adminService.refreshAccessToken(oldToken);
+        if (accessToken == null) {
             return R.failed("token已经过期！");
         }
         AdminLoginVO adminLoginVO = new AdminLoginVO();
-        adminLoginVO.setToken(refreshToken);
+        adminLoginVO.setToken(accessToken);
         adminLoginVO.setTokenHead(jwtProperties.tokenHead());
         return R.ok(adminLoginVO);
     }

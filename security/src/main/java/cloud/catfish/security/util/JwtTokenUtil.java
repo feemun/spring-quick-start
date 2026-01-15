@@ -2,19 +2,19 @@ package cloud.catfish.security.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwsHeader;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * JwtToken生成的工具类
@@ -28,54 +28,44 @@ import java.util.Map;
  */
 public class JwtTokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
-    private final String secret;
     private final Long expiration;
     private final String tokenHead;
+    private final JwtEncoder jwtEncoder;
+    private final JwtDecoder jwtDecoder;
 
-    public JwtTokenUtil(cloud.catfish.security.config.SecurityProperties.JwtProperties properties) {
-        this.secret = properties.secret();
+    public JwtTokenUtil(cloud.catfish.security.config.SecurityProperties.JwtProperties properties, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
         this.expiration = properties.expiration();
         this.tokenHead = properties.tokenHead();
+        this.jwtEncoder = jwtEncoder;
+        this.jwtDecoder = jwtDecoder;
     }
 
     /**
      * 根据负责生成JWT的token
      */
-    private String generateToken(Map<String, Object> claims) {
-        final SecretKey signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(generateExpirationDate())
-                .signWith(signingKey, SignatureAlgorithm.HS512)
-                .compact();
+    private String generateToken(String username, Long createdEpochMillis) {
+        Instant now = Instant.now();
+        JwtClaimsSet claimsSet = JwtClaimsSet.builder()
+                .subject(username)
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(expiration))
+                .claim(CLAIM_KEY_CREATED, createdEpochMillis)
+                .build();
+        JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS512).build();
+        return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claimsSet)).getTokenValue();
     }
 
     /**
      * 从token中获取JWT中的负载
      */
-    private Claims getClaimsFromToken(String token) {
-        Claims claims = null;
-        final SecretKey signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-
+    private Jwt getJwtFromToken(String token) {
         try {
-            return Jwts.parser()
-                    .verifyWith(signingKey)   // 替代 setSigningKey
-                    .build()
-                    .parseSignedClaims(token) // 替代 parseClaimsJws
-                    .getPayload();            // 替代 getBody()
+            return jwtDecoder.decode(token);
         } catch (Exception e) {
-            LOGGER.info("JWT格式验证失败:{}", token);
+            LOGGER.info("JWT格式验证失败:{}", e.getMessage());
         }
-        return claims;
-    }
-
-    /**
-     * 生成token的过期时间
-     */
-    private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+        return null;
     }
 
     /**
@@ -84,8 +74,8 @@ public class JwtTokenUtil {
     public String getUserNameFromToken(String token) {
         String username;
         try {
-            Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            Jwt jwt = getJwtFromToken(token);
+            username = jwt == null ? null : jwt.getSubject();
         } catch (Exception e) {
             username = null;
         }
@@ -100,7 +90,7 @@ public class JwtTokenUtil {
      */
     public boolean validateToken(String token, UserDetails userDetails) {
         String username = getUserNameFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return StrUtil.isNotEmpty(username) && username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     /**
@@ -108,6 +98,9 @@ public class JwtTokenUtil {
      */
     private boolean isTokenExpired(String token) {
         Date expiredDate = getExpiredDateFromToken(token);
+        if (expiredDate == null) {
+            return true;
+        }
         return expiredDate.before(new Date());
     }
 
@@ -115,18 +108,18 @@ public class JwtTokenUtil {
      * 从token中获取过期时间
      */
     private Date getExpiredDateFromToken(String token) {
-        Claims claims = getClaimsFromToken(token);
-        return claims.getExpiration();
+        Jwt jwt = getJwtFromToken(token);
+        if (jwt == null || jwt.getExpiresAt() == null) {
+            return null;
+        }
+        return Date.from(jwt.getExpiresAt());
     }
 
     /**
      * 根据用户信息生成token
      */
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_CREATED, new Date());
-        return generateToken(claims);
+        return generateToken(userDetails.getUsername(), Instant.now().toEpochMilli());
     }
 
     /**
@@ -143,8 +136,8 @@ public class JwtTokenUtil {
             return null;
         }
         //token校验不通过
-        Claims claims = getClaimsFromToken(token);
-        if (claims == null) {
+        Jwt jwt = getJwtFromToken(token);
+        if (jwt == null) {
             return null;
         }
         //如果token已经过期，不支持刷新
@@ -155,8 +148,7 @@ public class JwtTokenUtil {
         if (tokenRefreshJustBefore(token, 30 * 60)) {
             return token;
         } else {
-            claims.put(CLAIM_KEY_CREATED, new Date());
-            return generateToken(claims);
+            return generateToken(jwt.getSubject(), Instant.now().toEpochMilli());
         }
     }
 
@@ -167,13 +159,34 @@ public class JwtTokenUtil {
      * @param time  指定时间（秒）
      */
     private boolean tokenRefreshJustBefore(String token, int time) {
-        Claims claims = getClaimsFromToken(token);
-        Date created = claims.get(CLAIM_KEY_CREATED, Date.class);
+        Jwt jwt = getJwtFromToken(token);
+        if (jwt == null) {
+            return false;
+        }
+        Date created = getCreatedDate(jwt);
+        if (created == null) {
+            return false;
+        }
         Date refreshDate = new Date();
         //刷新时间在创建时间的指定时间内
         if (refreshDate.after(created) && refreshDate.before(DateUtil.offsetSecond(created, time))) {
             return true;
         }
         return false;
+    }
+
+    private Date getCreatedDate(Jwt jwt) {
+        Object created = jwt.getClaims().get(CLAIM_KEY_CREATED);
+        if (created instanceof Number createdNumber) {
+            return new Date(createdNumber.longValue());
+        }
+        if (created instanceof String createdString) {
+            try {
+                return new Date(Long.parseLong(createdString));
+            } catch (NumberFormatException ignored) {
+                return null;
+            }
+        }
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.api.bo.AdminUserDetails;
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
+import cloud.catfish.admin.dto.TokenPair;
 import cloud.catfish.api.converter.UmsAdminConverter;
 import cloud.catfish.api.domain.*;
 import cloud.catfish.api.exception.ApiException;
@@ -13,6 +14,7 @@ import cloud.catfish.common.util.RequestUtil;
 import cloud.catfish.mbg.mapper.UmsAdminLoginLogMapper;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
+import cloud.catfish.security.config.SecurityProperties;
 import cloud.catfish.security.util.JwtTokenUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -22,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,6 +42,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 后台用户管理Service实现类
@@ -48,7 +52,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UmsAdminServiceImpl implements UmsAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminServiceImpl.class);
+    private static final String REFRESH_TOKEN_USER_KEY_PREFIX = "jwt:ru:";
+    private static final String REFRESH_TOKEN_KEY_PREFIX = "jwt:rt:";
     private final JwtTokenUtil jwtTokenUtil;
+    private final SecurityProperties.JwtProperties jwtProperties;
+    private final StringRedisTemplate stringRedisTemplate;
     private final PasswordEncoder passwordEncoder;
     private final UmsAdminMapper adminMapper;
     private final UmsAdminRoleRelationMapper adminRoleRelationMapper;
@@ -85,8 +93,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public String login(String username, String password) {
-        String token = null;
+    public TokenPair login(String username, String password) {
+        String accessToken = null;
         //密码需要客户端加密后传递
         try {
             UserDetails userDetails = loadUserByUsername(username);
@@ -98,13 +106,17 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
+            accessToken = jwtTokenUtil.generateToken(userDetails);
             updateLoginTimeByUsername(username);
             insertLoginLog(username);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
-        return token;
+        if (accessToken == null) {
+            return null;
+        }
+        String refreshToken = rotateRefreshToken(username);
+        return new TokenPair(accessToken, refreshToken);
     }
 
     /**
@@ -134,7 +146,32 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public String refreshToken(String oldToken) {
+    public TokenPair refreshToken(String refreshToken) {
+        if (StrUtil.isEmpty(refreshToken)) {
+            return null;
+        }
+
+        String username = stringRedisTemplate.opsForValue().get(REFRESH_TOKEN_KEY_PREFIX + refreshToken);
+        if (StrUtil.isEmpty(username)) {
+            return null;
+        }
+
+        String userKey = REFRESH_TOKEN_USER_KEY_PREFIX + username;
+        String currentRefreshToken = stringRedisTemplate.opsForValue().get(userKey);
+        if (!refreshToken.equals(currentRefreshToken)) {
+            return null;
+        }
+
+        stringRedisTemplate.delete(REFRESH_TOKEN_KEY_PREFIX + refreshToken);
+        String newRefreshToken = rotateRefreshToken(username);
+
+        UserDetails userDetails = loadUserByUsername(username);
+        String accessToken = jwtTokenUtil.generateToken(userDetails);
+        return new TokenPair(accessToken, newRefreshToken);
+    }
+
+    @Override
+    public String refreshAccessToken(String oldToken) {
         return jwtTokenUtil.refreshHeadToken(oldToken);
     }
 
@@ -260,5 +297,28 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         UmsAdmin admin = getCacheService().getAdmin(username);
         getCacheService().delAdmin(admin.getId());
         getCacheService().delResourceList(admin.getId());
+        revokeRefreshToken(username);
+    }
+
+    private void revokeRefreshToken(String username) {
+        if (StrUtil.isEmpty(username)) {
+            return;
+        }
+        String userKey = REFRESH_TOKEN_USER_KEY_PREFIX + username;
+        String refreshToken = stringRedisTemplate.opsForValue().get(userKey);
+        if (!StrUtil.isEmpty(refreshToken)) {
+            stringRedisTemplate.delete(REFRESH_TOKEN_KEY_PREFIX + refreshToken);
+        }
+        stringRedisTemplate.delete(userKey);
+    }
+
+    private String rotateRefreshToken(String username) {
+        String refreshToken = UUID.randomUUID().toString().replace("-", "");
+        long ttlSeconds = jwtProperties.refreshExpiration();
+        String tokenKey = REFRESH_TOKEN_KEY_PREFIX + refreshToken;
+        String userKey = REFRESH_TOKEN_USER_KEY_PREFIX + username;
+        stringRedisTemplate.opsForValue().set(tokenKey, username, java.time.Duration.ofSeconds(ttlSeconds));
+        stringRedisTemplate.opsForValue().set(userKey, refreshToken, java.time.Duration.ofSeconds(ttlSeconds));
+        return refreshToken;
     }
 }

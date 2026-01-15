@@ -1,20 +1,21 @@
 package cloud.catfish.security.config;
 
 import cloud.catfish.security.component.DynamicAuthorizationManager;
-import cloud.catfish.security.component.JwtAuthenticationTokenFilter;
 import cloud.catfish.security.component.RestAuthenticationEntryPoint;
 import cloud.catfish.security.component.RestfulAccessDeniedHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 
 /**
@@ -27,20 +28,20 @@ public class SecurityConfig {
     private final IgnoreUrlsConfig ignoreUrlsConfig;
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     private final DynamicAuthorizationManager dynamicAuthorizationManager;
+    private final Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter;
 
     public SecurityConfig(
             IgnoreUrlsConfig ignoreUrlsConfig,
             RestfulAccessDeniedHandler restfulAccessDeniedHandler,
             RestAuthenticationEntryPoint restAuthenticationEntryPoint,
-            JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter,
+            ObjectProvider<Converter<Jwt, ? extends AbstractAuthenticationToken>> jwtAuthenticationConverter,
             ObjectProvider<DynamicAuthorizationManager> dynamicAuthorizationManager
     ) {
         this.ignoreUrlsConfig = ignoreUrlsConfig;
         this.restfulAccessDeniedHandler = restfulAccessDeniedHandler;
         this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
-        this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+        this.jwtAuthenticationConverter = jwtAuthenticationConverter.getIfAvailable();
         this.dynamicAuthorizationManager = dynamicAuthorizationManager.getIfAvailable();
     }
 
@@ -63,7 +64,16 @@ public class SecurityConfig {
                 .exceptionHandling(configurer -> configurer
                         .accessDeniedHandler(restfulAccessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint))
-                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .oauth2ResourceServer(oauth2 -> {
+                    oauth2
+                            .authenticationEntryPoint(restAuthenticationEntryPoint)
+                            .accessDeniedHandler(restfulAccessDeniedHandler);
+                    oauth2.jwt(jwt -> {
+                        if (jwtAuthenticationConverter != null) {
+                            jwt.jwtAuthenticationConverter(jwtAuthenticationConverter);
+                        }
+                    });
+                });
         return httpSecurity.build();
     }
 

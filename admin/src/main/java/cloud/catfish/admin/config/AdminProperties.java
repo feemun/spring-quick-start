@@ -6,15 +6,6 @@ public final class AdminProperties {
     private AdminProperties() {
     }
 
-    @ConfigurationProperties(prefix = "jwt")
-    public record JwtProperties(
-            String tokenHeader,
-            String tokenHead,
-            String secret,
-            Long expiration
-    ) {
-    }
-
     @ConfigurationProperties(prefix = "redis")
     public record RedisProperties(
             String database,
@@ -42,4 +33,3 @@ public final class AdminProperties {
     ) {
     }
 }
-

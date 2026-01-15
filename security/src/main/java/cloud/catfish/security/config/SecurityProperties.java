@@ -15,8 +15,8 @@ public final class SecurityProperties {
             @NotBlank String tokenHeader,
             @NotBlank String tokenHead,
             @NotBlank String secret,
-            @NotNull Long expiration
+            @NotNull Long expiration,
+            @NotNull Long refreshExpiration
     ) {
     }
 }
-

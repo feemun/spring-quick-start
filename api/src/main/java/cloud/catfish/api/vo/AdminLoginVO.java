@@ -12,4 +12,7 @@ public class AdminLoginVO {
     @Schema(name = "")
     private String tokenHead;
 
+    @Schema(name = "")
+    private String refreshToken;
+
 }

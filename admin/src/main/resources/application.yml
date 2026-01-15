@@ -21,6 +21,7 @@ jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
   expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  refreshExpiration: 2592000 #refresh token 超期限时间(60*60*24*30)
   tokenHead: 'Bearer '  #JWT负载中拿到开头
 
 redis:

@@ -44,7 +44,6 @@
         <mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
         <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <mysql-connector.version>8.0.29</mysql-connector.version>
-        <jjwt.version>0.13.0</jjwt.version>
         <aliyun-oss.version>2.5.0</aliyun-oss.version>
         <alipay-sdk.version>4.38.61.ALL</alipay-sdk.version>
         <logstash-logback.version>7.4</logstash-logback.version>
@@ -89,6 +88,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
         </dependency>
     </dependencies>
 
@@ -153,12 +164,6 @@
                 <version>${mysql-connector.version}</version>
             </dependency>
             
-            <!--JWT(Json Web Token)登录支持-->
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
             <!-- 阿里云OSS -->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
