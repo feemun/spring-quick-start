@@ -11,7 +11,7 @@
 
     <parent>
         <groupId>cloud.catfish</groupId>
-        <artifactId>spring-quick-start</artifactId>
+        <artifactId>spring-quick-start-backend</artifactId>
         <version>oxygen</version>
     </parent>
 

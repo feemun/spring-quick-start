@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cloud.catfish</groupId>
-    <artifactId>spring-quick-start</artifactId>
+    <artifactId>spring-quick-start-backend</artifactId>
     <version>oxygen</version>
     <packaging>pom</packaging>
 

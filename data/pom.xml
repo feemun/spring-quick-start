@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cloud.catfish</groupId>
-        <artifactId>spring-quick-start</artifactId>
+        <artifactId>spring-quick-start-backend</artifactId>
         <version>oxygen</version>
     </parent>
     <artifactId>data</artifactId>
@@ -63,4 +63,13 @@
             <version>2.4.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -2,6 +2,10 @@ package cloud.catfish.api.exception;
 
 import cloud.catfish.api.common.R;
 import cn.hutool.core.util.StrUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
@@ -19,10 +23,12 @@ import java.sql.SQLSyntaxErrorException;
  * Created by macro on 2020/2/27.
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = cloud.catfish.api.exception.ApiException.class)
-    public R handle(cloud.catfish.api.exception.ApiException e) {
+    public R handle(cloud.catfish.api.exception.ApiException e, HttpServletRequest request) {
+        log.warn("ApiException: {} {}", request.getMethod(), request.getRequestURI(), e);
         if (e.getErrorCode() != null) {
             return R.failed(e.getErrorCode());
         }
@@ -30,7 +36,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public R handleValidException(MethodArgumentNotValidException e) {
+    public R handleValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        log.warn("Validation failed: {} {}", request.getMethod(), request.getRequestURI(), e);
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
         if (bindingResult.hasErrors()) {
@@ -43,7 +50,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = BindException.class)
-    public R handleValidException(BindException e) {
+    public R handleValidException(BindException e, HttpServletRequest request) {
+        log.warn("Bind failed: {} {}", request.getMethod(), request.getRequestURI(), e);
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
         if (bindingResult.hasErrors()) {
@@ -56,7 +64,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = SQLSyntaxErrorException.class)
-    public R handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
+    public R handleSQLSyntaxErrorException(SQLSyntaxErrorException e, HttpServletRequest request) {
+        log.error("SQLSyntaxError: {} {}", request.getMethod(), request.getRequestURI(), e);
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
@@ -65,7 +74,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = ArithmeticException.class)
-    public ResponseEntity<R> handleArithmeticException(ArithmeticException e) {
+    public ResponseEntity<R> handleArithmeticException(ArithmeticException e, HttpServletRequest request) {
+        log.error("ArithmeticException: {} {}", request.getMethod(), request.getRequestURI(), e);
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
@@ -74,7 +84,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<R> handleException(Exception e) {
+    public ResponseEntity<R> handleException(Exception e, HttpServletRequest request) {
+        log.error("Unhandled exception: {} {}", request.getMethod(), request.getRequestURI(), e);
         String message = e.getMessage();
         if (StrUtil.isNotEmpty(message) && message.contains("denied")) {
             message = "演示环境暂无修改权限，如需修改数据可本地搭建后台服务！";
