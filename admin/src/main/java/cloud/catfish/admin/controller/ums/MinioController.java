@@ -10,8 +10,8 @@ import io.minio.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,9 +26,9 @@ import java.util.Date;
 @Tag(name = "MinioController", description = "MinIO对象存储管理")
 @RequestMapping("/minio")
 @RequiredArgsConstructor
+@Slf4j
 public class MinioController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MinioController.class);
     private final MinioProperties minioProperties;
 
     @Operation(summary = "文件上传")
@@ -42,7 +42,7 @@ public class MinioController {
                     .build();
             boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioProperties.bucketName()).build());
             if (isExist) {
-                LOGGER.info("存储桶已经存在！");
+                log.info("存储桶已经存在！");
             } else {
                 //创建存储桶并设置只读权限
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioProperties.bucketName()).build());
@@ -64,14 +64,14 @@ public class MinioController {
                     .contentType(file.getContentType())
                     .stream(file.getInputStream(), file.getSize(), ObjectWriteArgs.MIN_MULTIPART_SIZE).build();
             minioClient.putObject(putObjectArgs);
-            LOGGER.info("文件上传成功!");
+            log.info("文件上传成功!");
             MinioUploadDto minioUploadDto = new MinioUploadDto();
             minioUploadDto.setName(filename);
             minioUploadDto.setUrl(minioProperties.endpoint() + "/" + minioProperties.bucketName() + "/" + objectName);
             return R.ok(minioUploadDto);
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.info("上传发生错误: {}！", e.getMessage());
+            log.info("上传发生错误: {}！", e.getMessage());
         }
         return R.failed();
     }
