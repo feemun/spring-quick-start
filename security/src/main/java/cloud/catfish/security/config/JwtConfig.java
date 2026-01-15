@@ -14,7 +14,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class JwtConfig {
     @Bean
     public SecretKey jwtSecretKey(SecurityProperties.JwtProperties jwtProperties) {

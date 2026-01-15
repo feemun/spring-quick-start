@@ -4,6 +4,7 @@ import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsAdminRoleRelation;
 import cloud.catfish.api.domain.UmsResource;
 import cloud.catfish.api.domain.UmsRoleResourceRelation;
+import cloud.catfish.api.security.UmsResourceScope;
 import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
 import cloud.catfish.mbg.mapper.UmsResourceMapper;
@@ -53,7 +54,8 @@ public class AdminSecurityConfig {
             UmsAdmin admin = admins.get(0);
             List<UmsResource> resources = getResourceList(admin.getId());
             String[] authorities = resources.stream()
-                    .map(resource -> resource.getId() + ":" + resource.getName())
+                    .map(UmsResourceScope::fromResource)
+                    .filter(scope -> scope != null && !scope.isEmpty())
                     .toArray(String[]::new);
 
             return User.withUsername(admin.getUsername())
@@ -73,7 +75,11 @@ public class AdminSecurityConfig {
             Map<String, String> map = new ConcurrentHashMap<>();
             List<UmsResource> resources = umsResourceMapper.selectList(null);
             for (UmsResource resource : resources) {
-                map.put(resource.getUrl(), resource.getId() + ":" + resource.getName());
+                String url = resource.getUrl();
+                String scope = UmsResourceScope.fromResource(resource);
+                if (url != null && scope != null && !scope.isEmpty()) {
+                    map.put(url, scope);
+                }
             }
             return map;
         };
@@ -111,4 +117,3 @@ public class AdminSecurityConfig {
         return umsResourceMapper.selectBatchIds(resourceIds);
     }
 }
-

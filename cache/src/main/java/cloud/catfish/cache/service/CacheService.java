@@ -49,7 +49,13 @@ public class CacheService {
         if (cache == null) {
             return null;
         }
-        String json = cache.get(key, String.class);
+        String json;
+        try {
+            json = cache.get(key, String.class);
+        } catch (ClassCastException e) {
+            cache.evict(key);
+            return null;
+        }
         return json == null ? null : codec.decode(json, type);
     }
 
@@ -58,7 +64,13 @@ public class CacheService {
         if (cache == null) {
             return null;
         }
-        String json = cache.get(key, String.class);
+        String json;
+        try {
+            json = cache.get(key, String.class);
+        } catch (ClassCastException e) {
+            cache.evict(key);
+            return null;
+        }
         return json == null ? null : codec.decode(json, typeRef);
     }
 

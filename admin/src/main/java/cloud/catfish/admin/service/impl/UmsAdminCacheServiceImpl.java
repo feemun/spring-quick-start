@@ -12,8 +12,8 @@ import cloud.catfish.api.domain.UmsResource;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,15 +97,22 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     }
 
     @Override
-    @Cacheable(cacheNames = "${redis.database}:${redis.key.admin}", key = "#username", unless = "#result == null")
     public UmsAdmin getAdmin(String username) {
         if (username == null) {
             return null;
         }
+        UmsAdmin cached = cacheService.get(adminCacheName(), username, UmsAdmin.class);
+        if (cached != null) {
+            return cached;
+        }
         List<UmsAdmin> adminList = adminMapper.selectList(
                 new LambdaQueryWrapper<UmsAdmin>().eq(UmsAdmin::getUsername, username)
         );
-        return CollUtil.isEmpty(adminList) ? null : adminList.get(0);
+        UmsAdmin admin = CollUtil.isEmpty(adminList) ? null : adminList.get(0);
+        if (admin != null) {
+            cacheService.put(adminCacheName(), username, admin);
+        }
+        return admin;
     }
 
     @Override
@@ -113,16 +120,28 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         if (admin == null || admin.getUsername() == null) {
             return;
         }
-        cacheService.putObject(adminCacheName(), admin.getUsername(), admin);
+        cacheService.put(adminCacheName(), admin.getUsername(), admin);
     }
 
     @Override
-    @Cacheable(cacheNames = "${redis.database}:${redis.key.resourceList}", key = "#adminId.toString()", unless = "#result == null || #result.isEmpty()")
     public List<UmsResource> getResourceList(Long adminId) {
         if (adminId == null) {
             return null;
         }
-        return adminRoleRelationDao.getResourceList(adminId);
+        List<UmsResource> cached = cacheService.get(
+                resourceListCacheName(),
+                adminId.toString(),
+                new TypeReference<List<UmsResource>>() {
+                }
+        );
+        if (cached != null && !cached.isEmpty()) {
+            return cached;
+        }
+        List<UmsResource> resources = adminRoleRelationDao.getResourceList(adminId);
+        if (resources != null && !resources.isEmpty()) {
+            cacheService.put(resourceListCacheName(), adminId.toString(), resources);
+        }
+        return resources;
     }
 
     @Override
@@ -130,6 +149,6 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
         if (adminId == null) {
             return;
         }
-        cacheService.putObject(resourceListCacheName(), String.valueOf(adminId), resourceList);
+        cacheService.put(resourceListCacheName(), String.valueOf(adminId), resourceList);
     }
 }

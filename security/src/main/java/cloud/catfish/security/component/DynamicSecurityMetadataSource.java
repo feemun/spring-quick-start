@@ -2,6 +2,7 @@ package cloud.catfish.security.component;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.server.PathContainer;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
@@ -23,7 +24,7 @@ public class DynamicSecurityMetadataSource {
     @PostConstruct
     public void loadDataSource() {
         Map<String, String> raw = dynamicSecurityService.loadDataSource();
-        if (raw == null || raw.isEmpty()) {
+        if (CollectionUtils.isEmpty(raw)) {
             this.rules = List.of();
             return;
         }

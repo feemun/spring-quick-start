@@ -9,10 +9,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
 
-/**
- * 自定义未登录或者token失效时的返回结果
- * Created by macro on 2018/5/14.
- */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {

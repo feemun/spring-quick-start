@@ -2,6 +2,7 @@ package cloud.catfish.api.bo;
 
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsResource;
+import cloud.catfish.api.security.UmsResourceScope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,9 @@ public class AdminUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //返回当前用户所拥有的资源
         return resourceList.stream()
-                .map(resource ->new SimpleGrantedAuthority(resource.getId()+":"+resource.getName()))
+                .map(UmsResourceScope::fromResource)
+                .filter(scope -> scope != null && !scope.isEmpty())
+                .map(SimpleGrantedAuthority::new)
                 .toList();
     }
 
