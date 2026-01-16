@@ -1,11 +1,12 @@
 package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsMemberLevelService;
-import cloud.catfish.api.common.R;
 import cloud.catfish.api.domain.UmsMemberLevel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +26,9 @@ public class UmsMemberLevelController {
     private final UmsMemberLevelService memberLevelService;
 
     @Operation(summary = "查询所有会员等级")
-    @GetMapping(value = "/list")
-    
-    public R<List<UmsMemberLevel>> list(@RequestParam("defaultStatus") Integer defaultStatus) {
+    @GetMapping
+    public ResponseEntity<List<UmsMemberLevel>> list(@RequestParam("defaultStatus") @NotNull Integer defaultStatus) {
         List<UmsMemberLevel> memberLevelList = memberLevelService.list(defaultStatus);
-        return R.ok(memberLevelList);
+        return ResponseEntity.ok(memberLevelList);
     }
 }

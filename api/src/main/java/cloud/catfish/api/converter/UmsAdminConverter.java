@@ -1,12 +1,12 @@
 package cloud.catfish.api.converter;
 
 import cloud.catfish.api.domain.UmsAdmin;
-import cloud.catfish.api.req.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminCreateParam;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UmsAdminConverter {
 
-    UmsAdmin param2Entity(UmsAdminParam umsAdminParam);
+    UmsAdmin param2Entity(UmsAdminCreateParam umsAdminParam);
 
 }

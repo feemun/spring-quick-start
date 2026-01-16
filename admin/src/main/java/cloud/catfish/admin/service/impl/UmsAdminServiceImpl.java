@@ -6,7 +6,7 @@ import cloud.catfish.admin.dto.TokenPair;
 import cloud.catfish.api.converter.UmsAdminConverter;
 import cloud.catfish.api.domain.*;
 import cloud.catfish.api.exception.ApiException;
-import cloud.catfish.api.req.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminCreateParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.admin.service.UmsAdminCacheService;
 import cloud.catfish.admin.service.UmsAdminService;
@@ -71,7 +71,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public UmsAdmin register(UmsAdminParam umsAdminParam) {
+    public UmsAdmin register(UmsAdminCreateParam umsAdminParam) {
         UmsAdmin umsAdmin = umsAdminConverter.param2Entity(umsAdminParam);
         umsAdmin.setCreateTime(LocalDateTime.now());
         umsAdmin.setStatus(Boolean.TRUE);

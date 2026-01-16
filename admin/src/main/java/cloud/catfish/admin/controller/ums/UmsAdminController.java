@@ -4,21 +4,25 @@ import cloud.catfish.admin.service.UmsAdminService;
 import cloud.catfish.admin.service.UmsRoleService;
 import cloud.catfish.admin.dto.TokenPair;
 import cloud.catfish.api.common.CommonPage;
-import cloud.catfish.api.common.R;
-import cloud.catfish.api.converter.UmsAdminConverter;
 import cloud.catfish.api.vo.AdminLoginVO;
 import cloud.catfish.api.req.RefreshTokenParam;
 import cn.hutool.core.collection.CollUtil;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsRole;
+import cloud.catfish.api.req.EnabledParam;
+import cloud.catfish.api.req.IdListParam;
 import cloud.catfish.api.req.UmsAdminLoginParam;
-import cloud.catfish.api.req.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminCreateParam;
+import cloud.catfish.api.req.UmsAdminUpdateParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.security.config.SecurityProperties.JwtProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,68 +40,58 @@ public class UmsAdminController {
     private final JwtProperties jwtProperties;
     private final UmsAdminService adminService;
     private final UmsRoleService roleService;
-    private final UmsAdminConverter umsAdminConverter;
 
     @Operation(summary = "用户注册")
-    @PostMapping(value = "/register")
-    public R<UmsAdmin> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
-        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+    @PostMapping
+    public ResponseEntity<UmsAdmin> register(@Validated @RequestBody UmsAdminCreateParam param) {
+        UmsAdmin umsAdmin = adminService.register(param);
         if (umsAdmin == null) {
-            return R.failed();
+            return ResponseEntity.internalServerError().build();
         }
-        return R.ok(umsAdmin);
+        return ResponseEntity.status(201).body(umsAdmin);
     }
 
     @Operation(summary = "登录以后返回token")
     @PostMapping(value = "/login")
-    public R login(@Validated @RequestBody UmsAdminLoginParam umsAdminLoginParam) {
+    public ResponseEntity<?> login(@Validated @RequestBody UmsAdminLoginParam umsAdminLoginParam) {
         TokenPair tokenPair = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
         if (tokenPair == null) {
-            return R.validateFailed("用户名或密码错误");
+            ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "用户名或密码错误");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(pd);
         }
         AdminLoginVO adminLoginVO = new AdminLoginVO();
         adminLoginVO.setToken(tokenPair.accessToken());
         adminLoginVO.setTokenHead(jwtProperties.tokenHead());
         adminLoginVO.setRefreshToken(tokenPair.refreshToken());
-        return R.ok(adminLoginVO);
+        return ResponseEntity.ok(adminLoginVO);
     }
 
     @Operation(summary = "刷新token")
     @PostMapping(value = "/refreshToken")
-    public R refreshToken(@RequestBody RefreshTokenParam param) {
+    public ResponseEntity<?> refreshToken(@Validated @RequestBody RefreshTokenParam param) {
         TokenPair tokenPair = adminService.refreshToken(param.getRefreshToken());
         if (tokenPair == null) {
-            return R.failed("refreshToken无效或已过期！");
+            ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "refreshToken无效或已过期！");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(pd);
         }
         AdminLoginVO adminLoginVO = new AdminLoginVO();
         adminLoginVO.setToken(tokenPair.accessToken());
         adminLoginVO.setTokenHead(jwtProperties.tokenHead());
         adminLoginVO.setRefreshToken(tokenPair.refreshToken());
-        return R.ok(adminLoginVO);
-    }
-
-    @Operation(summary = "兼容旧版：刷新token")
-    @GetMapping(value = "/refreshToken")
-    public R refreshTokenLegacy(HttpServletRequest request) {
-        String oldToken = request.getHeader(jwtProperties.tokenHeader());
-        String accessToken = adminService.refreshAccessToken(oldToken);
-        if (accessToken == null) {
-            return R.failed("token已经过期！");
-        }
-        AdminLoginVO adminLoginVO = new AdminLoginVO();
-        adminLoginVO.setToken(accessToken);
-        adminLoginVO.setTokenHead(jwtProperties.tokenHead());
-        return R.ok(adminLoginVO);
+        return ResponseEntity.ok(adminLoginVO);
     }
 
     @Operation(summary = "获取当前登录用户信息")
     @GetMapping(value = "/info")
-    public R getAdminInfo(Principal principal) {
+    public ResponseEntity<?> getAdminInfo(Principal principal) {
         if (principal == null) {
-            return R.unauthorized(null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         String username = principal.getName();
         UmsAdmin umsAdmin = adminService.getAdminByUsername(username);
+        if (umsAdmin == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("username", umsAdmin.getUsername());
         data.put("menus", roleService.getMenuList(umsAdmin.getId()));
@@ -107,97 +101,107 @@ public class UmsAdminController {
             List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
             data.put("roles", roles);
         }
-        return R.ok(data);
+        return ResponseEntity.ok(data);
     }
 
     @Operation(summary = "登出功能")
     @PostMapping(value = "/logout")
-    public R logout(Principal principal) {
+    public ResponseEntity<Void> logout(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.noContent().build();
+        }
         adminService.logout(principal.getName());
-        return R.ok(null);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "根据用户名或姓名分页获取用户列表")
-    @GetMapping(value = "/list")
-    public R<CommonPage<UmsAdmin>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @GetMapping
+    public ResponseEntity<CommonPage<UmsAdmin>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                        @RequestParam(value = "size", defaultValue = "10") Integer pageSize,
+                                        @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
         List<UmsAdmin> adminList = adminService.list(keyword, pageSize, pageNum);
-        return R.ok(CommonPage.restPage(adminList));
+        return ResponseEntity.ok(CommonPage.restPage(adminList));
     }
 
     @Operation(summary = "获取指定用户信息")
     @GetMapping(value = "/{id}")
-    public R<UmsAdmin> getItem(@PathVariable Long id) {
+    public ResponseEntity<UmsAdmin> getItem(@PathVariable Long id) {
         UmsAdmin admin = adminService.getItem(id);
-        return R.ok(admin);
+        if (admin == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(admin);
     }
 
     @Operation(summary = "修改指定用户信息")
-    @PostMapping(value = "/update/{id}")
-    public R update(@PathVariable Long id, @RequestBody UmsAdmin admin) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @Validated @RequestBody UmsAdminUpdateParam param) {
+        UmsAdmin admin = new UmsAdmin();
+        admin.setIcon(param.getIcon());
+        admin.setEmail(param.getEmail());
+        admin.setNickName(param.getNickName());
+        admin.setNote(param.getNote());
         int count = adminService.update(id, admin);
-        if (count > 0) {
-            return R.ok(count);
+        if (count <= 0) {
+            return ResponseEntity.notFound().build();
         }
-        return R.failed();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "修改指定用户密码")
     @PostMapping(value = "/updatePassword")
-    public R updatePassword(@Validated @RequestBody UpdateAdminPasswordParam updatePasswordParam) {
+    public ResponseEntity<?> updatePassword(@Validated @RequestBody UpdateAdminPasswordParam updatePasswordParam) {
         int status = adminService.updatePassword(updatePasswordParam);
         if (status > 0) {
-            return R.ok(status);
+            return ResponseEntity.noContent().build();
         } else if (status == -1) {
-            return R.failed("提交参数不合法");
+            return ResponseEntity.badRequest().body(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "提交参数不合法"));
         } else if (status == -2) {
-            return R.failed("找不到该用户");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "找不到该用户"));
         } else if (status == -3) {
-            return R.failed("旧密码错误");
+            return ResponseEntity.badRequest().body(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "旧密码错误"));
         } else {
-            return R.failed();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @Operation(summary = "删除指定用户信息")
-    @PostMapping(value = "/delete/{id}")
-    public R delete(@PathVariable Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         int count = adminService.delete(id);
-        if (count > 0) {
-            return R.ok(count);
+        if (count <= 0) {
+            return ResponseEntity.notFound().build();
         }
-        return R.failed();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "修改帐号状态")
-    @PostMapping(value = "/updateStatus/{id}")
-    public R updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
+    @PatchMapping(value = "/{id}/enabled")
+    public ResponseEntity<Void> updateStatus(@PathVariable Long id, @Valid @RequestBody EnabledParam param) {
         UmsAdmin umsAdmin = new UmsAdmin();
-        umsAdmin.setStatus(status);
+        umsAdmin.setStatus(Boolean.TRUE.equals(param.getEnabled()));
         int count = adminService.update(id, umsAdmin);
-        if (count > 0) {
-            return R.ok(count);
+        if (count <= 0) {
+            return ResponseEntity.notFound().build();
         }
-        return R.failed();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "给用户分配角色")
-    @PostMapping(value = "/role/update")
-    public R updateRole(@RequestParam("adminId") Long adminId,
-                        @RequestParam("roleIds") List<Long> roleIds) {
-        int count = adminService.updateRole(adminId, roleIds);
-        if (count >= 0) {
-            return R.ok(count);
+    @PutMapping(value = "/{adminId}/roles")
+    public ResponseEntity<Void> updateRole(@PathVariable("adminId") Long adminId, @Valid @RequestBody IdListParam param) {
+        int count = adminService.updateRole(adminId, param.getIds());
+        if (count < 0) {
+            return ResponseEntity.internalServerError().build();
         }
-        return R.failed();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "获取指定用户的角色")
-    @GetMapping(value = "/role/{adminId}")
-    public R<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
+    @GetMapping(value = "/{adminId}/roles")
+    public ResponseEntity<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
         List<UmsRole> roleList = adminService.getRoleList(adminId);
-        return R.ok(roleList);
+        return ResponseEntity.ok(roleList);
     }
 
 }

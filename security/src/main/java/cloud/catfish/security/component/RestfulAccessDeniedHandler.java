@@ -1,11 +1,12 @@
 package cloud.catfish.security.component;
 
-import cloud.catfish.api.common.R;
-import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
@@ -13,6 +14,13 @@ import java.io.IOException;
  * 自定义无权限访问的返回结果
  */
 public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
+
+    private final ObjectMapper objectMapper;
+
+    public RestfulAccessDeniedHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
@@ -23,7 +31,8 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(JSONUtil.parse(R.forbidden(e.getMessage())));
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+        response.getWriter().println(objectMapper.writeValueAsString(pd));
         response.getWriter().flush();
     }
 }

@@ -1,6 +1,6 @@
 package cloud.catfish.admin.service;
 
-import cloud.catfish.api.req.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminCreateParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsResource;
@@ -24,7 +24,7 @@ public interface UmsAdminService {
     /**
      * 注册功能
      */
-    UmsAdmin register(UmsAdminParam umsAdminParam);
+    UmsAdmin register(UmsAdminCreateParam umsAdminParam);
 
     /**
      * 登录功能
