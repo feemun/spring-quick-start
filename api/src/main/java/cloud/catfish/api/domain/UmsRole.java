@@ -1,5 +1,7 @@
 package cloud.catfish.api.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
@@ -11,6 +13,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class UmsRole implements Serializable {
+
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "名称")

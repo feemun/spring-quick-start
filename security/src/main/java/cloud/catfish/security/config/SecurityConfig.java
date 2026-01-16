@@ -3,6 +3,7 @@ package cloud.catfish.security.config;
 import cloud.catfish.security.component.DynamicAuthorizationManager;
 import cloud.catfish.security.component.RestAuthenticationEntryPoint;
 import cloud.catfish.security.component.RestfulAccessDeniedHandler;
+import org.springframework.security.config.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -45,6 +46,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(restfulAccessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint))
                 .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(restAuthenticationEntryPoint)
                         .accessDeniedHandler(restfulAccessDeniedHandler)
                 );
@@ -73,6 +75,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(restfulAccessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint))
                 .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(restAuthenticationEntryPoint)
                         .accessDeniedHandler(restfulAccessDeniedHandler)
                 );
