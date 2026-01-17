@@ -1,0 +1,5 @@
+minio:
+  endpoint: http://10.0.0.6:9000 #MinIO服务所在地址
+  bucketName: map #存储桶名称
+  accessKey: minioadmin #访问的key
+  secretKey: minioadmin #访问的秘钥

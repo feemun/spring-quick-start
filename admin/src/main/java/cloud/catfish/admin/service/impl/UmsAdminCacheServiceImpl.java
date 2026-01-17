@@ -1,115 +1,154 @@
 package cloud.catfish.admin.service.impl;
 
 import cloud.catfish.admin.dao.UmsAdminRoleRelationDao;
+import cloud.catfish.admin.config.AdminProperties.RedisProperties;
 import cloud.catfish.admin.service.UmsAdminCacheService;
-import cloud.catfish.admin.service.UmsAdminService;
-import cloud.catfish.common.service.RedisService;
+import cloud.catfish.cache.service.CacheService;
 import cloud.catfish.mbg.mapper.UmsAdminRoleRelationMapper;
+import cloud.catfish.mbg.mapper.UmsAdminMapper;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsAdminRoleRelation;
-import cloud.catfish.api.domain.UmsAdminRoleRelationExample;
 import cloud.catfish.api.domain.UmsResource;
 import cn.hutool.core.collection.CollUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 后台用户缓存管理Service实现类
  * Created by macro on 2020/3/13.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
-    @Autowired
-    private UmsAdminService adminService;
-    @Autowired
-    private RedisService redisService;
-    @Autowired
-    private UmsAdminRoleRelationMapper adminRoleRelationMapper;
-    @Autowired
-    private UmsAdminRoleRelationDao adminRoleRelationDao;
-    @Value("${redis.database}")
-    private String REDIS_DATABASE;
-    @Value("${redis.expire.common}")
-    private Long REDIS_EXPIRE;
-    @Value("${redis.key.admin}")
-    private String REDIS_KEY_ADMIN;
-    @Value("${redis.key.resourceList}")
-    private String REDIS_KEY_RESOURCE_LIST;
+    private final UmsAdminMapper adminMapper;
+    private final CacheService cacheService;
+    private final UmsAdminRoleRelationMapper adminRoleRelationMapper;
+    private final UmsAdminRoleRelationDao adminRoleRelationDao;
+    private final RedisProperties redisProperties;
+
+    private String adminCacheName() {
+        return redisProperties.database() + ":" + redisProperties.key().admin();
+    }
+
+    private String resourceListCacheName() {
+        return redisProperties.database() + ":" + redisProperties.key().resourceList();
+    }
 
     @Override
     public void delAdmin(Long adminId) {
-        UmsAdmin admin = adminService.getItem(adminId);
-        if (admin != null) {
-            String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
-            redisService.del(key);
+        UmsAdmin admin = adminMapper.selectById(adminId);
+        if (admin == null || admin.getUsername() == null) {
+            return;
         }
+        cacheService.evict(adminCacheName(), admin.getUsername());
     }
 
     @Override
     public void delResourceList(Long adminId) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
-        redisService.del(key);
+        cacheService.evict(resourceListCacheName(), String.valueOf(adminId));
     }
 
     @Override
     public void delResourceListByRole(Long roleId) {
-        UmsAdminRoleRelationExample example = new UmsAdminRoleRelationExample();
-        example.createCriteria().andRoleIdEqualTo(roleId);
-        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectByExample(example);
+        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectList(
+                new LambdaQueryWrapper<UmsAdminRoleRelation>().eq(UmsAdminRoleRelation::getRoleId, roleId)
+        );
         if (CollUtil.isNotEmpty(relationList)) {
-            String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
-            List<String> keys = relationList.stream().map(relation -> keyPrefix + relation.getAdminId()).collect(Collectors.toList());
-            redisService.del(keys);
+            ArrayList<String> keys = new ArrayList<>(relationList.size());
+            for (UmsAdminRoleRelation relation : relationList) {
+                keys.add(String.valueOf(relation.getAdminId()));
+            }
+            cacheService.evictAll(resourceListCacheName(), keys);
         }
+
     }
 
     @Override
     public void delResourceListByRoleIds(List<Long> roleIds) {
-        UmsAdminRoleRelationExample example = new UmsAdminRoleRelationExample();
-        example.createCriteria().andRoleIdIn(roleIds);
-        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectByExample(example);
+        List<UmsAdminRoleRelation> relationList = adminRoleRelationMapper.selectList(
+                new LambdaQueryWrapper<UmsAdminRoleRelation>().in(UmsAdminRoleRelation::getRoleId, roleIds)
+        );
         if (CollUtil.isNotEmpty(relationList)) {
-            String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
-            List<String> keys = relationList.stream().map(relation -> keyPrefix + relation.getAdminId()).collect(Collectors.toList());
-            redisService.del(keys);
+            ArrayList<String> keys = new ArrayList<>(relationList.size());
+            for (UmsAdminRoleRelation relation : relationList) {
+                keys.add(String.valueOf(relation.getAdminId()));
+            }
+            cacheService.evictAll(resourceListCacheName(), keys);
         }
+
     }
 
     @Override
     public void delResourceListByResource(Long resourceId) {
         List<Long> adminIdList = adminRoleRelationDao.getAdminIdList(resourceId);
         if (CollUtil.isNotEmpty(adminIdList)) {
-            String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
-            List<String> keys = adminIdList.stream().map(adminId -> keyPrefix + adminId).collect(Collectors.toList());
-            redisService.del(keys);
+            ArrayList<String> keys = new ArrayList<>(adminIdList.size());
+            for (Long adminId : adminIdList) {
+                keys.add(String.valueOf(adminId));
+            }
+            cacheService.evictAll(resourceListCacheName(), keys);
         }
+
     }
 
     @Override
     public UmsAdmin getAdmin(String username) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username;
-        return (UmsAdmin) redisService.get(key);
+        if (username == null) {
+            return null;
+        }
+        UmsAdmin cached = cacheService.get(adminCacheName(), username, UmsAdmin.class);
+        if (cached != null) {
+            return cached;
+        }
+        List<UmsAdmin> adminList = adminMapper.selectList(
+                new LambdaQueryWrapper<UmsAdmin>().eq(UmsAdmin::getUsername, username)
+        );
+        UmsAdmin admin = CollUtil.isEmpty(adminList) ? null : adminList.get(0);
+        if (admin != null) {
+            cacheService.put(adminCacheName(), username, admin);
+        }
+        return admin;
     }
 
     @Override
     public void setAdmin(UmsAdmin admin) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
-        redisService.set(key, admin, REDIS_EXPIRE);
+        if (admin == null || admin.getUsername() == null) {
+            return;
+        }
+        cacheService.put(adminCacheName(), admin.getUsername(), admin);
     }
 
     @Override
     public List<UmsResource> getResourceList(Long adminId) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
-        return (List<UmsResource>) redisService.get(key);
+        if (adminId == null) {
+            return null;
+        }
+        List<UmsResource> cached = cacheService.get(
+                resourceListCacheName(),
+                adminId.toString(),
+                new TypeReference<List<UmsResource>>() {
+                }
+        );
+        if (cached != null && !cached.isEmpty()) {
+            return cached;
+        }
+        List<UmsResource> resources = adminRoleRelationDao.getResourceList(adminId);
+        if (resources != null && !resources.isEmpty()) {
+            cacheService.put(resourceListCacheName(), adminId.toString(), resources);
+        }
+        return resources;
     }
 
     @Override
     public void setResourceList(Long adminId, List<UmsResource> resourceList) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
-        redisService.set(key, resourceList, REDIS_EXPIRE);
+        if (adminId == null) {
+            return;
+        }
+        cacheService.put(resourceListCacheName(), String.valueOf(adminId), resourceList);
     }
 }

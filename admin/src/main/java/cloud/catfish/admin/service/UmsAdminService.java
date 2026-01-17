@@ -1,10 +1,11 @@
 package cloud.catfish.admin.service;
 
-import cloud.catfish.api.dto.UmsAdminParam;
+import cloud.catfish.api.req.UmsAdminCreateParam;
 import cloud.catfish.api.dto.UpdateAdminPasswordParam;
 import cloud.catfish.api.domain.UmsAdmin;
 import cloud.catfish.api.domain.UmsResource;
 import cloud.catfish.api.domain.UmsRole;
+import cloud.catfish.admin.dto.TokenPair;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,21 +24,27 @@ public interface UmsAdminService {
     /**
      * 注册功能
      */
-    UmsAdmin register(UmsAdminParam umsAdminParam);
+    UmsAdmin register(UmsAdminCreateParam umsAdminParam);
 
     /**
      * 登录功能
      * @param username 用户名
      * @param password 密码
-     * @return 生成的JWT的token
+     * @return 生成的access token与refresh token
      */
-    String login(String username,String password);
+    TokenPair login(String username,String password);
 
     /**
-     * 刷新token的功能
-     * @param oldToken 旧的token
+     * 刷新token（refresh token 轮转）
+     * @param refreshToken refresh token
      */
-    String refreshToken(String oldToken);
+    TokenPair refreshToken(String refreshToken);
+
+    /**
+     * 兼容旧版：使用 access token 刷新 access token（不轮转）
+     * @param oldToken 旧的token（包含 tokenHead）
+     */
+    String refreshAccessToken(String oldToken);
 
     /**
      * 根据用户id获取用户

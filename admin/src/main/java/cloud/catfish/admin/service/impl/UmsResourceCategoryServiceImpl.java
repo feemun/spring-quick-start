@@ -3,8 +3,8 @@ package cloud.catfish.admin.service.impl;
 import cloud.catfish.admin.service.UmsResourceCategoryService;
 import cloud.catfish.mbg.mapper.UmsResourceCategoryMapper;
 import cloud.catfish.api.domain.UmsResourceCategory;
-import cloud.catfish.api.domain.UmsResourceCategoryExample;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,15 +15,13 @@ import java.util.List;
  * Created by macro on 2020/2/5.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsResourceCategoryServiceImpl implements UmsResourceCategoryService {
-    @Autowired
-    private UmsResourceCategoryMapper resourceCategoryMapper;
+    private final UmsResourceCategoryMapper resourceCategoryMapper;
 
     @Override
     public List<UmsResourceCategory> listAll() {
-        UmsResourceCategoryExample example = new UmsResourceCategoryExample();
-        example.setOrderByClause("sort desc");
-        return resourceCategoryMapper.selectByExample(example);
+        return resourceCategoryMapper.selectList(new LambdaQueryWrapper<UmsResourceCategory>().orderByDesc(UmsResourceCategory::getSort));
     }
 
     @Override
@@ -35,11 +33,11 @@ public class UmsResourceCategoryServiceImpl implements UmsResourceCategoryServic
     @Override
     public int update(Long id, UmsResourceCategory umsResourceCategory) {
         umsResourceCategory.setId(id);
-        return resourceCategoryMapper.updateByPrimaryKeySelective(umsResourceCategory);
+        return resourceCategoryMapper.updateById(umsResourceCategory);
     }
 
     @Override
     public int delete(Long id) {
-        return resourceCategoryMapper.deleteByPrimaryKey(id);
+        return resourceCategoryMapper.deleteById(id);
     }
 }

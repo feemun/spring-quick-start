@@ -4,39 +4,33 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
-import jakarta.annotation.Resource;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tools.jackson.databind.ObjectMapper;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @Configuration
+@EnableConfigurationProperties(ElasticsearchProperties.class)
 public class ElasticsearchConfig {
 
-    @Resource
-    private ObjectMapper objectMapper;
-
-
-    @Bean
-    public ElasticsearchClient elasticsearchClient() {
-
-        // 1. Jackson ObjectMapper（非常重要）
-        // ES Client 9.x 仍然依赖 Jackson 2，所以这里需要创建一个 Jackson 2 的 ObjectMapper
-        com.fasterxml.jackson.databind.ObjectMapper jackson2Mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        JacksonJsonpMapper jsonpMapper = new JacksonJsonpMapper(jackson2Mapper);
-
-        // 2. 底层 REST Client（HTTP）
-        RestClient restClient = RestClient.builder(
-                new HttpHost("10.0.0.6", 9200, "http")
-        ).build();
-
-        // 3. Transport（ES 9 的“传输层抽象”）
-        ElasticsearchTransport transport =
-                new RestClientTransport(restClient, jsonpMapper);
-
-        // 4. ElasticsearchClient
-        return new ElasticsearchClient(transport);
+    @Bean(destroyMethod = "close")
+    public RestClient lowLevelClient(ElasticsearchProperties properties) {
+        HttpHost[] httpHosts = properties.hosts().stream()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(HttpHost::create)
+                .toArray(HttpHost[]::new);
+        return RestClient.builder(httpHosts).build();
     }
 
+    @Bean
+    public ElasticsearchTransport elasticsearchTransport(RestClient lowLevelClient) {
+        return new RestClientTransport(lowLevelClient, new JacksonJsonpMapper());
+    }
+
+    @Bean
+    public ElasticsearchClient elasticsearchClient(ElasticsearchTransport transport) {
+        return new ElasticsearchClient(transport);
+    }
 }

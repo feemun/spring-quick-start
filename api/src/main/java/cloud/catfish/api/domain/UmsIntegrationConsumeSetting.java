@@ -1,24 +1,17 @@
 package cloud.catfish.api.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@ToString
-@EqualsAndHashCode
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import lombok.*;
+
+@Data
 public class UmsIntegrationConsumeSetting implements Serializable {
+
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "每一元需要抵扣的积分数量")

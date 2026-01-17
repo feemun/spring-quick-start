@@ -2,15 +2,16 @@ package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.api.dto.BucketPolicyConfigDto;
 import cloud.catfish.api.dto.MinioUploadDto;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.R;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
+import cloud.catfish.admin.config.AdminProperties.MinioProperties;
 import io.minio.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,17 +25,11 @@ import java.util.Date;
 @RestController
 @Tag(name = "MinioController", description = "MinIO对象存储管理")
 @RequestMapping("/minio")
+@RequiredArgsConstructor
+@Slf4j
 public class MinioController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MinioController.class);
-    @Value("${minio.endpoint}")
-    private String ENDPOINT;
-    @Value("${minio.bucketName}")
-    private String BUCKET_NAME;
-    @Value("${minio.accessKey}")
-    private String ACCESS_KEY;
-    @Value("${minio.secretKey}")
-    private String SECRET_KEY;
+    private final MinioProperties minioProperties;
 
     @Operation(summary = "文件上传")
     @RequestMapping(value = "/upload")
@@ -42,18 +37,18 @@ public class MinioController {
         try {
             //创建一个MinIO的Java客户端
             MinioClient minioClient =MinioClient.builder()
-                    .endpoint(ENDPOINT)
-                    .credentials(ACCESS_KEY,SECRET_KEY)
+                    .endpoint(minioProperties.endpoint())
+                    .credentials(minioProperties.accessKey(), minioProperties.secretKey())
                     .build();
-            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(BUCKET_NAME).build());
+            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioProperties.bucketName()).build());
             if (isExist) {
-                LOGGER.info("存储桶已经存在！");
+                log.info("存储桶已经存在！");
             } else {
                 //创建存储桶并设置只读权限
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(BUCKET_NAME).build());
-                BucketPolicyConfigDto bucketPolicyConfigDto = createBucketPolicyConfigDto(BUCKET_NAME);
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioProperties.bucketName()).build());
+                BucketPolicyConfigDto bucketPolicyConfigDto = createBucketPolicyConfigDto(minioProperties.bucketName());
                 SetBucketPolicyArgs setBucketPolicyArgs = SetBucketPolicyArgs.builder()
-                        .bucket(BUCKET_NAME)
+                        .bucket(minioProperties.bucketName())
                         .config(JSONUtil.toJsonStr(bucketPolicyConfigDto))
                         .build();
                 minioClient.setBucketPolicy(setBucketPolicyArgs);
@@ -64,19 +59,19 @@ public class MinioController {
             String objectName = sdf.format(new Date()) + "/" + filename;
             // 使用putObject上传一个文件到存储桶中
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
-                    .bucket(BUCKET_NAME)
+                    .bucket(minioProperties.bucketName())
                     .object(objectName)
                     .contentType(file.getContentType())
                     .stream(file.getInputStream(), file.getSize(), ObjectWriteArgs.MIN_MULTIPART_SIZE).build();
             minioClient.putObject(putObjectArgs);
-            LOGGER.info("文件上传成功!");
+            log.info("文件上传成功!");
             MinioUploadDto minioUploadDto = new MinioUploadDto();
             minioUploadDto.setName(filename);
-            minioUploadDto.setUrl(ENDPOINT + "/" + BUCKET_NAME + "/" + objectName);
+            minioUploadDto.setUrl(minioProperties.endpoint() + "/" + minioProperties.bucketName() + "/" + objectName);
             return R.ok(minioUploadDto);
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.info("上传发生错误: {}！", e.getMessage());
+            log.info("上传发生错误: {}！", e.getMessage());
         }
         return R.failed();
     }
@@ -101,10 +96,10 @@ public class MinioController {
     public R delete(@RequestParam("objectName") String objectName) {
         try {
             MinioClient minioClient = MinioClient.builder()
-                    .endpoint(ENDPOINT)
-                    .credentials(ACCESS_KEY,SECRET_KEY)
+                    .endpoint(minioProperties.endpoint())
+                    .credentials(minioProperties.accessKey(), minioProperties.secretKey())
                     .build();
-            minioClient.removeObject(RemoveObjectArgs.builder().bucket(BUCKET_NAME).object(objectName).build());
+            minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioProperties.bucketName()).object(objectName).build());
             return R.ok(null);
         } catch (Exception e) {
             e.printStackTrace();

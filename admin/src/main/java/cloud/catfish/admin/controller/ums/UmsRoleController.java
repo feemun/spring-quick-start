@@ -1,113 +1,135 @@
 package cloud.catfish.admin.controller.ums;
 
 import cloud.catfish.admin.service.UmsRoleService;
-import cloud.catfish.common.api.CommonPage;
-import cloud.catfish.common.api.R;
+import cloud.catfish.api.common.CommonPage;
 import cloud.catfish.api.domain.UmsMenu;
 import cloud.catfish.api.domain.UmsResource;
 import cloud.catfish.api.domain.UmsRole;
+import cloud.catfish.api.req.EnabledParam;
+import cloud.catfish.api.req.IdListParam;
+import cloud.catfish.api.req.UmsRoleCreateParam;
+import cloud.catfish.api.req.UmsRoleUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * 后台用户角色管理Controller
- * Created by macro on 2018/9/30.
- */
 @RestController
 @Tag(name = "UmsRoleController", description = "后台用户角色管理")
 @RequestMapping("/role")
+@RequiredArgsConstructor
+@Validated
 public class UmsRoleController {
-    @Resource
-    private UmsRoleService roleService;
+
+    private final UmsRoleService roleService;
 
     @Operation(summary = "添加角色")
-    @PostMapping(value = "/create")
-    public R create(@RequestBody UmsRole role) {
-        int count = roleService.create(role);
-        if (count > 0) {
-            return R.ok(count);
+    @PostMapping
+    public ResponseEntity<UmsRole> create(@Valid @RequestBody UmsRoleCreateParam param) {
+        UmsRole role = new UmsRole();
+        role.setName(param.getName());
+        role.setDescription(param.getDescription());
+        if (param.getStatus() != null) {
+            role.setStatus(param.getStatus() != 0);
         }
-        return R.failed();
+        role.setSort(param.getSort());
+        int count = roleService.create(role);
+        if (count <= 0) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.status(201).body(role);
     }
 
     @Operation(summary = "修改角色")
-    @PostMapping(value = "/update/{id}")
-    public R update(@PathVariable Long id, @RequestBody UmsRole role) {
-        int count = roleService.update(id, role);
-        if (count > 0) {
-            return R.ok(count);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable @NotNull Long id, @Valid @RequestBody UmsRoleUpdateParam param) {
+        UmsRole role = new UmsRole();
+        role.setName(param.getName());
+        role.setDescription(param.getDescription());
+        if (param.getStatus() != null) {
+            role.setStatus(param.getStatus() != 0);
         }
-        return R.failed();
+        role.setSort(param.getSort());
+        int count = roleService.update(id, role);
+        if (count <= 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "批量删除角色")
-    @PostMapping(value = "/delete")
-    public R delete(@RequestParam("ids") List<Long> ids) {
-        int count = roleService.delete(ids);
-        if (count > 0) {
-            return R.ok(count);
+    @Operation(summary = "删除角色")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable @NotNull Long id) {
+        int count = roleService.delete(List.of(id));
+        if (count <= 0) {
+            return ResponseEntity.notFound().build();
         }
-        return R.failed();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "获取所有角色")
-    @GetMapping(value = "/listAll")
-    public R<List<UmsRole>> listAll() {
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<UmsRole>> listAll() {
         List<UmsRole> roleList = roleService.list();
-        return R.ok(roleList);
+        return ResponseEntity.ok(roleList);
     }
 
-    @Operation(summary = "根据角色名称分页获取角色列表")
-    @GetMapping(value = "/list")
-    public R<CommonPage<UmsRole>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @Operation(summary = "角色查询分页")
+    @GetMapping
+    public ResponseEntity<CommonPage<UmsRole>> list(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "size", defaultValue = "10") @Min(1) Integer pageSize,
+            @RequestParam(value = "page", defaultValue = "1") @Min(1) Integer pageNum
+    ) {
         List<UmsRole> roleList = roleService.list(keyword, pageSize, pageNum);
-        return R.ok(CommonPage.restPage(roleList));
+        return ResponseEntity.ok(CommonPage.restPage(roleList));
     }
 
-    @Operation(summary = "修改角色状态")
-    @PostMapping(value = "/updateStatus/{id}")
-    public R updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
+    @Operation(summary = "启用或停止角色")
+    @PatchMapping(value = "/{id}/enabled")
+    public ResponseEntity<Void> updateStatus(@PathVariable @NotNull Long id, @Valid @RequestBody EnabledParam param) {
         UmsRole umsRole = new UmsRole();
-        umsRole.setStatus(status);
+        umsRole.setStatus(Boolean.TRUE.equals(param.getEnabled()));
         int count = roleService.update(id, umsRole);
-        if (count > 0) {
-            return R.ok(count);
+        if (count <= 0) {
+            return ResponseEntity.notFound().build();
         }
-        return R.failed();
+        return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "获取角色相关菜单")
-    @GetMapping(value = "/listMenu/{roleId}")
-    public R<List<UmsMenu>> listMenu(@PathVariable Long roleId) {
-        List<UmsMenu> roleList = roleService.listMenu(roleId);
-        return R.ok(roleList);
+    @Operation(summary = "获取角色关联菜单")
+    @GetMapping(value = "/{roleId}/menus")
+    public ResponseEntity<List<UmsMenu>> getRoleRelatedMenu(@PathVariable @NotNull Long roleId) {
+        List<UmsMenu> roleList = roleService.getRoleRelatedMenu(roleId);
+        return ResponseEntity.ok(roleList);
     }
 
-    @Operation(summary = "获取角色相关资源")
-    @GetMapping(value = "/listResource/{roleId}")
-    public R<List<UmsResource>> listResource(@PathVariable Long roleId) {
-        List<UmsResource> roleList = roleService.listResource(roleId);
-        return R.ok(roleList);
+    @Operation(summary = "获取角色关联资源")
+    @GetMapping(value = "/{roleId}/resources")
+    public ResponseEntity<List<UmsResource>> getRoleRelatedResource(@PathVariable @NotNull Long roleId) {
+        List<UmsResource> roleList = roleService.getRoleRelatedResource(roleId);
+        return ResponseEntity.ok(roleList);
     }
 
-    @Operation(summary = "给角色分配菜单")
-    @PostMapping(value = "/allocMenu")
-    public R allocMenu(@RequestParam Long roleId, @RequestParam List<Long> menuIds) {
-        int count = roleService.allocMenu(roleId, menuIds);
-        return R.ok(count);
+    @Operation(summary = "给角色关联菜单")
+    @PutMapping(value = "/{roleId}/menus")
+    public ResponseEntity<Void> allocateMenu2Role(@PathVariable @NotNull Long roleId, @Valid @RequestBody IdListParam param) {
+        roleService.allocateMenu2Role(roleId, param.getIds());
+        return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "给角色分配资源")
-    @PostMapping(value = "/allocResource")
-    public R allocResource(@RequestParam Long roleId, @RequestParam List<Long> resourceIds) {
-        int count = roleService.allocResource(roleId, resourceIds);
-        return R.ok(count);
+    @Operation(summary = "给角色关联资源")
+    @PutMapping(value = "/{roleId}/resources")
+    public ResponseEntity<Void> allocateResource2Role(@PathVariable @NotNull Long roleId, @Valid @RequestBody IdListParam param) {
+        roleService.allocateResource2Role(roleId, param.getIds());
+        return ResponseEntity.noContent().build();
     }
 
 }

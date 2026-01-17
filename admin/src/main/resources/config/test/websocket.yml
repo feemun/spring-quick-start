@@ -1,0 +1,10 @@
+websocket:
+  # 测试环境配置 (通常与生产环境接近，或与开发环境一致，这里暂时复用 dev 配置)
+  allowed-origin-patterns: "*"
+  message-size-limit: 131072
+  send-buffer-size-limit: 524288
+  send-time-limit: 30000
+  time-to-first-message: 30000
+  heartbeat-interval: 10000
+  sockjs-heartbeat-time: 25000
+  sockjs-disconnect-delay: 5000

@@ -4,10 +4,10 @@ import cloud.catfish.api.dto.UmsMenuNode;
 import cloud.catfish.admin.service.UmsMenuService;
 import cloud.catfish.mbg.mapper.UmsMenuMapper;
 import cloud.catfish.api.domain.UmsMenu;
-import cloud.catfish.api.domain.UmsMenuExample;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
  * Created by macro on 2020/2/2.
  */
 @Service
+@RequiredArgsConstructor
 public class UmsMenuServiceImpl implements UmsMenuService {
-    @Autowired
-    private UmsMenuMapper menuMapper;
+    private final UmsMenuMapper menuMapper;
 
     @Override
     public int create(UmsMenu umsMenu) {
@@ -39,7 +39,7 @@ public class UmsMenuServiceImpl implements UmsMenuService {
             umsMenu.setLevel(0);
         } else {
             //有父菜单时选择根据父菜单level设置
-            UmsMenu parentMenu = menuMapper.selectByPrimaryKey(umsMenu.getParentId());
+            UmsMenu parentMenu = menuMapper.selectById(umsMenu.getParentId());
             if (parentMenu != null) {
                 umsMenu.setLevel(parentMenu.getLevel() + 1);
             } else {
@@ -52,31 +52,32 @@ public class UmsMenuServiceImpl implements UmsMenuService {
     public int update(Long id, UmsMenu umsMenu) {
         umsMenu.setId(id);
         updateLevel(umsMenu);
-        return menuMapper.updateByPrimaryKeySelective(umsMenu);
+        return menuMapper.updateById(umsMenu);
     }
 
     @Override
     public UmsMenu getItem(Long id) {
-        return menuMapper.selectByPrimaryKey(id);
+        return menuMapper.selectById(id);
     }
 
     @Override
     public int delete(Long id) {
-        return menuMapper.deleteByPrimaryKey(id);
+        return menuMapper.deleteById(id);
     }
 
     @Override
     public List<UmsMenu> list(Long parentId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
-        UmsMenuExample example = new UmsMenuExample();
-        example.setOrderByClause("sort desc");
-        example.createCriteria().andParentIdEqualTo(parentId);
-        return menuMapper.selectByExample(example);
+        return menuMapper.selectList(
+                new LambdaQueryWrapper<UmsMenu>()
+                        .eq(UmsMenu::getParentId, parentId)
+                        .orderByDesc(UmsMenu::getSort)
+        );
     }
 
     @Override
     public List<UmsMenuNode> treeList() {
-        List<UmsMenu> menuList = menuMapper.selectByExample(new UmsMenuExample());
+        List<UmsMenu> menuList = menuMapper.selectList(null);
         List<UmsMenuNode> result = menuList.stream()
                 .filter(menu -> menu.getParentId().equals(0L))
                 .map(menu -> covertMenuNode(menu, menuList))
@@ -89,7 +90,7 @@ public class UmsMenuServiceImpl implements UmsMenuService {
         UmsMenu umsMenu = new UmsMenu();
         umsMenu.setId(id);
         umsMenu.setHidden(hidden);
-        return menuMapper.updateByPrimaryKeySelective(umsMenu);
+        return menuMapper.updateById(umsMenu);
     }
 
     /**

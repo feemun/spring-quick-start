@@ -2,22 +2,15 @@ package cloud.catfish.api.domain;
 
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@ToString
-@EqualsAndHashCode
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.*;
+
+@Data
 public class UmsMemberProductCategoryRelation implements Serializable {
+
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     private Long memberId;

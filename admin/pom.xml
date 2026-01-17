@@ -11,11 +11,16 @@
 
     <parent>
         <groupId>cloud.catfish</groupId>
-        <artifactId>spring-quick-start</artifactId>
+        <artifactId>spring-quick-start-backend</artifactId>
         <version>oxygen</version>
     </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>cache</artifactId>
+            <version>oxygen</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -50,8 +55,8 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -87,10 +92,16 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.catfish</groupId>
-            <artifactId>elasticsearch9</artifactId>
-            <version>oxygen</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>cloud.catfish</groupId>-->
+<!--            <artifactId>elasticsearch9</artifactId>-->
+<!--            <version>oxygen</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 

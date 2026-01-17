@@ -3,25 +3,25 @@ server:
 spring:
   application:
     name: spring-quick-start
+  main:
+    allow-bean-definition-overriding: true
   profiles:
     active: dev #默认为开发环境
   servlet:
     multipart:
       enabled: true #开启文件上传
       max-file-size: 10MB #限制文件上传大小为10M
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 
-mybatis:
+mybatis-plus:
   mapper-locations:
-    - classpath:dao/*.xml
-    - classpath*:cloud/catfish/mbg/mapper/*.xml
+    - classpath*:mapper/*.xml
+    - classpath*:dao/*.xml
 
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
   expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  refreshExpiration: 2592000 #refresh token 超期限时间(60*60*24*30)
   tokenHead: 'Bearer '  #JWT负载中拿到开头
 
 redis:
@@ -35,8 +35,10 @@ redis:
 secure:
   ignored:
     urls: #安全路径白名单
-      - /swagger-ui/
-      - /v3/api-docs/*
+      - /swagger-ui/**
+      - /swagger-resources/**
+      - /v3/api-docs/**
+      - /webjars/**
       - /*/*.html
       - /*/*.js
       - /*/*.css

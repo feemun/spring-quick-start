@@ -5,14 +5,14 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
+import cloud.catfish.admin.config.OssConfig.OssProperties;
 import cloud.catfish.api.dto.OssCallbackParam;
 import cloud.catfish.api.dto.OssCallbackResult;
 import cloud.catfish.api.dto.OssPolicyResult;
 import cloud.catfish.admin.service.OssService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,24 +24,12 @@ import java.util.Date;
  * Created by macro on 2018/5/17.
  */
 @Service
+@RequiredArgsConstructor
 public class OssServiceImpl implements OssService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OssServiceImpl.class);
-	@Value("${aliyun.oss.policy.expire}")
-	private int ALIYUN_OSS_EXPIRE;
-	@Value("${aliyun.oss.maxSize}")
-	private int ALIYUN_OSS_MAX_SIZE;
-	@Value("${aliyun.oss.callback}")
-	private String ALIYUN_OSS_CALLBACK;
-	@Value("${aliyun.oss.bucketName}")
-	private String ALIYUN_OSS_BUCKET_NAME;
-	@Value("${aliyun.oss.endpoint}")
-	private String ALIYUN_OSS_ENDPOINT;
-	@Value("${aliyun.oss.dir.prefix}")
-	private String ALIYUN_OSS_DIR_PREFIX;
-
-	@Autowired
-	private OSSClient ossClient;
+	private final OSSClient ossClient;
+	private final OssProperties ossProperties;
 
 	/**
 	 * 签名生成
@@ -51,19 +39,19 @@ public class OssServiceImpl implements OssService {
 		OssPolicyResult result = new OssPolicyResult();
 		// 存储目录
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String dir = ALIYUN_OSS_DIR_PREFIX+sdf.format(new Date());
+		String dir = ossProperties.dir().prefix() + sdf.format(new Date());
 		// 签名有效期
-		long expireEndTime = System.currentTimeMillis() + ALIYUN_OSS_EXPIRE * 1000;
+		long expireEndTime = System.currentTimeMillis() + ossProperties.policy().expire() * 1000L;
 		Date expiration = new Date(expireEndTime);
 		// 文件大小
-		long maxSize = ALIYUN_OSS_MAX_SIZE * 1024 * 1024;
+		long maxSize = Long.parseLong(ossProperties.maxSize()) * 1024 * 1024;
 		// 回调
 		OssCallbackParam callback = new OssCallbackParam();
-		callback.setCallbackUrl(ALIYUN_OSS_CALLBACK);
+		callback.setCallbackUrl(ossProperties.callback());
 		callback.setCallbackBody("filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}");
 		callback.setCallbackBodyType("application/x-www-form-urlencoded");
 		// 提交节点
-		String action = "http://" + ALIYUN_OSS_BUCKET_NAME + "." + ALIYUN_OSS_ENDPOINT;
+		String action = "http://" + ossProperties.bucketName() + "." + ossProperties.endpoint();
 		try {
 			PolicyConditions policyConds = new PolicyConditions();
 			policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, maxSize);
@@ -90,7 +78,7 @@ public class OssServiceImpl implements OssService {
 	public OssCallbackResult callback(HttpServletRequest request) {
 		OssCallbackResult result= new OssCallbackResult();
 		String filename = request.getParameter("filename");
-		filename = "http://".concat(ALIYUN_OSS_BUCKET_NAME).concat(".").concat(ALIYUN_OSS_ENDPOINT).concat("/").concat(filename);
+		filename = "http://".concat(ossProperties.bucketName()).concat(".").concat(ossProperties.endpoint()).concat("/").concat(filename);
 		result.setFilename(filename);
 		result.setSize(request.getParameter("size"));
 		result.setMimeType(request.getParameter("mimeType"));

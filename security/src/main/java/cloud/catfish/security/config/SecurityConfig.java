@@ -1,66 +1,84 @@
 package cloud.catfish.security.config;
 
 import cloud.catfish.security.component.DynamicAuthorizationManager;
-import cloud.catfish.security.component.JwtAuthenticationTokenFilter;
 import cloud.catfish.security.component.RestAuthenticationEntryPoint;
 import cloud.catfish.security.component.RestfulAccessDeniedHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 
 /**
  * SpringSecurity相关配置，仅用于配置SecurityFilterChain
- * Created by macro on 2019/11/5.
  */
-@Configuration
-@EnableWebSecurity
+@Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
-    @Autowired
-    private IgnoreUrlsConfig ignoreUrlsConfig;
-    @Autowired
-    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
-    @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-    @Autowired(required = false)
-    private DynamicAuthorizationManager dynamicAuthorizationManager;
-
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(registry -> {
-            //不需要保护的资源路径允许访问
-            for (String url : ignoreUrlsConfig.getUrls()) {
-                registry.requestMatchers(url).permitAll();
-            }
-            //允许跨域请求的OPTIONS请求
-            registry.requestMatchers(HttpMethod.OPTIONS).permitAll();
-            //任何请求需要身份认证
-        })
-        //任何请求需要身份认证
-        .authorizeHttpRequests(registry-> registry.anyRequest()
-            //有动态权限配置时添加动态权限管理器
-            .access(dynamicAuthorizationManager==null? AuthenticatedAuthorizationManager.authenticated():dynamicAuthorizationManager)
-        )
-        //关闭跨站请求防护
-        .csrf(AbstractHttpConfigurer::disable)
-        //修改Session生成策略为无状态会话
-        .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        //自定义权限拒绝处理类
-        .exceptionHandling(configurer -> configurer.accessDeniedHandler(restfulAccessDeniedHandler).authenticationEntryPoint(restAuthenticationEntryPoint))
-        //自定义权限拦截器JWT过滤器
-        .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    @ConditionalOnBean(DynamicAuthorizationManager.class)
+    SecurityFilterChain filterChainDynamic(
+            HttpSecurity httpSecurity,
+            IgnoreUrlsConfig ignoreUrlsConfig,
+            RestfulAccessDeniedHandler restfulAccessDeniedHandler,
+            RestAuthenticationEntryPoint restAuthenticationEntryPoint,
+            DynamicAuthorizationManager dynamicAuthorizationManager
+    ) throws Exception {
+        httpSecurity
+                .authorizeHttpRequests(registry -> {
+                    for (String url : ignoreUrlsConfig.urls()) {
+                        registry.requestMatchers(PathPatternRequestMatcher.pathPattern(url)).permitAll();
+                    }
+                    registry.requestMatchers(PathPatternRequestMatcher.pathPattern(HttpMethod.OPTIONS, "/**")).permitAll();
+                    registry.anyRequest().access(dynamicAuthorizationManager);
+                })
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(configurer -> configurer
+                        .accessDeniedHandler(restfulAccessDeniedHandler)
+                        .authenticationEntryPoint(restAuthenticationEntryPoint))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(restAuthenticationEntryPoint)
+                        .accessDeniedHandler(restfulAccessDeniedHandler)
+                );
         return httpSecurity.build();
     }
 
+    @Bean
+    @ConditionalOnMissingBean(DynamicAuthorizationManager.class)
+    SecurityFilterChain filterChain(
+            HttpSecurity httpSecurity,
+            IgnoreUrlsConfig ignoreUrlsConfig,
+            RestfulAccessDeniedHandler restfulAccessDeniedHandler,
+            RestAuthenticationEntryPoint restAuthenticationEntryPoint
+    ) throws Exception {
+        httpSecurity
+                .authorizeHttpRequests(registry -> {
+                    for (String url : ignoreUrlsConfig.urls()) {
+                        registry.requestMatchers(PathPatternRequestMatcher.pathPattern(url)).permitAll();
+                    }
+                    registry.requestMatchers(PathPatternRequestMatcher.pathPattern(HttpMethod.OPTIONS, "/**")).permitAll();
+                    registry.anyRequest().access(AuthenticatedAuthorizationManager.authenticated());
+                })
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(configurer -> configurer
+                        .accessDeniedHandler(restfulAccessDeniedHandler)
+                        .authenticationEntryPoint(restAuthenticationEntryPoint))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(restAuthenticationEntryPoint)
+                        .accessDeniedHandler(restfulAccessDeniedHandler)
+                );
+        return httpSecurity.build();
+    }
 }

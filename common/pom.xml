@@ -13,14 +13,15 @@
 
     <parent>
         <groupId>cloud.catfish</groupId>
-        <artifactId>spring-quick-start</artifactId>
+        <artifactId>spring-quick-start-backend</artifactId>
         <version>oxygen</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>cloud.catfish</groupId>
+            <artifactId>api</artifactId>
+            <version>oxygen</version>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -28,11 +29,15 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
